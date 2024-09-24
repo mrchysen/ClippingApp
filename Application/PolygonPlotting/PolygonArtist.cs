@@ -5,11 +5,6 @@ using ScottPlot;
 
 namespace Application.PolygonPlotting;
 
-public interface IPolygonArtist
-{
-	FilePlotInfo Plot(FilePlotInfo info);
-}
-
 public class PolygonArtist : IPolygonArtist
 {
 	protected List<Polygon> Polygons { get; set; } = new();
