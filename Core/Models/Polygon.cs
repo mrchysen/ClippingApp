@@ -4,7 +4,7 @@ namespace Core.Models;
 
 public class Polygon
 {
-    public List<Point> Points { get; set; } = new List<Point>();
+    public List<PointD> Points { get; set; } = new List<PointD>();
 
     public CoreColor Color { get; set; } = new();
 }
