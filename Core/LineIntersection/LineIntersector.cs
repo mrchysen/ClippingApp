@@ -19,30 +19,25 @@ public class LineIntersector
 		double x = (line1.B * line2.C - line2.B * line1.C) / det;
 		double y = (line1.C * line2.A - line2.C * line1.A) / det;
 
-		bool online1 = ((Math.Min(line1.Point1.X, line1.Point2.X) < x || Equalizer.IsEquals(Math.Min(line1.Point1.X, line1.Point2.X), x))
-			&& (Math.Max(line1.Point1.X, line1.Point2.X) > x || Equalizer.IsEquals(Math.Max(line1.Point1.X, line1.Point2.X), x))
-			&& (Math.Min(line1.Point1.Y, line1.Point2.Y) < y || Equalizer.IsEquals(Math.Min(line1.Point1.Y, line1.Point2.Y), y))
-			&& (Math.Max(line1.Point1.Y, line1.Point2.Y) > y || Equalizer.IsEquals(Math.Max(line1.Point1.Y, line1.Point2.Y), y)));
+		var point = new PointD(x, y);
 
-		bool online2 = ((Math.Min(line2.Point1.X, line2.Point2.X) < x || Equalizer.IsEquals(Math.Min(line2.Point1.X, line2.Point2.X), x))
-			&& (Math.Max(line2.Point1.X, line2.Point2.X) > x || Equalizer.IsEquals(Math.Max(line2.Point1.X, line2.Point2.X), x))
-			&& (Math.Min(line2.Point1.Y, line2.Point2.Y) < y || Equalizer.IsEquals(Math.Min(line2.Point1.Y, line2.Point2.Y), y))
-			&& (Math.Max(line2.Point1.Y, line2.Point2.Y) > y || Equalizer.IsEquals(Math.Max(line2.Point1.Y, line2.Point2.Y), y)));
+		if (PointOnLine(line1, point) && PointOnLine(line2, point))
+			return point;
 
-		if (online1 && online2)
-			return new PointD(x, y);
 		return null;
 	}
 
-	private bool OnLine(Line l, PointD p)
+	private bool PointOnLine(Line l, PointD p)
 	{
-		// Векторное произведение направляющего вектора
-		var dx1 = l.Point2.X - l.Point2.Y;
-		dy1 = y2 - y1;
+		// Векторное произведение
+		var v1x = l.Point2.X - l.Point1.X;
+		var v1y = l.Point2.Y - l.Point1.Y;
 
-		dx = p.X - l.Point1.X;
-		dy = p.Y - l.Point1.Y;
+        var v2x = p.X - l.Point1.X;
+        var v2y = p.Y - l.Point1.Y;
 
-		S = dx1 * dy - dx * dy1;
+        var S = v1x * v2y - v2x * v1y;
+
+		return Math.Abs(S) < Epsilon;
 	}
 }

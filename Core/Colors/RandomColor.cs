@@ -8,7 +8,7 @@ public static class RandomColor
 	{ 
 		CoreColor color = new CoreColor();
 
-		Random random = System.Random.Shared;
+        Random random = Random.Shared;
 
 		if(ChangeAlpha) color.A = (byte)random.Next(0,256);
 		color.R = (byte)random.Next(0, 256);
