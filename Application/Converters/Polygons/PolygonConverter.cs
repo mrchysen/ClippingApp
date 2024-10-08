@@ -21,5 +21,5 @@ public class PolygonConverter
 	}
 
 	public List<ScottPlot.Plottables.Polygon> Convert(List<Core.Models.Polygon> sourcePolygons)
-		=> sourcePolygons.Select(el => Convert(el)).ToList();
+		=> sourcePolygons.Select(Convert).ToList();
 }
