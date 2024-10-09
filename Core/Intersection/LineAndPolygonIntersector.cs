@@ -1,4 +1,5 @@
 ﻿using Core.Models;
+using Core.Models.Polygons;
 using Core.Utils.Equalizers;
 
 namespace Core.Intersection;

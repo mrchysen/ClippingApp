@@ -1,5 +1,6 @@
 ﻿using Core.Intersection;
 using Core.Models;
+using Core.Models.Polygons;
 using Core.PointInclusionAlgorithms;
 using Core.PointsOrderers;
 using Core.Utils.Equalizers;
@@ -36,25 +37,25 @@ public class ConvexPolygonClipper : IClipper
 	public List<Polygon> Clip(Polygon polygon1, Polygon polygon2)
 	{
 		List<PointD> clippedCorners = new List<PointD>();
-		//Add  the corners of poly1 which are inside poly2       
+		    
 		for (int i = 0; i < polygon1.Points.Count; i++)
 		{
 			if (pointInclusion.CheckPointInsidePolygon(polygon1.Points[i], polygon2))
 				AddPoints(clippedCorners, new List<PointD> { polygon1.Points[i] });
 		}
-		//Add the corners of poly2 which are inside poly1
+		
 		for (int i = 0; i < polygon2.Points.Count; i++)
 		{
 			if (pointInclusion.CheckPointInsidePolygon(polygon2.Points[i], polygon1))
 				AddPoints(clippedCorners, new List<PointD> { polygon2.Points[i] });
 		}
-		//Add  the intersection points
+		
 		for (int i = 0, next = 1; i < polygon1.Points.Count; i++, next = (i + 1 == polygon1.Points.Count) ? 0 : i + 1)
 		{
 			AddPoints(clippedCorners, lineAndPolygonIntersector.GetIntersectionPoint(new Line(polygon1.Points[i], polygon1.Points[next]), polygon2));
 		}
 
-		return new List<Polygon>() { new Polygon(pointsOrdererByAngle.OrderClockwise(clippedCorners)) };
+		return new List<Polygon>() { new Polygon(pointsOrdererByAngle.OrderClockwise(clippedCorners).ToList()) };
 	}
 
 	private void AddPoints(List<PointD> pool, List<PointD> newpoints)
@@ -62,6 +63,7 @@ public class ConvexPolygonClipper : IClipper
 		foreach (PointD newpoint in newpoints)
 		{
 			bool oldPointFlag = false;
+
 			foreach (PointD point in pool)
 			{
 				if (pointEqualizer.IsEquals(newpoint, point))
@@ -70,6 +72,7 @@ public class ConvexPolygonClipper : IClipper
 					break;
 				}
 			}
+
 			if (!oldPointFlag) pool.Add(newpoint);
 		}
 	}

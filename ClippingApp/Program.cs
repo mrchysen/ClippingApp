@@ -1,31 +1,15 @@
 ﻿using Application.PolygonPlotting;
 using Core.Clippers;
 using Core.Colors;
-using Core.Models;
+using Core.Models.Polygons;
 using System.Diagnostics;
+
+var gen = new RandomPolygon();
 
 List<Polygon> polygons = new List<Polygon>
 {
-	new Polygon
-	{
-		Points = new()
-		{
-			new(1,1),
-			new(1,100),
-			new(100, 1),
-		},
-		Color = RandomColor.Get()
-	},
-	new Polygon
-	{
-		Points = new()
-		{
-			new(25,25),
-			new(50,25),
-			new(25, 100),
-		},
-		Color = RandomColor.Get()
-	}
+	gen.Get(true, 4),
+	gen.Get(true, 4)
 };
 IClipper clipper = new ConvexPolygonClipper();
 

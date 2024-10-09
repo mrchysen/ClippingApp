@@ -2,7 +2,7 @@
 using Core.Models;
 using FluentAssertions;
 
-namespace UnitTests.Core.LineIntersection;
+namespace UnitTests.Core.Intersection;
 
 public class LineIntersectorTests
 {

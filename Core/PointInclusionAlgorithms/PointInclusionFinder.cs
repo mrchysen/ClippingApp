@@ -1,8 +1,9 @@
 ﻿using Core.Models;
+using Core.Models.Polygons;
 
 namespace Core.PointInclusionAlgorithms;
 
-public class PointInclusion
+public class PointInclusionFinder
 {
     public bool CheckPointInsidePolygon(PointD point, Polygon polygon)
     {
