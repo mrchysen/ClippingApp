@@ -1,10 +1,11 @@
-﻿using ScottPlot;
+﻿using Core.Models.Polygons;
+using ScottPlot;
 
 namespace Application.Converters.Polygons;
 
 public class PolygonConverter
 {
-	public ScottPlot.Plottables.Polygon Convert(Core.Models.Polygon sourcePolygon)
+	public ScottPlot.Plottables.Polygon Convert(Polygon sourcePolygon)
 	{
 		var point = sourcePolygon.Points
 			.Select(el => new Coordinates(el.X, el.Y))
@@ -20,6 +21,6 @@ public class PolygonConverter
 		return destinationPolygon;
 	}
 
-	public List<ScottPlot.Plottables.Polygon> Convert(List<Core.Models.Polygon> sourcePolygons)
-		=> sourcePolygons.Select(el => Convert(el)).ToList();
+	public List<ScottPlot.Plottables.Polygon> Convert(List<Polygon> sourcePolygons)
+		=> sourcePolygons.Select(Convert).ToList();
 }

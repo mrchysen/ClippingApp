@@ -1,41 +1,28 @@
 ﻿using Application.PolygonPlotting;
-using Core.Colors;
-using Core.Models;
+using Core.Clippers;
+using Core.Models.Polygons;
 using System.Diagnostics;
+
+var gen = new RandomPolygon();
 
 List<Polygon> polygons = new List<Polygon>
 {
-	new Polygon
-	{
-		Points = new()
-		{
-			new(1,1),
-			new(1,50),
-			new(50, 1),
-		},
-		Color = RandomColor.Get()
-	},
-	new Polygon
-	{
-		Points = new()
-		{
-			new(75,98),
-			new(100,4),
-			new(168, 174),
-		},
-		Color = RandomColor.Get()
-	}
+	gen.Get(true, 4),
+	gen.Get(true, 4)
 };
+IClipper clipper = new ConvexPolygonClipper();
+
+polygons.AddRange(clipper.Clip(polygons));
 
 IPolygonArtist artist = new PolygonArtist(polygons);
 
 artist.Plot(new()
 {
-	Path = "C://Programming/Files/pic.png",
-	PictureSize = new(800,900)
+	Path = "pic.png",
+	PictureSize = new(800, 800)
 });
 
-var psi = new ProcessStartInfo("C://Programming/Files/pic.png")
+var psi = new ProcessStartInfo("pic.png")
 {
 	UseShellExecute = true
 };

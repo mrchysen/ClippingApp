@@ -1,14 +1,9 @@
 ﻿using Application.Converters.Polygons;
 using Application.PolygonPlotting.Models;
-using Core.Models;
+using Core.Models.Polygons;
 using ScottPlot;
 
 namespace Application.PolygonPlotting;
-
-public interface IPolygonArtist
-{
-	FilePlotInfo Plot(FilePlotInfo info);
-}
 
 public class PolygonArtist : IPolygonArtist
 {
