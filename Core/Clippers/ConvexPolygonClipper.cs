@@ -11,7 +11,7 @@ public class ConvexPolygonClipper : IClipper
 {
 	public PointDEqualizer pointEqualizer { get; set; } = new(0.001d);
 
-	public PointInclusion pointInclusion { get; set; } = new();
+	public PointInclusionFinder pointInclusion { get; set; } = new();
 
 	public LineAndPolygonIntersector lineAndPolygonIntersector { get; set; } = new();
 

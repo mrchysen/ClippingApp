@@ -1,6 +1,5 @@
 ﻿using Application.PolygonPlotting;
 using Core.Clippers;
-using Core.Colors;
 using Core.Models.Polygons;
 using System.Diagnostics;
 
@@ -19,11 +18,11 @@ IPolygonArtist artist = new PolygonArtist(polygons);
 
 artist.Plot(new()
 {
-	Path = "C://Programming/Files/pic.png",
-	PictureSize = new(800, 900)
+	Path = "pic.png",
+	PictureSize = new(800, 800)
 });
 
-var psi = new ProcessStartInfo("C://Programming/Files/pic.png")
+var psi = new ProcessStartInfo("pic.png")
 {
 	UseShellExecute = true
 };
