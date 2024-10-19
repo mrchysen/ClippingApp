@@ -1,28 +1,33 @@
-﻿using Application.PolygonPlotting;
-using Core.Clippers;
-using Core.Models.Polygons;
+﻿using Core.Models.Polygons;
+using DAL.Files;
+using DAL.Files.Polygons;
 using System.Diagnostics;
 
 var gen = new RandomPolygon();
 
 List<Polygon> polygons = new List<Polygon>
 {
-	gen.Get(true, 4),
-	gen.Get(true, 4)
+    gen.Get(true, 4),
+    gen.Get(true, 4)
 };
-IClipper clipper = new ConvexPolygonClipper();
 
-polygons.AddRange(clipper.Clip(polygons));
+using IPolygonFileSaver saver = new PolygonFileSaver("file.txt");
 
-IPolygonArtist artist = new PolygonArtist(polygons);
+saver.Save(polygons);
 
-artist.Plot(new()
-{
-	Path = "pic.png",
-	PictureSize = new(800, 800)
-});
+//IClipper clipper = new ConvexPolygonClipper();
 
-var psi = new ProcessStartInfo("pic.png")
+//polygons.AddRange(clipper.Clip(polygons));
+
+//IPolygonArtist artist = new PolygonArtist(polygons);
+
+//artist.Plot(new FilePlotInfo()
+//{
+//	Path = "pic.png",
+//	PictureSize = new(800, 800)
+//});
+
+var psi = new ProcessStartInfo("file.txt")
 {
 	UseShellExecute = true
 };

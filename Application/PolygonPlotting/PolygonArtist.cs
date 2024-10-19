@@ -31,4 +31,15 @@ public class PolygonArtist : IPolygonArtist
 
 		return info;
 	}
+
+	public Plot Plot(Plot? plotInput = null)
+	{
+        var plot = plotInput ?? new();
+
+        var polygons = new PolygonConverter().Convert(Polygons);
+
+        polygons.ForEach(plot.PlottableList.Add);
+
+		return plot;
+    }
 }
