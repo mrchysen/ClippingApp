@@ -2,9 +2,9 @@
 
 namespace DAL.Files;
 
-public interface IPolygonFileSaver : IDisposable
+public interface IPolygonFileSaver : IAsyncDisposable
 {
-    bool Save(List<Polygon> polygons);
+    Task<bool> Save(List<Polygon> polygons);
 
     void Close();
 }

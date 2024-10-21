@@ -30,9 +30,7 @@ public class PolygonFileLoader : IPolygonFileLoader
         return result;
     }
 
-
-
-    public void Close() => _reader.Close();
-    
     public void Dispose() => _reader.Dispose();
+
+    public void Close() => _reader.Close();    
 }

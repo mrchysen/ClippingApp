@@ -13,6 +13,8 @@ public partial class MainWindow : Window
     private NotificationManager _notificationManager;
     private List<Polygon> _polygons;
 
+    private const string SaveFilePath = @"Saves\Polygons";
+
     public MainWindow()
     {
         InitializeComponent();
@@ -22,14 +24,18 @@ public partial class MainWindow : Window
         _notificationManager = new();
     }
 
-    public void Plot_KeyDown(object o, KeyEventArgs e)
+    public async void Plot_KeyDown(object o, KeyEventArgs e)
     {
-        KeyHandlerFactory.GetHendler(e.Key)?.Handle(new KeyHandlerObject()
+        var task = KeyHandlerFactory.GetHandler(e.Key)?.Handle(new KeyHandlerObject()
         {
-            UiPlot = this.Plot,
+            UiPlot = Plot,
             Plot = _plot,
             Polygons = _polygons,
-            NotificationManager = _notificationManager
+            NotificationManager = _notificationManager,
+            FilePath = SaveFilePath
         });
+
+        if (task != null)
+            await task;
     }
 }

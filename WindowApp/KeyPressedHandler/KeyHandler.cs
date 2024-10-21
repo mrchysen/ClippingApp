@@ -2,5 +2,5 @@
 
 public abstract class KeyHandler
 {
-    public abstract void Handle(KeyHandlerObject obj);
+    public abstract Task Handle(KeyHandlerObject obj);
 }

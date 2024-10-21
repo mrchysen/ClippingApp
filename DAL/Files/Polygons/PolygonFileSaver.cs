@@ -1,4 +1,6 @@
 ﻿using Core.Models.Polygons;
+using System.Diagnostics;
+using System.IO;
 using System.Text.Json;
 
 namespace DAL.Files.Polygons;
@@ -9,20 +11,22 @@ public class PolygonFileSaver : IPolygonFileSaver
 
     public PolygonFileSaver(string filePath)
     {
-        _writer = new(filePath);
+        Directory.CreateDirectory(filePath);
+
+        _writer = File.AppendText(filePath);
     }
 
     public void Close() => _writer.Close();
 
-    public void Dispose() => _writer.Dispose();
+    public async ValueTask DisposeAsync() => await _writer.DisposeAsync();
 
-    public bool Save(List<Polygon> polygons)
+    public async Task<bool> Save(List<Polygon> polygons)
     {
         if(polygons == null) return false;
 
         try
         {
-            _writer.Write(JsonSerializer.Serialize(polygons));
+            await _writer.WriteAsync(JsonSerializer.Serialize(polygons));
         }
         catch
         {

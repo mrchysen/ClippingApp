@@ -5,7 +5,7 @@ namespace WindowApp.KeyPressedHandler;
 
 public class KeyHandlerFactory
 {
-    public static KeyHandler? GetHendler(Key key)
+    public static KeyHandler? GetHandler(Key key)
     {
         return key switch
         {

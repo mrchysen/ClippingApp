@@ -32,4 +32,5 @@ public struct PointD
 		return !(a == b);
 	}
 
+	public override string ToString() => $"{{{X:#.####} {Y:#.####}}}";
 }

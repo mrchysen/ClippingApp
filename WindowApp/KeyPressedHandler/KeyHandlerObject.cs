@@ -14,4 +14,6 @@ public class KeyHandlerObject
     public List<Polygon> Polygons { get; set; } = null!;
 
     public NotificationManager NotificationManager { get; set; } = null!;
+
+    public string FilePath { get; set; } = string.Empty;
 }

@@ -4,19 +4,22 @@ using System.Text;
 
 namespace WindowApp.KeyPressedHandler.Handlers;
 
+// I = Info
 public class KeyIHandler : KeyHandler
 {
-    public override void Handle(KeyHandlerObject obj)
+    public override Task Handle(KeyHandlerObject obj)
     {
         var content = new NotificationContent
         {
             Title = "Информация",
             Message = GetInfo(obj.Polygons),
             Type = NotificationType.Information,
-            TrimType = NotificationTextTrimType.Trim
+            TrimType = NotificationTextTrimType.NoTrim
         };
 
         obj.NotificationManager.Show(content, areaName: "WindowArea");
+
+        return Task.CompletedTask;
     }
 
     private string GetInfo(List<Polygon> polygons)
