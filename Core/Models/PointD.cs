@@ -4,8 +4,8 @@ namespace Core.Models;
 
 public struct PointD
 {
-	public double X;
-	public double Y;
+	public double X { get; set; }
+	public double Y { get; set; }
 	public PointD(double x, double y)
 	{
 		X = x;
@@ -32,4 +32,5 @@ public struct PointD
 		return !(a == b);
 	}
 
+	public override string ToString() => $"{{{X:#.####} {Y:#.####}}}";
 }
