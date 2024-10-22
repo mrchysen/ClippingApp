@@ -13,6 +13,7 @@ public class KeyHandlerFactory
             Key.S => new KeySHandler(),
             Key.F => new KeyFHandler(),
             Key.I => new KeyIHandler(),
+            Key.B => new KeyBHandler(),
             _ => null
         };
     }

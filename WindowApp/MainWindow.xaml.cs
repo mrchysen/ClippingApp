@@ -24,9 +24,9 @@ public partial class MainWindow : Window
         _notificationManager = new();
     }
 
-    public async void Plot_KeyDown(object o, KeyEventArgs e)
+    public void Plot_KeyDown(object o, KeyEventArgs e)
     {
-        var task = KeyHandlerFactory.GetHandler(e.Key)?.Handle(new KeyHandlerObject()
+        KeyHandlerFactory.GetHandler(e.Key)?.Handle(new KeyHandlerObject()
         {
             UiPlot = Plot,
             Plot = _plot,
@@ -34,8 +34,5 @@ public partial class MainWindow : Window
             NotificationManager = _notificationManager,
             FilePath = SaveFilePath
         });
-
-        if (task != null)
-            await task;
     }
 }
