@@ -12,13 +12,13 @@ public class PolygonFileLoader : IPolygonFileLoader
         _reader = new StreamReader(pathname);
     }
 
-    public async Task<List<Polygon>> Load()
+    public List<Polygon> Load()
     {
         List<Polygon>? result;
 
         try
         {
-            result = await JsonSerializer.DeserializeAsync<List<Polygon>>(_reader.BaseStream);
+            result = JsonSerializer.Deserialize<List<Polygon>>(_reader.BaseStream);
         }
         catch 
         {

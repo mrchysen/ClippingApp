@@ -15,5 +15,5 @@ public class KeyHandlerObject
 
     public NotificationManager NotificationManager { get; set; } = null!;
 
-    public string FilePath { get; set; } = string.Empty;
+    public string FilePath { get; set; } = null!;
 }

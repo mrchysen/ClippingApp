@@ -8,13 +8,12 @@ namespace WindowApp.KeyPressedHandler.Handlers;
 // S = save
 public class KeySHandler : KeyHandler
 {
-    public override async Task Handle(KeyHandlerObject obj)
+    public override void Handle(KeyHandlerObject obj)
     {
-        await using PolygonFileSaver saver = new PolygonFileSaver(GetPath(obj));
+        var path = GetPath(obj);
+        var name = GetDate();
 
-        var saveResult = await saver.Save(obj.Polygons);
-
-        saver.Close();
+        using PolygonFileSaver saver = new PolygonFileSaver(path);
 
         var content = new NotificationContent
         {
@@ -22,9 +21,22 @@ public class KeySHandler : KeyHandler
             TrimType = NotificationTextTrimType.NoTrim
         };
 
+        bool saveResult = true;
+
+        try
+        {
+            saveResult = saver.Save(obj.Polygons);
+
+            saver.Close();
+        }
+        catch
+        {
+            saveResult = false;
+        }
+
         if (saveResult)
         {
-            content.Message = "Сохранено успешно";
+            content.Message = $"Сохранено успешно, имя файла {name}";
             content.Type = NotificationType.Success;
         }
         else
@@ -37,7 +49,7 @@ public class KeySHandler : KeyHandler
     }
 
     private string GetPath(KeyHandlerObject obj) => 
-        Path.Combine(Directory.GetCurrentDirectory(), obj.FilePath + GetDate() + ".txt"); 
+        Path.Combine(obj.FilePath, GetDate() + ".json"); 
 
-    private string GetDate() => DateTime.Now.ToString("dd-mm-yyyy");
+    private string GetDate() => DateTime.Now.ToString("dd-M-yyyy") + "_" + Guid.NewGuid().ToString();
 }

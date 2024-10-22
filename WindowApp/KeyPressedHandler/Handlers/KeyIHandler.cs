@@ -7,7 +7,7 @@ namespace WindowApp.KeyPressedHandler.Handlers;
 // I = Info
 public class KeyIHandler : KeyHandler
 {
-    public override Task Handle(KeyHandlerObject obj)
+    public override void Handle(KeyHandlerObject obj)
     {
         var content = new NotificationContent
         {
@@ -18,8 +18,6 @@ public class KeyIHandler : KeyHandler
         };
 
         obj.NotificationManager.Show(content, areaName: "WindowArea");
-
-        return Task.CompletedTask;
     }
 
     private string GetInfo(List<Polygon> polygons)
