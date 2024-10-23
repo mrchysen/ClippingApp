@@ -1,4 +1,5 @@
 ﻿using Core.Models.Polygons;
+using Core.PointsOrderers;
 using Notification.Wpf;
 using System.Text;
 
@@ -23,10 +24,13 @@ public class KeyIHandler : KeyHandler
     private string GetInfo(List<Polygon> polygons)
     {
         StringBuilder sb = new();
+        PointsOrdererByAngle orderer = new PointsOrdererByAngle();
 
-        for(int i = 0; i < polygons.Count; i++)
+
+        for (int i = 0; i < polygons.Count; i++)
         {
             sb.AppendLine($"{i+1}) {string.Join(" ", polygons[i].Points)}");
+            sb.AppendLine($" {string.Join(" ", orderer.GetAngels(polygons[i].Points))}");
         }   
 
         return sb.ToString();

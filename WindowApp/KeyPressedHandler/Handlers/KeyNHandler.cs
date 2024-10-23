@@ -1,7 +1,9 @@
 ﻿using Application.PolygonPlotting;
 using Core.Clippers;
 using Core.Models.Polygons;
+using Core.PointsOrderers;
 using Notification.Wpf;
+using ScottPlot;
 using System.Drawing;
 
 namespace WindowApp.KeyPressedHandler.Handlers;
@@ -17,10 +19,15 @@ public class KeyNHandler : KeyHandler
         var gen = new RandomPolygon();
         gen.Area = new Rectangle(0, 0, 50, 50);
 
+        PointsOrdererByAngle orderer = new PointsOrdererByAngle();
+
+        var poly = gen.Get(true, 3);
+
+        var center = orderer.GetCenterMass(poly.Points);
+
         obj.Polygons.Clear();
         obj.Polygons.AddRange([
-            gen.Get(true, 5),
-            gen.Get(true, 3)
+            poly
             ]);
 
         IClipper clipper = new ConvexPolygonClipper();
@@ -32,6 +39,7 @@ public class KeyNHandler : KeyHandler
         obj.Plot.Clear();
         artist.Plot(obj.Plot);
         obj.Plot.Axes.AutoScale();
+        obj.Plot.Add.Marker(center.X, center.Y);
 
         obj.UiPlot.Refresh();
 
