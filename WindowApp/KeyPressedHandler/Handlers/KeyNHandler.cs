@@ -22,6 +22,7 @@ public class KeyNHandler : KeyHandler
         PointsOrdererByAngle orderer = new PointsOrdererByAngle();
 
         var poly = gen.Get(true, 3);
+        poly.Points = orderer.OrderClockwise(poly.Points).ToList();
 
         var center = orderer.GetCenterMass(poly.Points);
 
