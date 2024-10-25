@@ -28,7 +28,8 @@ public class KeyNHandler : KeyHandler
 
         obj.Polygons.Clear();
         obj.Polygons.AddRange([
-            poly
+            poly,
+            gen.Get(true, 3)
             ]);
 
         IClipper clipper = new ConvexPolygonClipper();
