@@ -7,7 +7,16 @@ public class ConvexHullCreator
 {
     private DoubleEqualizer _equalizer = new(0.0001d);
 
-    private int Orientation(PointD p, PointD q, PointD r)
+    /// <summary>
+    /// 0 - pq и qr коллинеарны.
+    /// 1 - qr достигается pq поворотом pq по часовой.
+    /// 2 - qr достигается pq поворотом pq против часовой.
+    /// </summary>
+    /// <param name="p"></param>
+    /// <param name="q"></param>
+    /// <param name="r"></param>
+    /// <returns></returns>
+    public int Orientation(PointD p, PointD q, PointD r)
     {
         double val = (q.Y - p.Y) * (r.X - q.X) -
                      (q.X - p.X) * (r.Y - q.Y);

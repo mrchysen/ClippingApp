@@ -1,6 +1,6 @@
 ﻿namespace Core.Utils.Equalizers;
 
-internal class DoubleEqualizer : EqualizerBase<double>
+public class DoubleEqualizer : EqualizerBase<double>
 {
 	public DoubleEqualizer(double epsilon) : base(epsilon) { }
 
