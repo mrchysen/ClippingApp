@@ -4,7 +4,7 @@ namespace Core.Clippers;
 
 public interface IClipper
 {
-	public List<Polygon> Clip(List<Polygon> polygons);
+	List<Polygon> Clip(List<Polygon> polygons);
 
-	public List<Polygon> Clip(Polygon polygon1, Polygon polygon2);
+	List<Polygon> Clip(Polygon polygon1, Polygon polygon2);
 }

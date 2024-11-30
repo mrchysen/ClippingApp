@@ -1,58 +1,45 @@
 ﻿using Application.PolygonPlotting;
+using Application.Randoms;
 using Core.Clippers;
+using Core.Clippers.ConvexPolygonClipper;
 using Core.Models.Polygons;
-using Core.PointsOrderers;
-using Notification.Wpf;
-using ScottPlot;
-using System.Drawing;
+using WindowApp.Infrastructure;
 
 namespace WindowApp.KeyPressedHandler.Handlers;
 
 // N = next
 public class KeyNHandler : KeyHandler
 {
-    public override void Handle(KeyHandlerObject obj)
+    private readonly RandomPolygon _randomPolygon;
+    private readonly List<Polygon> _polygons;
+    private readonly IClipper _clipper;
+
+    public KeyNHandler(
+        RandomPolygon randomPolygon,
+        List<Polygon> polygons,
+        ConvexPolygonClipper clipper)
     {
-        if (obj == null)
-            return;
+        _randomPolygon = randomPolygon;
+        _polygons = polygons;
+        _clipper = clipper;
+    }
 
-        var gen = new RandomPolygon();
-        gen.Area = new Rectangle(0, 0, 50, 50);
-
-        PointsOrdererByAngle orderer = new PointsOrdererByAngle();
-
-        var poly = gen.Get(true, 3);
-        poly.Points = orderer.OrderClockwise(poly.Points).ToList();
-
-        var center = orderer.GetCenterMass(poly.Points);
-
-        obj.Polygons.Clear();
-        obj.Polygons.AddRange([
-            poly,
-            gen.Get(true, 3)
+    public override void Handle(PlotManager plotManager)
+    {
+        _polygons.Clear();
+        _polygons.AddRange([
+            _randomPolygon.Get(true, 5),
+            _randomPolygon.Get(true, 3)
             ]);
 
-        IClipper clipper = new ConvexPolygonClipper();
+        _polygons.AddRange(_clipper.Clip(_polygons));
 
-        obj.Polygons.AddRange(clipper.Clip(obj.Polygons));
+        IPolygonArtist artist = new PolygonArtist(_polygons);
 
-        IPolygonArtist artist = new PolygonArtist(obj.Polygons);
+        plotManager.Plot.Clear();
+        artist.Plot(plotManager.Plot);
+        plotManager.Plot.Axes.AutoScale();
 
-        obj.Plot.Clear();
-        artist.Plot(obj.Plot);
-        obj.Plot.Axes.AutoScale();
-        obj.Plot.Add.Marker(center.X, center.Y);
-
-        obj.UiPlot.Refresh();
-
-        var content = new NotificationContent
-        {
-            Title = "Новый график",
-            Message = "График обновлён",
-            Type = NotificationType.Information,
-            TrimType = NotificationTextTrimType.NoTrim
-        };
-
-        obj.NotificationManager.Show(content, areaName: "WindowArea");
+        plotManager.WpfPlot.Refresh();
     }
 }

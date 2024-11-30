@@ -1,12 +1,14 @@
-﻿namespace WindowApp.KeyPressedHandler.Handlers;
+﻿using WindowApp.Infrastructure;
+
+namespace WindowApp.KeyPressedHandler.Handlers;
 
 // F = Full screen polygon
 public class KeyFHandler : KeyHandler
 {
-    public override void Handle(KeyHandlerObject obj)
+    public override void Handle(PlotManager plotManager)
     {
-        obj.Plot.Axes.AutoScale();
+        plotManager.Plot.Axes.AutoScale();
 
-        obj.UiPlot.Refresh();
+        plotManager.WpfPlot.Refresh();
     }
 }

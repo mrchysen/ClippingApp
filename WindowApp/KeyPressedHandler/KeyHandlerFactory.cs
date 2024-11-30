@@ -1,19 +1,20 @@
-﻿using System.Windows.Input;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Windows.Input;
 using WindowApp.KeyPressedHandler.Handlers;
 
 namespace WindowApp.KeyPressedHandler;
 
 public class KeyHandlerFactory
 {
-    public static KeyHandler? GetHandler(Key key)
+    public static KeyHandler? GetHandler(KeyEventArgs e, IServiceProvider serviceProvider)
     {
-        return key switch
+        return e.Key switch
         {
-            Key.N => new KeyNHandler(),
-            Key.S => new KeySHandler(),
-            Key.F => new KeyFHandler(),
-            Key.I => new KeyIHandler(),
-            Key.B => new KeyBHandler(),
+            Key.N => serviceProvider.GetService<KeyNHandler>(),
+            Key.S => serviceProvider.GetService<KeySHandler>(),
+            Key.F => serviceProvider.GetService<KeyFHandler>(),
+            Key.I => serviceProvider.GetService<KeyIHandler>(),
+            Key.B => serviceProvider.GetService<KeyBHandler>(),
             _ => null
         };
     }

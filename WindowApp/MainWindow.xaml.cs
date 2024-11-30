@@ -1,38 +1,64 @@
 ﻿using Core.Models.Polygons;
-using Notification.Wpf;
-using ScottPlot;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Input;
+using WindowApp.Components.ButtonsPopupComponent;
+using WindowApp.Components.Utils;
+using WindowApp.Infrastructure;
 using WindowApp.KeyPressedHandler;
+using WindowApp.KeyPressedHandler.Handlers;
+using WindowApp.SubWindows.Polygons;
 
 namespace WindowApp;
 
 public partial class MainWindow : Window
 {
-    private Plot _plot;
-    private NotificationManager _notificationManager;
+    private readonly IServiceProvider _serviceProvider;
+    private readonly PlotManager _plotManager;
     private List<Polygon> _polygons;
 
-    private const string SaveFilePath = @"Saves\Polygons";
+    private DoubleClickHandler<ButtonsPopup> _doubleClickHandler; 
 
-    public MainWindow()
+    public MainWindow(IServiceProvider serviceProvider, List<Polygon> polygons)
     {
         InitializeComponent();
 
-        _plot = Plot.Plot;
-        _polygons = new List<Polygon>();
-        _notificationManager = new();
+        _serviceProvider = serviceProvider;
+        _plotManager = new(Plot);
+        _polygons = polygons;
+
+        _doubleClickHandler = new((buttonPopup) => buttonPopup.Show(),
+            ButtonsPopup,
+            [Key.LeftShift, Key.RightShift],
+            new TimeSpan(0, 0, 0, 0, 400));
+
+        ButtonsPopup.AddButton("Следующие полигоны",
+            () => _serviceProvider.GetRequiredService<KeyNHandler>().Handle(_plotManager));
+        ButtonsPopup.AddButton("Сохранить",
+            () => _serviceProvider.GetRequiredService<KeySHandler>().Handle(_plotManager));
+        ButtonsPopup.AddButton("Загрузить",
+            () => _serviceProvider.GetRequiredService<KeyBHandler>().Handle(_plotManager));
+        ButtonsPopup.AddButton("Информация", 
+            () => _serviceProvider.GetRequiredService<KeyIHandler>().Handle(_plotManager));
     }
 
     public void Plot_KeyDown(object o, KeyEventArgs e)
     {
-        KeyHandlerFactory.GetHandler(e.Key)?.Handle(new KeyHandlerObject()
-        {
-            UiPlot = Plot,
-            Plot = _plot,
-            Polygons = _polygons,
-            NotificationManager = _notificationManager,
-            FilePath = SaveFilePath
-        });
+        KeyHandlerFactory.GetHandler(e, _serviceProvider)?.Handle(_plotManager);
+    }
+
+    private void Window_KeyDown(object sender, KeyEventArgs e)
+    {
+        _doubleClickHandler.Click(e);
+    }
+
+    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        _serviceProvider.GetRequiredService<PolygonsWindow>().Close();
+    }
+
+    private void Window_Closed(object sender, EventArgs e)
+    {
+        App.Current.Shutdown();
     }
 }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClippingApp", "ClippingApp\ClippingApp.csproj", "{2C0E8D12-6C18-4F4D-8503-7FEA546D7771}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ClippingApp\ConsoleApp.csproj", "{2C0E8D12-6C18-4F4D-8503-7FEA546D7771}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{643435F6-B6D9-44C6-B070-59F6F81B2AC7}"
 EndProject
@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{536403D2-F7D8-4790-A391-F3CC357B3381}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowApp", "WindowApp\WindowApp.csproj", "{6940F882-6CDB-471E-8FE5-19A0D110EFDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowApp", "WindowApp\WindowApp.csproj", "{6940F882-6CDB-471E-8FE5-19A0D110EFDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{F0C28A7F-1339-48D9-B86C-BF15D42F8843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{F0C28A7F-1339-48D9-B86C-BF15D42F8843}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

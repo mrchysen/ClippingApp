@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WindowApp"
         xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
-        xmlns:Notifications="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
+        xmlns:bpcomp="clr-namespace:WindowApp.Components.ButtonsPopupComponent"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        KeyDown="Window_KeyDown"
+        Closing="Window_Closing"
+        Closed="Window_Closed">
     <Grid>
-        <ScottPlot:WpfPlot x:Name="Plot" Panel.ZIndex="0"  KeyDown="Plot_KeyDown" />
-        <Notifications:NotificationArea x:Name="WindowArea" Panel.ZIndex="1"  Position="TopLeft" MaxItems="1"/>
+        <ScottPlot:WpfPlot x:Name="Plot" Panel.ZIndex="0" KeyDown="Plot_KeyDown" />
+        <bpcomp:ButtonsPopup x:Name="ButtonsPopup" Placement="Center" OnFocusBackground="GreenYellow"/>
     </Grid>
 </Window>
