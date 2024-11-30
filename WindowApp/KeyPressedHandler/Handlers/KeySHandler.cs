@@ -1,31 +1,36 @@
-﻿using DAL.Files;
-using DAL.Files.Polygons;
-using Notification.Wpf;
+﻿using DAL.Files.Polygons;
 using System.IO;
+using Core.Models.Polygons;
+using WindowApp.Infrastructure;
+using WindowApp.Settings;
+using Microsoft.Extensions.Options;
 
 namespace WindowApp.KeyPressedHandler.Handlers;
 
 // S = save
 public class KeySHandler : KeyHandler
 {
-    public override void Handle(KeyHandlerObject obj)
+    private readonly SaverSettings _settings;
+    private readonly List<Polygon> _polygons;
+
+    public KeySHandler(IOptions<SaverSettings> options, List<Polygon> polygons)
     {
-        var path = GetPath(obj);
+        _settings = options.Value;
+        _polygons = polygons;
+    }
+
+    public override void Handle(PlotManager plotManager)
+    {
+        var path = ConfigurePath(_settings.SavingFolderPath);
         var name = GetDate();
 
         using PolygonFileSaver saver = new PolygonFileSaver(path);
-
-        var content = new NotificationContent
-        {
-            Title = "Сохранение",
-            TrimType = NotificationTextTrimType.NoTrim
-        };
 
         bool saveResult = true;
 
         try
         {
-            saveResult = saver.Save(obj.Polygons);
+            saveResult = saver.Save(_polygons);
 
             saver.Close();
         }
@@ -33,23 +38,10 @@ public class KeySHandler : KeyHandler
         {
             saveResult = false;
         }
-
-        if (saveResult)
-        {
-            content.Message = $"Сохранено успешно, имя файла {name}";
-            content.Type = NotificationType.Success;
-        }
-        else
-        {
-            content.Message = "Не удалось сохранить";
-            content.Type = NotificationType.Error;
-        }
-        
-        obj.NotificationManager.Show(content, areaName: "WindowArea");
     }
 
-    private string GetPath(KeyHandlerObject obj) => 
-        Path.Combine(obj.FilePath, GetDate() + ".json"); 
+    private string ConfigurePath(string path) => 
+        Path.Combine(path, GetDate() + ".json"); 
 
     private string GetDate() => DateTime.Now.ToString("dd-M-yyyy") + "_" + Guid.NewGuid().ToString();
 }

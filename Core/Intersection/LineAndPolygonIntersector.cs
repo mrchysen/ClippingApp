@@ -6,11 +6,10 @@ namespace Core.Intersection;
 
 public class LineAndPolygonIntersector
 {
-	public double Epsilon { get; set; } = 0.001d;
+	private readonly LineIntersector _lineIntersector;
 
-	public EqualizerBase<double> Equalizer { get; set; } = new DoubleEqualizer(0.001);
-
-	public LineIntersector LineIntersector { get; set; } = new();
+    public LineAndPolygonIntersector(LineIntersector lineIntersector)
+		=> _lineIntersector = lineIntersector;
 
     public List<PointD> GetIntersectionPoint(Line line, Polygon polygon)
 	{
@@ -20,7 +19,7 @@ public class LineAndPolygonIntersector
 		{
 			int next = (i + 1 == polygon.Points.Count) ? 0 : i + 1;
 
-			var point = LineIntersector.GetIntersectionPoint(line, new Line(polygon.Points[i], polygon.Points[next]));
+			var point = _lineIntersector.GetIntersectionPoint(line, new Line(polygon.Points[i], polygon.Points[next]));
 			
 			if (point != null) intersectionPoints.Add(point.Value);
 		}

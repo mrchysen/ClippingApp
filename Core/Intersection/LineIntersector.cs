@@ -1,19 +1,27 @@
 ﻿using Core.Models;
+using Core.Settings;
 using Core.Utils.Equalizers;
 
 namespace Core.Intersection;
 
 public class LineIntersector
 {
-    public double Epsilon { get; set; } = 0.001d;
+    private readonly IAccuracySettings _accuracySettings;
+    private readonly IEqualizer<double> _equalizer;
 
-    public EqualizerBase<double> Equalizer { get; set; } = new DoubleEqualizer(0.001);
+    private double _epsilon => _accuracySettings.GetAccuracy;
+    
+    public LineIntersector(IAccuracySettings accuracySettings, IEqualizer<double> equalizer)
+    {
+        _accuracySettings = accuracySettings;
+        _equalizer = equalizer;
+    }
 
     public virtual PointD? GetIntersectionPoint(Line line1, Line line2)
     {
         double det = line1.A * line2.B - line2.A * line1.B;
 
-        if (Math.Abs(det) < Epsilon) // Определитель нормалей = 0 => параллельны
+        if (Math.Abs(det) < _epsilon) // Определитель нормалей = 0 => параллельны
             return null;
 
         double x = (line1.B * line2.C - line2.B * line1.C) / det;
@@ -21,15 +29,15 @@ public class LineIntersector
 
         var point = new PointD(x, y);
 
-		bool online1 = ((Math.Min(line1.Point1.X, line1.Point2.X) < x || Equalizer.IsEquals(Math.Min(line1.Point1.X, line1.Point2.X), x))
-			&& (Math.Max(line1.Point1.X, line1.Point2.X) > x || Equalizer.IsEquals(Math.Max(line1.Point1.X, line1.Point2.X), x))
-			&& (Math.Min(line1.Point1.Y, line1.Point2.Y) < y || Equalizer.IsEquals(Math.Min(line1.Point1.Y, line1.Point2.Y), y))
-			&& (Math.Max(line1.Point1.Y, line1.Point2.Y) > y || Equalizer.IsEquals(Math.Max(line1.Point1.Y, line1.Point2.Y), y)));
+		bool online1 = ((Math.Min(line1.Point1.X, line1.Point2.X) < x || _equalizer.IsEquals(Math.Min(line1.Point1.X, line1.Point2.X), x))
+			&& (Math.Max(line1.Point1.X, line1.Point2.X) > x || _equalizer.IsEquals(Math.Max(line1.Point1.X, line1.Point2.X), x))
+			&& (Math.Min(line1.Point1.Y, line1.Point2.Y) < y || _equalizer.IsEquals(Math.Min(line1.Point1.Y, line1.Point2.Y), y))
+			&& (Math.Max(line1.Point1.Y, line1.Point2.Y) > y || _equalizer.IsEquals(Math.Max(line1.Point1.Y, line1.Point2.Y), y)));
 
-		bool online2 = ((Math.Min(line2.Point1.X, line2.Point2.X) < x || Equalizer.IsEquals(Math.Min(line2.Point1.X, line2.Point2.X), x))
-			&& (Math.Max(line2.Point1.X, line2.Point2.X) > x || Equalizer.IsEquals(Math.Max(line2.Point1.X, line2.Point2.X), x))
-			&& (Math.Min(line2.Point1.Y, line2.Point2.Y) < y || Equalizer.IsEquals(Math.Min(line2.Point1.Y, line2.Point2.Y), y))
-			&& (Math.Max(line2.Point1.Y, line2.Point2.Y) > y || Equalizer.IsEquals(Math.Max(line2.Point1.Y, line2.Point2.Y), y)));
+		bool online2 = ((Math.Min(line2.Point1.X, line2.Point2.X) < x || _equalizer.IsEquals(Math.Min(line2.Point1.X, line2.Point2.X), x))
+			&& (Math.Max(line2.Point1.X, line2.Point2.X) > x || _equalizer.IsEquals(Math.Max(line2.Point1.X, line2.Point2.X), x))
+			&& (Math.Min(line2.Point1.Y, line2.Point2.Y) < y || _equalizer.IsEquals(Math.Min(line2.Point1.Y, line2.Point2.Y), y))
+			&& (Math.Max(line2.Point1.Y, line2.Point2.Y) > y || _equalizer.IsEquals(Math.Max(line2.Point1.Y, line2.Point2.Y), y)));
 
 		if (online1 && online2)
             return point;
@@ -48,6 +56,6 @@ public class LineIntersector
 
         var S = v1x * v2y - v2x * v1y;
 
-        return Math.Abs(S) < Epsilon;
+        return Math.Abs(S) < _epsilon;
     }
 }

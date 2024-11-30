@@ -8,7 +8,7 @@ namespace UnitTests.Core.PointInclusionAlgorithms;
 
 public class PointInclusionFinderTests
 {
-	private PointInclusionFinder Finder;
+	private PointPolygonInclusionFinder Finder;
 
 	private PointInclusionFinderTests()
 	{

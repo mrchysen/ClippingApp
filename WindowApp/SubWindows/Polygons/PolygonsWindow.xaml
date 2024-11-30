@@ -1,0 +1,71 @@
+﻿<Window x:Class="WindowApp.SubWindows.Polygons.PolygonsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowApp.SubWindows.Polygons"
+        mc:Ignorable="d"
+        Title="PolygonsWindow" 
+        MinHeight="350" 
+        MinWidth="500" 
+        FontSize="14"
+        Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="64"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Column="0"
+              Margin="10">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0" Margin="5">Полигон 1</TextBlock>
+            <DataGrid Grid.Row="1"
+                      x:Name="Polygon1Grid"  
+                      ItemsSource="{Binding}" 
+                      AutoGenerateColumns="False">    
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Номер" Binding="{Binding Number}" />
+                    <DataGridTextColumn Header="X" Binding="{Binding X}"/>
+                    <DataGridTextColumn Header="Y" Binding="{Binding Y}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <Grid Grid.Column="1"
+              Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Margin="5">Полигон 2</TextBlock>
+            <DataGrid Grid.Row="1"
+                      x:Name="Polygon2Grid"  
+                      ItemsSource="{Binding}" 
+                      AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Номер" Binding="{Binding Number}" />
+                    <DataGridTextColumn Header="X" Binding="{Binding X}"/>
+                    <DataGridTextColumn Header="Y" Binding="{Binding Y}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <Button x:Name="CancelButton"
+                Click="CancelButton_Click"
+                Grid.Row="1" 
+                Grid.ColumnSpan="2"
+                Content="Выйти"
+                FontSize="18"
+                Margin="100 10 100 10"></Button>
+    </Grid>
+</Window>

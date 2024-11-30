@@ -1,8 +1,13 @@
-﻿namespace Core.Utils.Equalizers;
+﻿using Core.Settings;
 
-internal class DoubleEqualizer : EqualizerBase<double>
+namespace Core.Utils.Equalizers;
+
+public class DoubleEqualizer : IEqualizer<double>
 {
-	public DoubleEqualizer(double epsilon) : base(epsilon) { }
+    private double _epsilon { get; set; }
 
-	public override bool IsEquals(double num1, double num2) => Math.Abs(num1 - num2) < Epsilon; 
+    public DoubleEqualizer(IAccuracySettings accuracySettings) 
+        => _epsilon = accuracySettings.GetAccuracy;
+
+	public bool IsEquals(double num1, double num2) => Math.Abs(num1 - num2) < _epsilon; 
 }

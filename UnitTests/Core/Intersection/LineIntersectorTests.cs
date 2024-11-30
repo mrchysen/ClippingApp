@@ -59,8 +59,8 @@ public class LineIntersectorTests
 
         // Assert
         resultPoint.Should().NotBeNull();
-        Assert.True(Math.Abs(resultPoint.Value.X - expectedPoint.X) < _intersector.Epsilon);
-        Assert.True(Math.Abs(resultPoint.Value.Y - expectedPoint.Y) < _intersector.Epsilon);
+        Assert.True(Math.Abs(resultPoint.Value.X - expectedPoint.X) < _intersector._epsilon);
+        Assert.True(Math.Abs(resultPoint.Value.Y - expectedPoint.Y) < _intersector._epsilon);
     }
 
     [Fact]
@@ -78,8 +78,8 @@ public class LineIntersectorTests
 
         // Assert
         resultPoint.Should().NotBeNull();
-        Assert.True(Math.Abs(resultPoint.Value.X - expectedPoint.X) < _intersector.Epsilon);
-        Assert.True(Math.Abs(resultPoint.Value.Y - expectedPoint.Y) < _intersector.Epsilon);
+        Assert.True(Math.Abs(resultPoint.Value.X - expectedPoint.X) < _intersector._epsilon);
+        Assert.True(Math.Abs(resultPoint.Value.Y - expectedPoint.Y) < _intersector._epsilon);
     }
 
     [Fact]
@@ -97,7 +97,7 @@ public class LineIntersectorTests
 
         // Assert
         resultPoint.Should().NotBeNull();
-        Assert.True(Math.Abs(resultPoint.Value.X - expectedPoint.X) < _intersector.Epsilon);
-        Assert.True(Math.Abs(resultPoint.Value.Y - expectedPoint.Y) < _intersector.Epsilon);
+        Assert.True(Math.Abs(resultPoint.Value.X - expectedPoint.X) < _intersector._epsilon);
+        Assert.True(Math.Abs(resultPoint.Value.Y - expectedPoint.Y) < _intersector._epsilon);
     }
 }
