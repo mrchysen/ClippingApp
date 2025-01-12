@@ -7,34 +7,27 @@ using WindowApp.Infrastructure;
 
 namespace WindowApp.KeyPressedHandler.Handlers;
 
-// N = next
+// N = next polygons intersection
 public class KeyNHandler : KeyHandler
 {
     private readonly RandomPolygon _randomPolygon;
-    private readonly List<Polygon> _polygons;
-    private readonly IClipper _clipper;
 
-    public KeyNHandler(
-        RandomPolygon randomPolygon,
-        List<Polygon> polygons,
-        ConvexPolygonClipper clipper)
+    public KeyNHandler(RandomPolygon randomPolygon)
     {
         _randomPolygon = randomPolygon;
-        _polygons = polygons;
-        _clipper = clipper;
     }
 
     public override void Handle(PlotManager plotManager)
     {
-        _polygons.Clear();
-        _polygons.AddRange([
+        plotManager.Polygons.Clear();
+        plotManager.Polygons.AddRange([
             _randomPolygon.Get(true, 5),
             _randomPolygon.Get(true, 3)
             ]);
 
-        _polygons.AddRange(_clipper.Clip(_polygons));
+        plotManager.Polygons.AddRange(plotManager.Clipper.Clip(plotManager.Polygons));
 
-        IPolygonArtist artist = new PolygonArtist(_polygons);
+        IPolygonArtist artist = new PolygonArtist(plotManager.Polygons);
 
         plotManager.Plot.Clear();
         artist.Plot(plotManager.Plot);

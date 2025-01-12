@@ -1,10 +1,11 @@
 ﻿using System.Windows;
-using WindowApp;
-using WindowApp.SubWindows;
-using WindowApp.SubWindows.Polygons;
+
+namespace WindowApp;
 
 public class App : System.Windows.Application
 {
+    public const string ApplicationName = "ClippingApp";
+    
     private readonly MainWindow _mainWindow;
 
     public App(MainWindow mainWindow)

@@ -78,7 +78,15 @@ public class SuthHodgClipper : IClipper
         // Алгоритм работает, когда у нас есть выпуклый полигон.
         // Но в этом случае непонятно, как найти выпуклый полигон.
 
-        throw new NotImplementedException();
+        return [new Polygon() {
+            Color = RandomColor.Get(),
+            Points = [
+                new (1, 1),
+                new (1, 10),
+                new (10, 10),
+                new (10, 1),
+                ]
+        }];
     }
 
     /// <summary>
@@ -89,6 +97,16 @@ public class SuthHodgClipper : IClipper
     /// <returns></returns>
     public List<Polygon> Clip(Polygon polygon1, Polygon polygon2)
     {
-        return [new Polygon(SuthHodgClip(polygon1.Points, polygon2.Points)) { Color = RandomColor.Get() }];
+        //return [new Polygon(SuthHodgClip(polygon1.Points, polygon2.Points)) { Color = RandomColor.Get() }];
+    
+        return [new Polygon() {
+            Color = RandomColor.Get(),
+            Points = [
+                new (1, 1),
+                new (1, 10),
+                new (10, 10),
+                new (10, 1),
+                ]
+        }];
     }
 }
