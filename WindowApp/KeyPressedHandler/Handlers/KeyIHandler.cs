@@ -1,6 +1,4 @@
-﻿using Core.Models.Polygons;
-using Core.PointsOrderers;
-using System.Text;
+﻿using Core.PointsOrderers;
 using WindowApp.Infrastructure;
 using WindowApp.SubWindows.Polygons;
 
@@ -11,32 +9,29 @@ public class KeyIHandler : KeyHandler
 {
     private readonly PointsOrdererByAngle _pointsOrdererByAngle;
     private readonly PolygonsWindow _window;
-    private readonly List<Polygon> _polygons;
 
     public KeyIHandler(
         PointsOrdererByAngle pointsOrdererByAngle,
-        PolygonsWindow window,
-        List<Polygon> polygons)
+        PolygonsWindow window)
     {
         _pointsOrdererByAngle = pointsOrdererByAngle;
         _window = window;
-        _polygons = polygons;
     }
 
     public override void Handle(PlotManager plotManager)
     {
-        if (!_polygons.Any())
+        if (plotManager.Polygons.Count < 2)
         {
             return;
         }
 
-        var polygonData1 = _polygons[0].Points.Select(p => new PolygonData()
+        var polygonData1 = plotManager.Polygons[0].Points.Select(p => new PolygonData()
         {
             X = p.X,
             Y = p.Y
         }).ToList();
 
-        var polygonData2 = _polygons[1].Points.Select(p => new PolygonData()
+        var polygonData2 = plotManager.Polygons[1].Points.Select(p => new PolygonData()
         {
             X = p.X,
             Y = p.Y
@@ -46,18 +41,5 @@ public class KeyIHandler : KeyHandler
         _window.Polygon2Data = polygonData2;
 
         _window.ShowDialog();
-    }
-
-    private string GetInfo(List<Polygon> polygons)
-    {
-        StringBuilder sb = new();
-
-        for (int i = 0; i < polygons.Count; i++)
-        {
-            sb.AppendLine($"{i+1}) {string.Join(" ", polygons[i].Points)}");
-            sb.AppendLine($" {string.Join(" ", _pointsOrdererByAngle.GetAngels(polygons[i].Points))}");
-        }   
-
-        return sb.ToString();
     }
 }

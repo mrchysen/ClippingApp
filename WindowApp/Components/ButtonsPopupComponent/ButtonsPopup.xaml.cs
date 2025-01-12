@@ -30,6 +30,16 @@ public partial class ButtonsPopup : Popup
         get => (Brush)GetValue(LostFocusBackgroundProperty);
         set => SetValue(LostFocusBackgroundProperty, value);
     }
+    public static readonly DependencyProperty ButtonFontFamilyProperty = DependencyProperty.Register(
+        "ButtonFontFamily",
+        typeof(FontFamily),
+        typeof(MainWindow)
+        );
+    public FontFamily ButtonFontFamily
+    {
+        get => (FontFamily)GetValue(ButtonFontFamilyProperty);
+        set => SetValue(ButtonFontFamilyProperty, value);
+    }
 
     public Dictionary<int, Action?> Actions
     {
@@ -66,6 +76,7 @@ public partial class ButtonsPopup : Popup
             Width = 200,
             Height = 50,
             Content = buttonText,
+            FontFamily = ButtonFontFamily,
             Tag = (_count + 1).ToString()
         };
 

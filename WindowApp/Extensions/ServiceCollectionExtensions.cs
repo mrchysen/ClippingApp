@@ -30,7 +30,6 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddCore(this IServiceCollection services)
     {
-        services.AddSingleton<List<Polygon>>();
         services.AddSingleton<IAccuracySettings, AccuracySettings>();
         
         services.AddScoped<ConvexPolygonClipper>();

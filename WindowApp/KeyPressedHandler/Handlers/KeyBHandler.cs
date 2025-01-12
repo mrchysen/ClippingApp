@@ -13,22 +13,18 @@ namespace WindowApp.KeyPressedHandler.Handlers;
 // B = Build from file
 public class KeyBHandler : KeyHandler
 {
-    private readonly SaverSettings _settings;
-    private readonly List<Polygon> _polygons;
+    private readonly FilesPathSettings _settings;
 
-    public KeyBHandler(IOptions<SaverSettings> options, List<Polygon> polygons)
+    public KeyBHandler(IOptions<FilesPathSettings> options)
     {
         _settings = options.Value;
-        _polygons = polygons;
     }
 
     public override void Handle(PlotManager plotManager)
     {
         OpenFileDialog openFileDialog = new OpenFileDialog();
 
-        openFileDialog.InitialDirectory = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            _settings.SavingFolderPath);
+        openFileDialog.InitialDirectory = _settings.GetPolygonDataFolderPath;
 
         openFileDialog.DefaultExt = ".json";
 
@@ -45,10 +41,10 @@ public class KeyBHandler : KeyHandler
 
         loader.Close();
 
-        _polygons.Clear();
-        _polygons.AddRange(list);
+        plotManager.Polygons.Clear();
+        plotManager.Polygons.AddRange(list);
 
-        IPolygonArtist artist = new PolygonArtist(_polygons);
+        IPolygonArtist artist = new PolygonArtist(plotManager.Polygons);
 
         plotManager.Plot.Clear();
         artist.Plot(plotManager.Plot);

@@ -4,44 +4,54 @@ using Core.Models.Polygons;
 using WindowApp.Infrastructure;
 using WindowApp.Settings;
 using Microsoft.Extensions.Options;
+using System.Windows;
 
 namespace WindowApp.KeyPressedHandler.Handlers;
 
 // S = save
 public class KeySHandler : KeyHandler
 {
-    private readonly SaverSettings _settings;
-    private readonly List<Polygon> _polygons;
+    private readonly FilesPathSettings _filesPathSettings;
 
-    public KeySHandler(IOptions<SaverSettings> options, List<Polygon> polygons)
+    public KeySHandler(IOptions<FilesPathSettings> options)
     {
-        _settings = options.Value;
-        _polygons = polygons;
+        _filesPathSettings = options.Value;
     }
 
     public override void Handle(PlotManager plotManager)
     {
-        var path = ConfigurePath(_settings.SavingFolderPath);
-        var name = GetDate();
+        var fileName = GetDate() + ".json";
+        var path = ConfigurePath(_filesPathSettings.GetPolygonDataFolderPath);
 
         using PolygonFileSaver saver = new PolygonFileSaver(path);
 
         bool saveResult = true;
 
+        if(plotManager.Polygons.Count == 0)
+        {
+            MessageBox.Show("Сохранить не удалось. Полигонов нет.", "Информация");
+            return;
+        }
+
         try
         {
-            saveResult = saver.Save(_polygons);
-
-            saver.Close();
+            saveResult = saver.Save(plotManager.Polygons);
         }
         catch
         {
             saveResult = false;
         }
+
+        saver.Close();
+
+        if(saveResult) 
+            MessageBox.Show($"Сохранено в {fileName}.", "Информация");
+        else
+            MessageBox.Show("Сохранить не удалось.", "Информация");
     }
 
     private string ConfigurePath(string path) => 
         Path.Combine(path, GetDate() + ".json"); 
 
-    private string GetDate() => DateTime.Now.ToString("dd-M-yyyy") + "_" + Guid.NewGuid().ToString();
+    private string GetDate() => DateTime.Now.ToString("dd-MM-yyyy") + "_" + Guid.NewGuid().ToString();
 }
