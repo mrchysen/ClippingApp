@@ -1,5 +1,5 @@
 ﻿using Core.Colors;
-using Core.Models;
+using Core.Models.Points;
 using Core.Models.Polygons;
 using Core.Utils.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +39,7 @@ public class RandomPolygon
 
         if (sortByAngle)
         {
-            polygon.Points = polygon.Points.OrderClockwise().ToList();
+            polygon.Points = polygon.Points.OrderClockwise().Reverse().ToList();
         }
 
         return polygon;

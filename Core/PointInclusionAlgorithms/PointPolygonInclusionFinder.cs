@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Models.Points;
 using Core.Models.Polygons;
 
 namespace Core.PointInclusionAlgorithms;

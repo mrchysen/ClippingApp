@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Models.Points;
 
 namespace Core.PointsOrderers;
 

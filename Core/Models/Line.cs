@@ -1,4 +1,6 @@
-﻿namespace Core.Models;
+﻿using Core.Models.Points;
+
+namespace Core.Models;
 
 public class Line
 {

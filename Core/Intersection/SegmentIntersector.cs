@@ -1,17 +1,18 @@
 ﻿using Core.Models;
+using Core.Models.Points;
 using Core.Settings;
 using Core.Utils.Equalizers;
 
 namespace Core.Intersection;
 
-public class LineIntersector
+public class SegmentIntersector
 {
     private readonly IAccuracySettings _accuracySettings;
     private readonly IEqualizer<double> _equalizer;
 
     private double _epsilon => _accuracySettings.GetAccuracy;
     
-    public LineIntersector(IAccuracySettings accuracySettings, IEqualizer<double> equalizer)
+    public SegmentIntersector(IAccuracySettings accuracySettings, IEqualizer<double> equalizer)
     {
         _accuracySettings = accuracySettings;
         _equalizer = equalizer;
