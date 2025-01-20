@@ -2,16 +2,21 @@
 using Core.Models;
 using Core.Models.Points;
 using Core.Models.Polygons;
+using Core.PointInclusionAlgorithms;
 
 namespace Core.Clippers.RourkeChienPolygonClipper;
 
 public class RourkeChienPolygonClipper : IClipper
 {
     private readonly SegmentIntersector _segmentIntersector;
+    private readonly PointPolygonInclusionFinder _pointPolygonInclusionFinder;
 
-    public RourkeChienPolygonClipper(SegmentIntersector segmentIntersector)
+    public RourkeChienPolygonClipper(
+        SegmentIntersector segmentIntersector, 
+        PointPolygonInclusionFinder pointPolygonInclusionFinder)
     {
         _segmentIntersector = segmentIntersector;
+        _pointPolygonInclusionFinder = pointPolygonInclusionFinder;
     }
 
     public List<Polygon> Clip(List<Polygon> polygons)
@@ -54,6 +59,7 @@ public class RourkeChienPolygonClipper : IClipper
                 if(firstIntersectionPoint is null)
                 {
                     firstIntersectionPoint = pIn;
+                    newPolygon.Add(pIn.Value);
                 }
                 else
                 {
@@ -74,7 +80,6 @@ public class RourkeChienPolygonClipper : IClipper
                         }
                     }
                 }
-                
             }
 
             if (((q - q_)*(p - p_)) >= 0)
@@ -124,6 +129,16 @@ public class RourkeChienPolygonClipper : IClipper
         }
         while (3 * (pN + qN) > step);
 
+        if(newPolygon.Count == 0)
+        {
+            if (_pointPolygonInclusionFinder.CheckPointInsidePolygon(p, polygon2))
+                return [polygon1];
+            else if (_pointPolygonInclusionFinder.CheckPointInsidePolygon(q, polygon1))
+                return [polygon2];
+            else
+                return [];
+        }
+
         return [new Polygon(newPolygon)];
     }
 
@@ -131,5 +146,5 @@ public class RourkeChienPolygonClipper : IClipper
         => i == 0  ? N - 1 : i - 1;
 
     private int NextIndex(int i, int N)
-    => i == N - 1 ? 0 : i + 1;
+        => i == N - 1 ? 0 : i + 1;
 }
