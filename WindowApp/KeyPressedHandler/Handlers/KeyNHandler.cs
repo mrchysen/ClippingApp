@@ -25,7 +25,7 @@ public class KeyNHandler : KeyHandler
             _randomPolygon.Get(true, 3)
             ]);
 
-        plotManager.Polygons.AddRange(plotManager.Clipper.Clip(plotManager.Polygons));
+        plotManager.Polygons.AddRange(plotManager.Clipper.Clip(plotManager.Polygons[0], plotManager.Polygons[1]));
 
         IPolygonArtist artist = new PolygonArtist(plotManager.Polygons);
 

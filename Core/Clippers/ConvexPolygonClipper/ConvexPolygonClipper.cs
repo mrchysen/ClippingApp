@@ -1,5 +1,5 @@
-﻿using Core.Intersection;
-using Core.Models;
+﻿using Core.Models;
+using Core.Models.Points;
 using Core.Models.Polygons;
 using Core.PointInclusionAlgorithms;
 using Core.PointsOrderers;

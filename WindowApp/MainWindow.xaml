@@ -97,7 +97,7 @@
                     <TextBlock
                         Padding="5"
                         FontFamily="{StaticResource Font}">
-                        Для любых многоугольников
+                        Выпуклый + любой
                     </TextBlock>
                     <Border 
                         BorderThickness="0.5"
@@ -108,11 +108,21 @@
                         DataContext="4"
                         Checked="ClipperAlgRadioButton_Checked"
                         FontFamily="{StaticResource Font}">
-                        Алгоритм ёлочки О(n^2*m^2)
+                        Weiler–Atherton О(n*m)
                     </RadioButton>
                     <Border 
                         BorderThickness="0.5"
                         BorderBrush="Black" />
+                    <TextBlock
+                        Padding="5"
+                        FontFamily="{StaticResource Font}">
+                        Произвольные
+                    </TextBlock>
+                    <Border 
+                        BorderThickness="0.5"
+                        BorderBrush="Black" />
+
+
                 </StackPanel>
                 
             </Border>

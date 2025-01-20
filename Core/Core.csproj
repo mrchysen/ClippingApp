@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Clippers\ConvexPolygonClipper\Imgs\" />
+    <Folder Include="Clippers\WeilerAthertonPolygonClipper\" />
   </ItemGroup>
 
 </Project>

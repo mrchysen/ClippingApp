@@ -1,5 +1,6 @@
 ﻿using Core.Clippers;
 using Core.Clippers.ConvexPolygonClipper;
+using Core.Clippers.RourkeChienPolygonClipper;
 using Core.Models.Polygons;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -82,7 +83,7 @@ public partial class MainWindow : Window
         _plotManager.Clipper = clipType switch
         {
             "1" => _serviceProvider.GetRequiredService<ConvexPolygonClipper>(),
-            "2" => _serviceProvider.GetRequiredService<SuthHodgClipper>(),
+            "2" => _serviceProvider.GetRequiredService<RourkeChienPolygonClipper>(),
             _ => _serviceProvider.GetRequiredService<ConvexPolygonClipper>()
         };
     }

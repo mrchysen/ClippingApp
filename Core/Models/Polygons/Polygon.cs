@@ -1,5 +1,6 @@
 ﻿using Core.Colors;
 using Core.Models.Colors;
+using Core.Models.Points;
 using System.Text.Json.Serialization;
 
 namespace Core.Models.Polygons;
@@ -13,6 +14,8 @@ public class Polygon
         Points = points;
         Color = RandomColor.Get();
     }
+
+    public int Count => Points.Count;
 
     public List<PointD> Points { get; set; } = new List<PointD>();
 

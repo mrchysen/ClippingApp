@@ -1,5 +1,5 @@
 ﻿using Core.ConvexHulls;
-using Core.Models;
+using Core.Models.Points;
 
 ConvexHullCreator c = new();
 
