@@ -3,6 +3,7 @@ using Application.Randoms;
 using Core.Clippers;
 using Core.Clippers.ConvexPolygonClipper;
 using Core.Clippers.RourkeChienPolygonClipper;
+using Core.Clippers.WeilerAthertonPolygonClipper;
 using Core.Intersection;
 using Core.Models.Points;
 using Core.Models.Polygons;
@@ -35,8 +36,9 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<ConvexPolygonClipper>();
         services.AddScoped<RourkeChienPolygonClipper>();
+        services.AddScoped<WeilerAthertonPolygonClipper>();
 
-        services.AddScoped<Random>((_) => new Random());
+        services.AddScoped((_) => new Random());
         services.AddScoped<RandomPolygon>();
         services.AddScoped<IPolygonArtist, PolygonArtist>();
         services.AddScoped<PointDEqualizer>();

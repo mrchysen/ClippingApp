@@ -1,9 +1,11 @@
-﻿using Core.Clippers;
-using Core.Clippers.ConvexPolygonClipper;
+﻿using Core.Clippers.ConvexPolygonClipper;
 using Core.Clippers.RourkeChienPolygonClipper;
+using Core.Clippers.WeilerAthertonPolygonClipper;
 using Core.Models.Polygons;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ScottPlot;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -84,6 +86,7 @@ public partial class MainWindow : Window
         {
             "1" => _serviceProvider.GetRequiredService<ConvexPolygonClipper>(),
             "2" => _serviceProvider.GetRequiredService<RourkeChienPolygonClipper>(),
+            "3" => _serviceProvider.GetRequiredService<WeilerAthertonPolygonClipper>(),
             _ => _serviceProvider.GetRequiredService<ConvexPolygonClipper>()
         };
     }

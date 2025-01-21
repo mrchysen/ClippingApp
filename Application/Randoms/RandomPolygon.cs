@@ -39,7 +39,7 @@ public class RandomPolygon
 
         if (sortByAngle)
         {
-            polygon.Points = polygon.Points.OrderClockwise().Reverse().ToList();
+            polygon.Points = polygon.Points.OrderClockwise().ToList();
         }
 
         return polygon;

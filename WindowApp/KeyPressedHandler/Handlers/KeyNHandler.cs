@@ -1,4 +1,5 @@
-﻿using Application.PolygonPlotting;
+﻿using Application.PlotExtensions;
+using Application.PolygonPlotting;
 using Application.Randoms;
 using Core.Clippers;
 using Core.Clippers.ConvexPolygonClipper;
@@ -26,7 +27,7 @@ public class KeyNHandler : KeyHandler
             ]);
 
         plotManager.Polygons.AddRange(plotManager.Clipper.Clip(plotManager.Polygons[0], plotManager.Polygons[1]));
-
+        
         IPolygonArtist artist = new PolygonArtist(plotManager.Polygons);
 
         plotManager.Plot.Clear();

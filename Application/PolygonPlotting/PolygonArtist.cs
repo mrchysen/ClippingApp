@@ -1,4 +1,5 @@
 ﻿using Application.Converters.Polygons;
+using Application.PlotExtensions;
 using Application.PolygonPlotting.Models;
 using Core.Models.Polygons;
 using ScottPlot;
@@ -32,7 +33,7 @@ public class PolygonArtist : IPolygonArtist
 		return info;
 	}
 
-	public Plot Plot(Plot? plotInput = null)
+	public Plot Plot(Plot? plotInput = null, bool addMarkers = true)
 	{
         var plot = plotInput ?? new();
 
@@ -40,6 +41,11 @@ public class PolygonArtist : IPolygonArtist
 
         polygons.ForEach(plot.PlottableList.Add);
 
-		return plot;
+		if (addMarkers)
+		{
+            plot.AddMarkersWithNumbers(Polygons);
+        }
+		
+        return plot;
     }
 }
