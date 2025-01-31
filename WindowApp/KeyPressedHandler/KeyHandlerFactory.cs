@@ -15,6 +15,7 @@ public class KeyHandlerFactory
             Key.F => serviceProvider.GetService<KeyFHandler>(),
             Key.I => serviceProvider.GetService<KeyIHandler>(),
             Key.B => serviceProvider.GetService<KeyBHandler>(),
+            Key.A => serviceProvider.GetService<KeyAHandler>(),
             _ => null
         };
     }

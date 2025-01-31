@@ -1,9 +1,11 @@
-﻿using Core.Clippers;
-using Core.Clippers.ConvexPolygonClipper;
+﻿using Core.Clippers.ConvexPolygonClipper;
 using Core.Clippers.RourkeChienPolygonClipper;
+using Core.Clippers.WeilerAthertonPolygonClipper;
 using Core.Models.Polygons;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ScottPlot;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -60,14 +62,13 @@ public partial class MainWindow : Window
             () => _serviceProvider.GetRequiredService<KeyIHandler>().Handle(_plotManager));
     }
 
-    public void Plot_KeyDown(object o, KeyEventArgs e)
-    {
-        KeyHandlerFactory.GetHandler(e, _serviceProvider)?.Handle(_plotManager);
-    }
+    public void Plot_KeyDown(object o, KeyEventArgs e) 
+        => KeyHandlerFactory.GetHandler(e, _serviceProvider)?.Handle(_plotManager);
 
     private void Window_KeyDown(object sender, KeyEventArgs e) => _doubleClickHandler.Click(e);
 
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => _serviceProvider.GetRequiredService<PolygonsWindow>().Close();
+    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) 
+        => _serviceProvider.GetRequiredService<PolygonsWindow>().Close();
 
     private void Window_Closed(object sender, EventArgs e) => App.Current.Shutdown();
 
@@ -84,6 +85,7 @@ public partial class MainWindow : Window
         {
             "1" => _serviceProvider.GetRequiredService<ConvexPolygonClipper>(),
             "2" => _serviceProvider.GetRequiredService<RourkeChienPolygonClipper>(),
+            "3" => _serviceProvider.GetRequiredService<WeilerAthertonPolygonClipper>(),
             _ => _serviceProvider.GetRequiredService<ConvexPolygonClipper>()
         };
     }
