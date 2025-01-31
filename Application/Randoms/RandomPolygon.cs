@@ -26,7 +26,7 @@ public class RandomPolygon
             settings.Area.Height);
     }
 
-    public Polygon Get(bool sortByAngle, int vertex = 3)
+    public Polygon Get(bool sortByAngle, bool clockwise = false, int vertex = 3)
     {
         Polygon polygon = new Polygon();
 
@@ -39,7 +39,9 @@ public class RandomPolygon
 
         if (sortByAngle)
         {
-            polygon.Points = polygon.Points.OrderClockwise().ToList();
+            polygon.Points = (clockwise) ? 
+                polygon.Points.OrderClockwise().ToList() :
+                polygon.Points.OrderClockwise().Reverse().ToList();
         }
 
         return polygon;

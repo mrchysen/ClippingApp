@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Core.Models.Points;
+﻿namespace Core.Models.Points;
 
 public partial struct PointD
 {
@@ -13,6 +11,7 @@ public partial struct PointD
         return !(a == b);
     }
 
+    // Point = Vector operations
     public static PointD operator +(PointD a, PointD b) 
         => new PointD(a.X + b.X, a.Y + b.Y);
 
@@ -27,4 +26,7 @@ public partial struct PointD
 
     public static double operator *(PointD a, PointD b) // vec multi
         => a.X * b.Y - a.Y * b.X;
+
+    public static double Norm(PointD a)
+        => Math.Sqrt(a.X * a.X + a.Y * a.Y);
 }

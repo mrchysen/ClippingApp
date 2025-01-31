@@ -21,6 +21,4 @@ public class Polygon
 
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public CoreColor Color { get; set; } = new();
-
-
 }

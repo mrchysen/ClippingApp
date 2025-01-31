@@ -1,16 +1,16 @@
 ﻿using Core.Intersection;
-using Core.Models;
+using Core.Models.Lines;
 using Core.Models.Points;
 using Core.Models.Polygons;
 
 namespace Core.Clippers.ConvexPolygonClipper;
 
-public class LineAndPolygonIntersector
+public class SegmentAndPolygonIntersector
 {
-    private readonly SegmentIntersector _lineIntersector;
+    private readonly SegmentIntersector _segmentIntersector;
 
-    public LineAndPolygonIntersector(SegmentIntersector lineIntersector)
-        => _lineIntersector = lineIntersector;
+    public SegmentAndPolygonIntersector(SegmentIntersector lineIntersector)
+        => _segmentIntersector = lineIntersector;
 
     public List<PointD> GetIntersectionPoint(Line line, Polygon polygon)
     {
@@ -20,7 +20,7 @@ public class LineAndPolygonIntersector
         {
             int next = i + 1 == polygon.Points.Count ? 0 : i + 1;
 
-            var point = _lineIntersector.GetIntersectionPoint(line, new Line(polygon.Points[i], polygon.Points[next]));
+            var point = _segmentIntersector.GetIntersectionPoint(line, new Line(polygon.Points[i], polygon.Points[next]));
 
             if (point != null) intersectionPoints.Add(point.Value);
         }

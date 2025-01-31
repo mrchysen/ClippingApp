@@ -62,14 +62,13 @@ public partial class MainWindow : Window
             () => _serviceProvider.GetRequiredService<KeyIHandler>().Handle(_plotManager));
     }
 
-    public void Plot_KeyDown(object o, KeyEventArgs e)
-    {
-        KeyHandlerFactory.GetHandler(e, _serviceProvider)?.Handle(_plotManager);
-    }
+    public void Plot_KeyDown(object o, KeyEventArgs e) 
+        => KeyHandlerFactory.GetHandler(e, _serviceProvider)?.Handle(_plotManager);
 
     private void Window_KeyDown(object sender, KeyEventArgs e) => _doubleClickHandler.Click(e);
 
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => _serviceProvider.GetRequiredService<PolygonsWindow>().Close();
+    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) 
+        => _serviceProvider.GetRequiredService<PolygonsWindow>().Close();
 
     private void Window_Closed(object sender, EventArgs e) => App.Current.Shutdown();
 

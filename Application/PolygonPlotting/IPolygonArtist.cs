@@ -7,5 +7,5 @@ public interface IPolygonArtist
 {
 	FilePlotInfo Plot(FilePlotInfo info);
 
-	Plot Plot(Plot? plotInput, bool addMarkers);
+	Plot Plot(Plot? plotInput, bool addMarkers = false);
 }

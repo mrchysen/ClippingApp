@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Models.Lines;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using Core.PointInclusionAlgorithms;
@@ -11,13 +11,13 @@ public class ConvexPolygonClipper : IClipper
 {
     private readonly PointDEqualizer _pointEqualizer;
     private readonly PointPolygonInclusionFinder _pointInclusion;
-    private readonly LineAndPolygonIntersector _lineAndPolygonIntersector;
+    private readonly SegmentAndPolygonIntersector _lineAndPolygonIntersector;
     private readonly PointsOrdererByAngle _pointsOrdererByAngle;
 
     public ConvexPolygonClipper(
         PointDEqualizer pointEqualizer, 
         PointPolygonInclusionFinder pointInclusion, 
-        LineAndPolygonIntersector lineAndPolygonIntersector, 
+        SegmentAndPolygonIntersector lineAndPolygonIntersector, 
         PointsOrdererByAngle pointsOrdererByAngle)
     {
         _pointEqualizer = pointEqualizer;

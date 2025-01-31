@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Models.Lines;
 using Core.Models.Points;
 using Core.Settings;
 using Core.Utils.Equalizers;
@@ -30,21 +30,24 @@ public class SegmentIntersector
 
         var point = new PointD(x, y);
 
-		bool online1 = ((Math.Min(line1.Point1.X, line1.Point2.X) < x || _equalizer.IsEquals(Math.Min(line1.Point1.X, line1.Point2.X), x))
+        // TODO: Сделать отдельный сервис, который проверяет принадлежность точки отрезку
+		bool onSegment1 = ((Math.Min(line1.Point1.X, line1.Point2.X) < x || _equalizer.IsEquals(Math.Min(line1.Point1.X, line1.Point2.X), x))
 			&& (Math.Max(line1.Point1.X, line1.Point2.X) > x || _equalizer.IsEquals(Math.Max(line1.Point1.X, line1.Point2.X), x))
 			&& (Math.Min(line1.Point1.Y, line1.Point2.Y) < y || _equalizer.IsEquals(Math.Min(line1.Point1.Y, line1.Point2.Y), y))
 			&& (Math.Max(line1.Point1.Y, line1.Point2.Y) > y || _equalizer.IsEquals(Math.Max(line1.Point1.Y, line1.Point2.Y), y)));
 
-		bool online2 = ((Math.Min(line2.Point1.X, line2.Point2.X) < x || _equalizer.IsEquals(Math.Min(line2.Point1.X, line2.Point2.X), x))
+        bool onSegment2 = ((Math.Min(line2.Point1.X, line2.Point2.X) < x || _equalizer.IsEquals(Math.Min(line2.Point1.X, line2.Point2.X), x))
 			&& (Math.Max(line2.Point1.X, line2.Point2.X) > x || _equalizer.IsEquals(Math.Max(line2.Point1.X, line2.Point2.X), x))
 			&& (Math.Min(line2.Point1.Y, line2.Point2.Y) < y || _equalizer.IsEquals(Math.Min(line2.Point1.Y, line2.Point2.Y), y))
 			&& (Math.Max(line2.Point1.Y, line2.Point2.Y) > y || _equalizer.IsEquals(Math.Max(line2.Point1.Y, line2.Point2.Y), y)));
 
-		if (online1 && online2)
+		if (onSegment1 && onSegment2)
             return point;
 
         return null;
     }
+
+    
 
     private bool PointOnLine(Line l, PointD p)
     {

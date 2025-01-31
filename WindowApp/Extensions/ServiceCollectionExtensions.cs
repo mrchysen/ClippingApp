@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<KeySHandler>();
         services.AddScoped<KeyFHandler>();
         services.AddScoped<KeyIHandler>();
+        services.AddScoped<KeyAHandler>();
 
         return services;
     }
@@ -43,7 +44,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPolygonArtist, PolygonArtist>();
         services.AddScoped<PointDEqualizer>();
         services.AddScoped<PointPolygonInclusionFinder>();
-        services.AddScoped<LineAndPolygonIntersector>();
+        services.AddScoped<SegmentAndPolygonIntersector>();
         services.AddScoped<SegmentIntersector>();
         services.AddScoped<PointsOrdererByAngle>();
         services.AddScoped<IEqualizer<PointD>, PointDEqualizer>();
