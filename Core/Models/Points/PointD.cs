@@ -23,4 +23,6 @@ public partial struct PointD
 
     public override string ToString() 
         => $"{{{X:#.####} {Y:#.####}}}";
+
+    public double Norm() => Math.Sqrt(X * X + Y * Y);
 }

@@ -4,12 +4,11 @@ using Core.Clippers.WeilerAthertonPolygonClipper;
 using Core.Models.Polygons;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ScottPlot;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using WindowApp.Commands;
 using WindowApp.Components.ButtonsPopupComponent;
 using WindowApp.Components.Utils;
 using WindowApp.Infrastructure;
@@ -31,10 +30,22 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         InitializeDoubleClickMenu();
+        InitializeButtonsClick();
         EnsureDataFoldersExistence(filePathSettingsOptions.Value);
 
         _serviceProvider = serviceProvider;
         _plotManager = new(Plot, new List<Polygon>(), _serviceProvider.GetService<ConvexPolygonClipper>()!);
+    }
+
+    private void InitializeButtonsClick()
+    {
+        NextPolygonsButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<KeyNHandler>().Handle(_plotManager);
+        InfoAboutPolygonsButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<KeyIHandler>().Handle(_plotManager);
+        // TODO: добавить выпуклую оболочку и возможность начертить полигон
+        BuildConvexHullButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<CreateRandomHullCommand>().Handle(_plotManager);
     }
 
     private void EnsureDataFoldersExistence(FilesPathSettings filePathSettings) 
@@ -50,7 +61,7 @@ public partial class MainWindow : Window
         ButtonsPopup.AddButton("Правое окошко",
             () =>
             {
-                RightArea.Width = (RightArea.Width.Value == 0) ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
+                RightArea.Width = (RightArea.Width.Value == 0) ? new GridLength(this.Width / 2, GridUnitType.Pixel) : new GridLength(0, GridUnitType.Pixel);
             });
         ButtonsPopup.AddButton("Следующие полигоны",
             () => _serviceProvider.GetRequiredService<KeyNHandler>().Handle(_plotManager));
@@ -66,9 +77,6 @@ public partial class MainWindow : Window
         => KeyHandlerFactory.GetHandler(e, _serviceProvider)?.Handle(_plotManager);
 
     private void Window_KeyDown(object sender, KeyEventArgs e) => _doubleClickHandler.Click(e);
-
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) 
-        => _serviceProvider.GetRequiredService<PolygonsWindow>().Close();
 
     private void Window_Closed(object sender, EventArgs e) => App.Current.Shutdown();
 

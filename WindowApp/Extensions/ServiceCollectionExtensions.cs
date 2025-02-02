@@ -1,6 +1,5 @@
 ﻿using Application.PolygonPlotting;
 using Application.Randoms;
-using Core.Clippers;
 using Core.Clippers.ConvexPolygonClipper;
 using Core.Clippers.RourkeChienPolygonClipper;
 using Core.Clippers.WeilerAthertonPolygonClipper;
@@ -12,6 +11,7 @@ using Core.PointsOrderers;
 using Core.Settings;
 using Core.Utils.Equalizers;
 using Microsoft.Extensions.DependencyInjection;
+using WindowApp.Commands;
 using WindowApp.KeyPressedHandler.Handlers;
 using WindowApp.Settings;
 
@@ -19,6 +19,13 @@ namespace WindowApp.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    public static IServiceCollection AddCommands(this IServiceCollection services)
+    {
+        services.AddScoped<CreateRandomHullCommand>();
+
+        return services;
+    }
+
     public static IServiceCollection AddKeyHandlers(this IServiceCollection services)
     {
         services.AddScoped<KeyBHandler>();
@@ -40,7 +47,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<WeilerAthertonPolygonClipper>();
 
         services.AddScoped((_) => new Random());
-        services.AddScoped<RandomPolygon>();
+        services.AddScoped<IPolygonGenerator, RandomPolygonGenerator>();
         services.AddScoped<IPolygonArtist, PolygonArtist>();
         services.AddScoped<PointDEqualizer>();
         services.AddScoped<PointPolygonInclusionFinder>();

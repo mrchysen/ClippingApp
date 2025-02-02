@@ -26,7 +26,4 @@ public partial struct PointD
 
     public static double operator *(PointD a, PointD b) // vec multi
         => a.X * b.Y - a.Y * b.X;
-
-    public static double Norm(PointD a)
-        => Math.Sqrt(a.X * a.X + a.Y * a.Y);
 }

@@ -1,4 +1,5 @@
-﻿using Core.Models.Lines;
+﻿using Core.Models.Colors;
+using Core.Models.Lines;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using Core.PointInclusionAlgorithms;
@@ -61,10 +62,15 @@ public class ConvexPolygonClipper : IClipper
 
         for (int i = 0, next = 1; i < polygon1.Points.Count; i++, next = i + 1 == polygon1.Points.Count ? 0 : i + 1)
         {
-            AddPoints(clippedCorners, _lineAndPolygonIntersector.GetIntersectionPoint(new Line(polygon1.Points[i], polygon1.Points[next]), polygon2));
+            AddPoints(clippedCorners,
+                _lineAndPolygonIntersector.GetIntersectionPoint(
+                    new Line(polygon1.Points[i], polygon1.Points[next]), 
+                    polygon2));
         }
 
-        return new List<Polygon>() { new Polygon(_pointsOrdererByAngle.OrderClockwise(clippedCorners).ToList()) };
+        return new List<Polygon>() { 
+            new Polygon(_pointsOrdererByAngle.OrderClockwise(clippedCorners).ToList(), 
+                CoreColor.IntersectColors(polygon1.Color, polygon2.Color)) };
     }
 
     private void AddPoints(List<PointD> pool, List<PointD> newpoints)

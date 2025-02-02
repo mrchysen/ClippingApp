@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WindowApp;
-using System.Diagnostics;
 using WindowApp.Extensions;
-using Microsoft.Extensions.Options;
 using Application.Randoms;
-using Microsoft.Extensions.Configuration;
-using WindowApp.SubWindows;
-using WindowApp.SubWindows.Polygons;
 
 public class Program
 {
@@ -18,8 +13,8 @@ public class Program
 
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<MainWindow>();
-        builder.Services.AddScoped<PolygonsWindow>();
         builder.Services.AddKeyHandlers();
+        builder.Services.AddCommands();
         builder.Services.AddCore();
 
         builder.Services.Configure<RandomSettings>(

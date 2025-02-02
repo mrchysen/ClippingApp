@@ -9,7 +9,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         KeyDown="Window_KeyDown"
-        Closing="Window_Closing"
         Closed="Window_Closed"
         FontSize="14">
     <Window.Resources>
@@ -18,6 +17,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition x:Name="RightArea" Width="*"/>
         </Grid.ColumnDefinitions>
         
@@ -27,25 +27,24 @@
             KeyDown="Plot_KeyDown"
             FontFamily="{StaticResource Font}"/>
         
-        
         <bpcomp:ButtonsPopup 
             x:Name="ButtonsPopup"
             ButtonFontFamily="{StaticResource Font}"
             Placement="Center" 
             OnFocusBackground="GreenYellow"/>
 
-        <DockPanel Grid.Column="1">
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+        
+        <DockPanel Grid.Column="2">
             <Border
                 BorderBrush="Black"
                 BorderThickness="1 1 0 1"
                 Padding="4"
                 Margin="4 4 0 4">
-
                 <StackPanel>
                     <Border 
                         BorderThickness="0.5"
                         BorderBrush="Black" />
-
                     <TextBlock
                         Padding="5"
                         TextAlignment="Center"
@@ -53,7 +52,6 @@
                         FontFamily="{StaticResource Font}">
                         Алгоритм пересечения полигонов
                     </TextBlock>
-                    
                     <Border 
                         BorderThickness="0.5"
                         BorderBrush="Black" />
@@ -65,7 +63,6 @@
                     <Border 
                         BorderThickness="0.5"
                         BorderBrush="Black" />
-
                     <RadioButton 
                         GroupName="ClippingAlg"
                         Margin="0 10 0 0"
@@ -83,14 +80,13 @@
                         FontFamily="{StaticResource Font}">
                         Быстрый О(n+m)
                     </RadioButton>
-
                     <Border 
                         BorderThickness="0.5"
                         BorderBrush="Black" />
                     <TextBlock
                         Padding="5"
                         FontFamily="{StaticResource Font}">
-                        Выпуклый + любой
+                        Произвольные
                     </TextBlock>
                     <Border 
                         BorderThickness="0.5"
@@ -103,21 +99,24 @@
                         FontFamily="{StaticResource Font}">
                         Weiler–Atherton О(n*m)
                     </RadioButton>
-                    <Border 
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-                    <TextBlock
-                        Padding="5"
-                        FontFamily="{StaticResource Font}">
-                        Произвольные
-                    </TextBlock>
-                    <Border 
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-
+                    <Button 
+                        x:Name="DrowPolygonsButton"
+                        Padding="4"
+                        Margin="4 5 4 5">Нарисовать полигон</Button>
+                    <Button 
+                        x:Name="NextPolygonsButton"
+                        Padding="4"
+                        Margin="4 5 4 5">Следующие примеры</Button>
+                    <Button 
+                        x:Name="BuildConvexHullButton"
+                        Padding="4"
+                        Margin="4 5 4 5">Построить выпуклую оболочку</Button>
+                    <Button 
+                        x:Name="InfoAboutPolygonsButton"
+                        Padding="4"
+                        Margin="4 5 4 5">Списки координат полигонов</Button>
 
                 </StackPanel>
-                
             </Border>
         </DockPanel>
     </Grid>

@@ -2,18 +2,17 @@
 using Core.Models.Points;
 using Core.Models.Polygons;
 using Core.Utils.Extensions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System.Drawing;
 
 namespace Application.Randoms;
 
-public class RandomPolygon
+public class RandomPolygonGenerator : IPolygonGenerator
 {
     private readonly Random _random;
     private readonly Rectangle _area;
 
-    public RandomPolygon(Random random, IOptions<RandomSettings> options)
+    public RandomPolygonGenerator(Random random, IOptions<RandomSettings> options)
     {
         var settings = options.Value;
 
@@ -26,11 +25,11 @@ public class RandomPolygon
             settings.Area.Height);
     }
 
-    public Polygon Get(bool sortByAngle, bool clockwise = false, int vertex = 3)
+    public Polygon Generate(bool sortByAngle, bool clockwise = false, int count = 3)
     {
         Polygon polygon = new Polygon();
 
-        for (int i = 0; i < vertex; i++)
+        for (int i = 0; i < count; i++)
         {
             polygon.Points.Add(GetPointInArea());
         }
@@ -45,6 +44,18 @@ public class RandomPolygon
         }
 
         return polygon;
+    }
+
+    public List<PointD> GeneratePoints(int count = 10)
+    {
+        List<PointD> list = new();
+
+        for (int i = 0; i < count; i++)
+        {
+            list.Add(GetPointInArea());
+        }
+
+        return list;
     }
 
     private PointD GetPointInArea()

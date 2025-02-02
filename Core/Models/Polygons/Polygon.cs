@@ -15,6 +15,12 @@ public class Polygon
         Color = RandomColor.Get();
     }
 
+    public Polygon(List<PointD> points, CoreColor color)
+    {
+        Points = points;
+        Color = color;
+    }
+
     public int Count => Points.Count;
 
     public List<PointD> Points { get; set; } = new List<PointD>();

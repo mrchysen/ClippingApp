@@ -1,4 +1,5 @@
 ﻿using Core.Intersection;
+using Core.Models.Colors;
 using Core.Models.DoubleLinkedLists;
 using Core.Models.Points;
 using Core.Models.Polygons;
@@ -34,7 +35,12 @@ public class WeilerAthertonPolygonClipper : IClipper
 
         var polygons = CutPolygons();
 
-        return polygons.Select(x => x.ToPolygon()).ToList();
+        return polygons.Select(x =>
+        {
+            var polygon = x.ToPolygon();
+            polygon.Color = CoreColor.IntersectColors(polygon1.Color, polygon2.Color);
+            return polygon;
+        }).ToList();
     }
 
     private List<DoubleLinkedList<PointD>> CutPolygons()
@@ -71,7 +77,7 @@ public class WeilerAthertonPolygonClipper : IClipper
         visited.Add(currentNode.Value.Point);
         list.Add(currentNode.Value.Point);
         var next = currentNode.Next;
-        
+
         while (next.Value.Point != currentNode.Value.Point)
         {
             list.Add(next.Value.Point);
@@ -85,7 +91,7 @@ public class WeilerAthertonPolygonClipper : IClipper
             {
                 next = next.Value.LinkNode!;
             }
-            
+
             next = next.Next;
         }
 
@@ -119,7 +125,7 @@ public class WeilerAthertonPolygonClipper : IClipper
                     var qVec = q.Value.Point - qNext.Value.Point;
 
                     var flag = qVec * pVec < 0 ? PointFlag.Entry : PointFlag.Exit;
-                    
+
                     polygonsIntersections.Add((
                         new PointWithFlag()
                         {
@@ -179,7 +185,7 @@ public class WeilerAthertonPolygonClipper : IClipper
                 c = 0;
                 Debug.Write("\n");
             }
-            Debug.Write($"{item.Point} {item.Flag.ToString()} ->> " );
+            Debug.Write($"{item.Point} {item.Flag.ToString()} ->> ");
             c++;
         }
         Debug.Write("\n");

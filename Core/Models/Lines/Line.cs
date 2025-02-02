@@ -14,6 +14,8 @@ public class Line
 
     public double C => Point1.Y * Point2.X - Point1.X * Point2.Y;
 
+    public PointD DirectingVector => Point2 - Point1;
+
     public Line(PointD point1, PointD point2)
     {
         Point1 = point1;
