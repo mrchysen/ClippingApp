@@ -52,12 +52,14 @@ public class KeyAHandler : KeyHandler
         //    new(14,2),
         //    ]);
 
-        IPolygonArtist artist = new PolygonArtist([pol1, pol2, ..clipper.Clip(pol1, pol2)]);
-        
+        plotManager.Polygons.Clear();
+
+        var a = clipper.Clip(pol1, pol2);
+        IPolygonArtist artist = new PolygonArtist([pol1, pol2, ..a]);
+
+        plotManager.Polygons.AddRange([pol1, pol2, .. a]);
+
         plotManager.Plot.Clear();
         artist.Plot(plotManager.Plot, true);
-
-
-
     }
 }

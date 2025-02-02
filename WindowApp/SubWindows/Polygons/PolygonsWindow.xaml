@@ -6,50 +6,44 @@
         xmlns:local="clr-namespace:WindowApp.SubWindows.Polygons"
         mc:Ignorable="d"
         Title="PolygonsWindow" 
-        MinHeight="350" 
-        MinWidth="500" 
+        Height="450" Width="800"
         FontSize="14"
         Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="64"/>
-        </Grid.RowDefinitions>
-        
+
         <Grid Grid.Column="0"
               Margin="10">
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            
-            <TextBlock Grid.Row="0" Margin="5">Полигон 1</TextBlock>
-            <DataGrid Grid.Row="1"
-                      x:Name="Polygon1Grid"  
-                      ItemsSource="{Binding}" 
-                      AutoGenerateColumns="False">    
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Номер" Binding="{Binding Number}" />
-                    <DataGridTextColumn Header="X" Binding="{Binding X}"/>
-                    <DataGridTextColumn Header="Y" Binding="{Binding Y}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <ListBox x:Name="PolygonListBox" Grid.Row="2">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5" Orientation="Horizontal">
+                            <Label Width="20" Height="20" Background="{Binding Path=Fill}" />
+                            <TextBlock FontSize="16" Margin="5 0 0 0" Text="{Binding Path=Name}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
 
-        <Grid Grid.Column="1"
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+
+        <Grid Grid.Column="2"
               Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Margin="5">Полигон 2</TextBlock>
+            <TextBlock 
+                x:Name="CurrentPolygonName"
+                Grid.Row="0" 
+                Margin="5">Полигон</TextBlock>
             <DataGrid Grid.Row="1"
-                      x:Name="Polygon2Grid"  
+                      x:Name="CurrentPolygonDataGrid"  
                       ItemsSource="{Binding}" 
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
@@ -59,13 +53,5 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-
-        <Button x:Name="CancelButton"
-                Click="CancelButton_Click"
-                Grid.Row="1" 
-                Grid.ColumnSpan="2"
-                Content="Выйти"
-                FontSize="18"
-                Margin="100 10 100 10"></Button>
     </Grid>
 </Window>

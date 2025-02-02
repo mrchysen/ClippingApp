@@ -1,47 +1,73 @@
-﻿using System.Windows;
+﻿using Core.Models.Points;
+using Core.Models.Polygons;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace WindowApp.SubWindows.Polygons;
 
-/// <summary>
-/// Логика взаимодействия для PolygonsWindow.xaml
-/// </summary>
 public partial class PolygonsWindow : Window
 {
-    private List<PolygonData>? _polygon1Data;
-    private List<PolygonData>? _polygon2Data;
+    private List<Polygon> _polygons;
+    private ObservableCollection<PolygonListViewModel> _listBoxPolygons { get; set; } = [];
 
-    public List<PolygonData> Polygon1Data 
-    {
-        get => (List<PolygonData>)Polygon1Grid.ItemsSource;
-        set
-        {
-            _polygon1Data = value;
-            Polygon1Grid.ItemsSource = value;
-        }
-    }
-    public List<PolygonData> Polygon2Data 
-    {
-        get => (List<PolygonData>)Polygon2Grid.ItemsSource;
-        set
-        {
-            _polygon2Data = value;
-            Polygon2Grid.ItemsSource = value;
-        }
-    }
-
-    public PolygonsWindow()
+    public PolygonsWindow(List<Polygon> polygons)
     {
         InitializeComponent();
-        CancelButton.Focus();
+
+        _polygons = polygons;
+
+        PolygonListBox.SelectionChanged += (o, e) =>
+        {
+            if (o is null || o is not ListBox)
+                return;
+
+            ListBox listBox = (ListBox)o;
+
+            if (listBox.SelectedItem != null)
+            {
+                var selectedItem = (PolygonListViewModel)listBox.SelectedItem;
+
+                CurrentPolygonName.Text = selectedItem.Name;
+                CurrentPolygonDataGrid.ItemsSource = CreatePolygonDataList(selectedItem.Points);
+            }
+        };
+
+        if (polygons.Count > 0)
+        {
+            CurrentPolygonDataGrid.ItemsSource = CreatePolygonDataList(_polygons[0].Points);
+            
+            var polygonListViewModels = _polygons.Select(el => PolygonListViewModel.Create(el, "Полигон ")).ToList();
+            
+            for (int i = 0; i < polygonListViewModels.Count; i++)
+            {
+                polygonListViewModels[i].Name += (i + 1).ToString();
+            }
+
+            CurrentPolygonName.Text = "Полигон 1";
+            PolygonListBox.ItemsSource = polygonListViewModels;
+        }
     }
-        
-    
+
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
         e.Cancel = true;
         Visibility = Visibility.Hidden;
     }
 
-    private void CancelButton_Click(object sender, RoutedEventArgs e)
-        => Close();
+    private List<PolygonPointModel> CreatePolygonDataList(List<PointD> list)
+    {
+        var polygonDataList = list.Select(p => new PolygonPointModel()
+        {
+            X = p.X,
+            Y = p.Y
+        }).ToList();
+
+        for (int i = 0; i < polygonDataList.Count; i++)
+        {
+            polygonDataList[i].Number = i + 1;
+        }
+
+        return polygonDataList;
+    }
 }

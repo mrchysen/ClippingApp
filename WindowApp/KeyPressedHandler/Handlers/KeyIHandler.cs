@@ -1,4 +1,5 @@
 ﻿using Core.PointsOrderers;
+using OpenTK.Graphics.ES11;
 using WindowApp.Infrastructure;
 using WindowApp.SubWindows.Polygons;
 
@@ -7,39 +8,14 @@ namespace WindowApp.KeyPressedHandler.Handlers;
 // I = Info
 public class KeyIHandler : KeyHandler
 {
-    private readonly PointsOrdererByAngle _pointsOrdererByAngle;
-    private readonly PolygonsWindow _window;
+    private PolygonsWindow _window = null!;
 
-    public KeyIHandler(
-        PointsOrdererByAngle pointsOrdererByAngle,
-        PolygonsWindow window)
-    {
-        _pointsOrdererByAngle = pointsOrdererByAngle;
-        _window = window;
-    }
+    public KeyIHandler() { }
 
     public override void Handle(PlotManager plotManager)
     {
-        if (plotManager.Polygons.Count < 2)
-        {
-            return;
-        }
+        _window = new(plotManager.Polygons);
 
-        var polygonData1 = plotManager.Polygons[0].Points.Select(p => new PolygonData()
-        {
-            X = p.X,
-            Y = p.Y
-        }).ToList();
-
-        var polygonData2 = plotManager.Polygons[1].Points.Select(p => new PolygonData()
-        {
-            X = p.X,
-            Y = p.Y
-        }).ToList();
-
-        _window.Polygon1Data = polygonData1;
-        _window.Polygon2Data = polygonData2;
-
-        _window.ShowDialog();
+        _window.Show();
     }
 }

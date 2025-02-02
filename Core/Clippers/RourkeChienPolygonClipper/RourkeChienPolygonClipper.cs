@@ -1,5 +1,6 @@
 ﻿using Core.Intersection;
 using Core.Models;
+using Core.Models.Colors;
 using Core.Models.Lines;
 using Core.Models.Points;
 using Core.Models.Polygons;
@@ -140,7 +141,7 @@ public class RourkeChienPolygonClipper : IClipper
                 return [];
         }
 
-        return [new Polygon(newPolygon)];
+        return [new Polygon(newPolygon, CoreColor.IntersectColors(polygon1.Color, polygon2.Color))];
     }
 
     private int PrevIndex(int i, int N)
