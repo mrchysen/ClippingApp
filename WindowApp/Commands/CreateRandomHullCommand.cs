@@ -1,7 +1,6 @@
 ﻿using Application.PlotExtensions;
 using Application.PolygonPlotting;
 using Core.HullCreators.QuickHull;
-using Core.Models.DoubleLinkedLists;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using System.Diagnostics;

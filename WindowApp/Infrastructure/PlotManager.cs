@@ -1,4 +1,5 @@
-﻿using Core.Clippers;
+﻿using Application.PolygonPlotting;
+using Core.Clippers;
 using Core.Clippers.ConvexPolygonClipper;
 using Core.Models.Polygons;
 using ScottPlot;
@@ -25,4 +26,15 @@ public class PlotManager
     public List<Polygon> Polygons => _polygons;
 
     public IClipper Clipper { get; set; }
+
+    public void DrawCurrentPolygons()
+    {
+        IPolygonArtist artist = new PolygonArtist(Polygons);
+
+        Plot.Clear();
+        artist.Plot(Plot, true);
+        Plot.Axes.AutoScale();
+
+        WpfPlot.Refresh();
+    }
 }
