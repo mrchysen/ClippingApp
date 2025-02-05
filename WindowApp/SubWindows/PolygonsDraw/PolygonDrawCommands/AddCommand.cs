@@ -11,8 +11,6 @@ public class AddCommand : IDrawPolygonCommand
     {
         if (context.Points.Count > 2)
         {
-            var delta = 200;
-
             context.Polygons.Add(new Core.Models.Polygons.Polygon(context.Points
                 .Select(p => new PointD(p.X / PolygonDraw.DeltaX, (-p.Y) / PolygonDraw.DeltaY))
                 .ToList()));
