@@ -95,7 +95,7 @@ public class QuickHullAlgorithm : IHullCreator
     private Predicate<double> RightPredicate => (value) => value < 0; // правая полуплоскость
     private Predicate<double> LeftPredicate => (value) => value > 0; // левая полуплоскось
 
-    private PointD MaxPointD(PointD p1, PointD p2)
+    public static PointD MaxPointD(PointD p1, PointD p2)
     {
         if (p1.Y > p2.Y)
         {
@@ -118,7 +118,7 @@ public class QuickHullAlgorithm : IHullCreator
         }
     }
 
-    private PointD MinPointD(PointD p1, PointD p2)
+    public static PointD MinPointD(PointD p1, PointD p2)
     {
         if (p1.Y > p2.Y)
         {

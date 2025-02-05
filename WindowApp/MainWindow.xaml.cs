@@ -15,7 +15,6 @@ using WindowApp.Infrastructure;
 using WindowApp.KeyPressedHandler;
 using WindowApp.KeyPressedHandler.Handlers;
 using WindowApp.Settings;
-using WindowApp.SubWindows.Polygons;
 
 namespace WindowApp;
 
@@ -46,6 +45,10 @@ public partial class MainWindow : Window
         // TODO: добавить выпуклую оболочку и возможность начертить полигон
         BuildConvexHullButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<CreateRandomHullCommand>().Handle(_plotManager);
+        DrowPolygonsButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<ShowPolygonDrawWindowCommand>().Handle(_plotManager);
+        FindIntersectionButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<FindIntersectionCommand>().Handle(_plotManager);
     }
 
     private void EnsureDataFoldersExistence(FilesPathSettings filePathSettings) 
