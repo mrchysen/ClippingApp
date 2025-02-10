@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using WindowApp.Extensions;
 using WindowApp.SubWindows.PolygonsDraw.PolygonDrawCommands;
 
 namespace WindowApp.SubWindows.PolygonsDraw;
@@ -15,8 +16,9 @@ public partial class PolygonDraw : Window
     public const int DeltaX = 20;
     public const int GridYLines = 59;
     public const int DeltaY = 20;
-    public const double DeltaArrow = 5;
+    public const double ArrowWidth = 5;
     public const double ArrowHeight = 22;
+    public const double CircleRadius = 14;
 
     public PolygonDrawContext PolygonDrawContext => _context;
 
@@ -48,38 +50,39 @@ public partial class PolygonDraw : Window
         return line;
     }
 
-    public static (Line, Line) CreateArrow(Point p1, Point p2, Brush? brush = null)
+    public static (Point, Point, Point) CreateArrow(Point p1, Point p2)
     {
         var line1 = new Line();
         var line2 = new Line();
 
-        PointD normal = new PointD(- p2.Y + p1.Y, p2.X - p1.X);
-        normal = normal * (1.0 / normal.Norm());
+        PointD normal = new PointD(-p2.Y + p1.Y, p2.X - p1.X);
+        normal = normal.Normilized;
 
-        var vec = new PointD(p2.X - p1.X, p2.Y - p1.Y);
-        vec = vec * (1.0 / vec.Norm());
+        var vec = new PointD(p1.X - p2.X, p1.Y - p2.Y);
+        vec = vec.Normilized;
 
-        line1.X1 = p2.X;
-        line1.Y1 = p2.Y;
-        line1.X2 = p2.X - ArrowHeight * vec.X + normal.X * DeltaArrow;
-        line1.Y2 = p2.Y - ArrowHeight * vec.Y + normal.Y * DeltaArrow;
+        var arrowPoint1 = p2.ToPointD() + (CircleRadius + ArrowHeight) * vec + normal * ArrowWidth;
+        var arrowPoint2 = p2.ToPointD() + CircleRadius * vec;
+        var arrowPoint3 = p2.ToPointD() + (CircleRadius + ArrowHeight) * vec - normal * ArrowWidth;
 
-        line2.X1 = p2.X;
-        line2.Y1 = p2.Y;
-        line2.X2 = p2.X - ArrowHeight * vec.X - normal.X * DeltaArrow;
-        line2.Y2 = p2.Y - ArrowHeight * vec.Y - normal.Y * DeltaArrow;
+        return (arrowPoint1.ToWindowPoint(), arrowPoint2.ToWindowPoint(), arrowPoint3.ToWindowPoint());
+    }
 
-        line1.Stroke = brush ?? Brushes.Black;
-        line1.StrokeThickness = 2;
-        line1.SnapsToDevicePixels = true;
-        line1.SetValue(RenderOptions.EdgeModeProperty, EdgeMode.Aliased);
+    public static Polygon CreatePolygon(params Point[] points)
+    {
+        var polygon = new Polygon();
+        polygon.Stroke = Brushes.Black;
+        polygon.Fill = Brushes.Black;
+        polygon.StrokeThickness = 2;
 
-        line2.Stroke = brush ?? Brushes.Black;
-        line2.StrokeThickness = 4;
-        line2.SnapsToDevicePixels = true;
-        line2.SetValue(RenderOptions.EdgeModeProperty, EdgeMode.Aliased);
+        PointCollection myPointCollection = new PointCollection();
+        foreach (var point in points)
+        {
+            myPointCollection.Add(point);
+        }
+        polygon.Points = myPointCollection;
 
-        return (line1, line2);
+        return polygon;
     }
 
     private void DrawCanvasGrid()
@@ -111,8 +114,8 @@ public partial class PolygonDraw : Window
 
         Ellipse ellipse = new Ellipse
         {
-            Width = 10,
-            Height = 10,
+            Width = CircleRadius,
+            Height = CircleRadius,
             Fill = _context.Brush,
             Stroke = Brushes.Black,
             StrokeThickness = 2
@@ -126,19 +129,25 @@ public partial class PolygonDraw : Window
         if (_context.Points.Count > 0)
         {
             var line = CreateLine(_context.Points.Last(), point);
-            var arrowLines = CreateArrow(_context.Points.Last(), point);
+            var arrowPoints = CreateArrow(_context.Points.Last(), point);
 
             WindowCanvas.Children.Add(line);
-            WindowCanvas.Children.Add(arrowLines.Item1);
-            WindowCanvas.Children.Add(arrowLines.Item2);
+            var polygon = CreatePolygon(arrowPoints.Item1, arrowPoints.Item2, arrowPoints.Item3);
+            WindowCanvas.Children.Add(polygon);
+            _context.Arrows.Add(polygon);
 
             if (_context.Points.Count > 1)
             {
-                WindowCanvas.Children.Remove(_context.LineBetwenFirstAndEndPoint);
+                WindowCanvas.Children.Remove(_context.LineBetweenFirstAndEndPoint);
+                WindowCanvas.Children.Remove(_context.PolygonBetweenFirstAndEndPoint);
 
-                _context.LineBetwenFirstAndEndPoint = CreateLine(point, _context.Points.First());
+                _context.LineBetweenFirstAndEndPoint = CreateLine(point, _context.Points.First());
+                var firstArrowPoints = CreateArrow(point, _context.Points.First());
+                _context.PolygonBetweenFirstAndEndPoint = 
+                    CreatePolygon(firstArrowPoints.Item1, firstArrowPoints.Item2, firstArrowPoints.Item3); ;
 
-                WindowCanvas.Children.Add(_context.LineBetwenFirstAndEndPoint);
+                WindowCanvas.Children.Add(_context.LineBetweenFirstAndEndPoint);
+                WindowCanvas.Children.Add(_context.PolygonBetweenFirstAndEndPoint);
             }
         }
 
