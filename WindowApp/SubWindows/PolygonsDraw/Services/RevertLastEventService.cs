@@ -4,9 +4,9 @@ using System.Windows.Shapes;
 
 namespace WindowApp.SubWindows.PolygonsDraw.Services;
 
-public class RemovePointService
+public class RevertLastEventService
 {
-    public void RemovePoint(PolygonDrawContext context)
+    public void RevertLastEvent(PolygonDrawContext context)
     {
         if (context.Points.Count > 0)
         {
@@ -16,8 +16,12 @@ public class RemovePointService
                 var lastEllipse = context.Ellipses.Last();
 
                 if (context.Points.Count == 2)
+                {
                     RemoveLastLine(context.Canvas, lastPoint, context.Points[^2]);
-
+                    context.Canvas.Children.Remove(context.Arrows.First());
+                    context.Arrows.Clear();
+                }
+                    
                 context.Canvas.Children.Remove(lastEllipse);
                 context.Points.Remove(lastPoint);
                 context.Ellipses.Remove(lastEllipse);
@@ -26,19 +30,27 @@ public class RemovePointService
             {
                 var lastPoint = context.Points.Last();
                 var lastEllipse = context.Ellipses.Last();
+                var lastArrow = context.Arrows.Last();
 
                 RemoveLastLine(context.Canvas, lastPoint, context.Points[^2]);
 
-                context.Canvas.Children.Remove(lastEllipse);
                 context.Points.Remove(lastPoint);
                 context.Ellipses.Remove(lastEllipse);
-                context.Canvas.Children.Remove(context.LineBetwenFirstAndEndPoint);
+                context.Arrows.Remove(lastArrow);
+                context.Canvas.Children.Remove(lastEllipse);
+                context.Canvas.Children.Remove(lastArrow);
+                context.Canvas.Children.Remove(context.LineBetweenFirstAndEndPoint);
+                context.Canvas.Children.Remove(context.PolygonBetweenFirstAndEndPoint);
 
                 if (context.Points.Count > 2)
                 {
                     var line = PolygonDraw.CreateLine(context.Points.Last(), context.Points.First());
-                    context.LineBetwenFirstAndEndPoint = line;
+                    var arrowPoints = PolygonDraw.CreateArrow(context.Points.Last(), context.Points.First());
+                    var polygon = PolygonDraw.CreatePolygon(arrowPoints.Item1, arrowPoints.Item2, arrowPoints.Item3);
+                    context.LineBetweenFirstAndEndPoint = line;
+                    context.PolygonBetweenFirstAndEndPoint = polygon;
                     context.Canvas.Children.Add(line);
+                    context.Canvas.Children.Add(polygon);
                 }
             }
         }

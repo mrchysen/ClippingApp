@@ -21,6 +21,7 @@ public class Polygon
         Color = color;
     }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public int Count => Points.Count;
 
     public List<PointD> Points { get; set; } = new List<PointD>();

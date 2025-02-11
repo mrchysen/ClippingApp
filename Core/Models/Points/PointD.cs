@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Text.Json.Serialization;
 
 namespace Core.Models.Points;
 
@@ -12,7 +13,7 @@ public partial struct PointD
         Y = y;
     }
 
-    public Point ToPoint()
+    public Point ToDrawingPoint()
         => new Point((int)X, (int)Y);
 
     public override bool Equals(object? obj) 
@@ -25,4 +26,7 @@ public partial struct PointD
         => $"{{{X:#.####} {Y:#.####}}}";
 
     public double Norm() => Math.Sqrt(X * X + Y * Y);
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+    public PointD Normilized => new PointD(X / Norm(), Y / Norm());
 }

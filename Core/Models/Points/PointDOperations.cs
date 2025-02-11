@@ -24,6 +24,9 @@ public partial struct PointD
     public static PointD operator -(PointD a, PointD b)
         => a + (-1)*b;
 
+    public static PointD operator /(PointD a, double b)
+        => a * (1.0 / b);
+
     public static double operator *(PointD a, PointD b) // vec multi
         => a.X * b.Y - a.Y * b.X;
 }

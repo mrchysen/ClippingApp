@@ -16,7 +16,9 @@ public class AddCommand : IDrawPolygonCommand
                 .ToList()));
 
             context.Points.Clear();
-            context.LineBetwenFirstAndEndPoint = new();
+            context.Arrows.Clear();
+            context.LineBetweenFirstAndEndPoint = new();
+            context.PolygonBetweenFirstAndEndPoint = new();
 
             var name = "Полигон " + context.Polygons.Count.ToString();
 

@@ -6,11 +6,11 @@ public class ClearPolygonCommand : IDrawPolygonCommand
 {
     public void Handle(PolygonDrawContext context)
     {
-        var service = new RemovePointService();
+        var service = new RevertLastEventService();
 
         while (context.Points.Count > 0)
         {
-            service.RemovePoint(context);
+            service.RevertLastEvent(context);
         }
     }
 }

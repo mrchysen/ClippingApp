@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using Core.Models.Points;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using WindowApp.Extensions;
 using WindowApp.SubWindows.PolygonsDraw.PolygonDrawCommands;
 
 namespace WindowApp.SubWindows.PolygonsDraw;
@@ -10,10 +12,14 @@ namespace WindowApp.SubWindows.PolygonsDraw;
 public partial class PolygonDraw : Window
 {
     private PolygonDrawContext _context;
+
     public const int GridXLines = 99;
     public const int DeltaX = 20;
     public const int GridYLines = 59;
     public const int DeltaY = 20;
+    public const double ArrowWidth = 3;
+    public const double ArrowHeight = 11;
+    public const double CircleRadius = 14;
 
     public PolygonDrawContext PolygonDrawContext => _context;
 
@@ -45,6 +51,41 @@ public partial class PolygonDraw : Window
         return line;
     }
 
+    public static (Point, Point, Point) CreateArrow(Point p1, Point p2)
+    {
+        var line1 = new Line();
+        var line2 = new Line();
+
+        PointD normal = new PointD(-p2.Y + p1.Y, p2.X - p1.X);
+        normal = normal.Normilized;
+
+        var vec = new PointD(p1.X - p2.X, p1.Y - p2.Y);
+        vec = vec.Normilized;
+
+        var arrowPoint1 = p2.ToPointD() + (CircleRadius + ArrowHeight) * vec + normal * ArrowWidth;
+        var arrowPoint2 = p2.ToPointD() + CircleRadius * vec;
+        var arrowPoint3 = p2.ToPointD() + (CircleRadius + ArrowHeight) * vec - normal * ArrowWidth;
+
+        return (arrowPoint1.ToWindowPoint(), arrowPoint2.ToWindowPoint(), arrowPoint3.ToWindowPoint());
+    }
+
+    public static Polygon CreatePolygon(params Point[] points)
+    {
+        var polygon = new Polygon();
+        polygon.Stroke = Brushes.Black;
+        polygon.Fill = Brushes.Black;
+        polygon.StrokeThickness = 2;
+
+        PointCollection myPointCollection = new PointCollection();
+        foreach (var point in points)
+        {
+            myPointCollection.Add(point);
+        }
+        polygon.Points = myPointCollection;
+
+        return polygon;
+    }
+
     private void DrawCanvasGrid()
     {
         var brush = new SolidColorBrush(Color.FromArgb(255, 190, 194, 200));
@@ -74,8 +115,8 @@ public partial class PolygonDraw : Window
 
         Ellipse ellipse = new Ellipse
         {
-            Width = 10,
-            Height = 10,
+            Width = CircleRadius,
+            Height = CircleRadius,
             Fill = _context.Brush,
             Stroke = Brushes.Black,
             StrokeThickness = 2
@@ -88,17 +129,26 @@ public partial class PolygonDraw : Window
 
         if (_context.Points.Count > 0)
         {
-            var line = CreateLine(point, _context.Points.Last());
+            var line = CreateLine(_context.Points.Last(), point);
+            var arrowPoints = CreateArrow(_context.Points.Last(), point);
 
             WindowCanvas.Children.Add(line);
+            var polygon = CreatePolygon(arrowPoints.Item1, arrowPoints.Item2, arrowPoints.Item3);
+            WindowCanvas.Children.Add(polygon);
+            _context.Arrows.Add(polygon);
 
             if (_context.Points.Count > 1)
             {
-                WindowCanvas.Children.Remove(_context.LineBetwenFirstAndEndPoint);
+                WindowCanvas.Children.Remove(_context.LineBetweenFirstAndEndPoint);
+                WindowCanvas.Children.Remove(_context.PolygonBetweenFirstAndEndPoint);
 
-                _context.LineBetwenFirstAndEndPoint = CreateLine(point, _context.Points.First());
+                _context.LineBetweenFirstAndEndPoint = CreateLine(point, _context.Points.First());
+                var firstArrowPoints = CreateArrow(point, _context.Points.First());
+                _context.PolygonBetweenFirstAndEndPoint = 
+                    CreatePolygon(firstArrowPoints.Item1, firstArrowPoints.Item2, firstArrowPoints.Item3); ;
 
-                WindowCanvas.Children.Add(_context.LineBetwenFirstAndEndPoint);
+                WindowCanvas.Children.Add(_context.LineBetweenFirstAndEndPoint);
+                WindowCanvas.Children.Add(_context.PolygonBetweenFirstAndEndPoint);
             }
         }
 
