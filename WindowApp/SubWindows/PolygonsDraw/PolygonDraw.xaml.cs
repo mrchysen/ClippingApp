@@ -12,12 +12,13 @@ namespace WindowApp.SubWindows.PolygonsDraw;
 public partial class PolygonDraw : Window
 {
     private PolygonDrawContext _context;
+
     public const int GridXLines = 99;
     public const int DeltaX = 20;
     public const int GridYLines = 59;
     public const int DeltaY = 20;
-    public const double ArrowWidth = 5;
-    public const double ArrowHeight = 22;
+    public const double ArrowWidth = 3;
+    public const double ArrowHeight = 11;
     public const double CircleRadius = 14;
 
     public PolygonDrawContext PolygonDrawContext => _context;

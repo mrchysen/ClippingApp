@@ -24,7 +24,7 @@ public class PolygonFileSaver : IPolygonFileSaver
         {
             _writer.Write(JsonSerializer.Serialize(polygons));
         }
-        catch
+        catch(Exception e) // ToDo: Логировать где-то ошибки иначе плохая практика
         {
             return false;
         }
