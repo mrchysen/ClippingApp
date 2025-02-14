@@ -21,48 +21,16 @@ public class CreateRandomHullCommand : ICommand
     {
         var quickHull = new QuickHullAlgorithm();
 
-        List<PointD> points = _polygonGenerator.GeneratePoints(6);
-
-        //List<PointD> points = new List<PointD>
-        //{
-        //    new (5.3836, 8.227),
-        //    new (8.1125, 2.8715),
-        //    new (9.9417, 2.5185),
-        //    new (2.1713, 13.3227),
-        //    new (5.3049, 1.1093),
-        //    new (13.1928, 11.0976)
-        //};
+        List<PointD> points = _polygonGenerator.GeneratePoints(plotManager.MainWindowContext.PointCountInHull);
 
         var polygon = quickHull.CreateHull(points);
 
-        plotManager.Plot.Clear();
+        var insidePoints = points.Where(p => !polygon.Points.Contains(p));
 
-        IPolygonArtist artist = new PolygonArtist([polygon]);
+        plotManager.Polygons.Clear();
+        plotManager.Polygons.Add(polygon);
 
-        artist.Plot(plotManager.Plot, true);
-        plotManager.Plot.Axes.AutoScale();
-        plotManager.Plot.AddMarkersWithNumbers(points);
-
-        DebugPrintInfo(points);
-
-        plotManager.WpfPlot.Refresh();
-    }
-
-    private void DebugPrintInfo(List<PointD> list)
-    {
-        Debug.WriteLine($"--- list start ---");
-        var c = 0;
-        foreach (var item in list)
-        {
-            if (c == 3)
-            {
-                c = 0;
-                Debug.Write("\n");
-            }
-            Debug.Write($"{item} ->> ");
-            c++;
-        }
-        Debug.Write("\n");
-        Debug.WriteLine($"--- list end ---");
+        plotManager.DrawCurrentPolygons();
+        plotManager.Plot.AddMarkers(insidePoints.ToList());
     }
 }

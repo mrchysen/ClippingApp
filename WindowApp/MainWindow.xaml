@@ -7,7 +7,7 @@
         xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
         xmlns:bpcomp="clr-namespace:WindowApp.Components.ButtonsPopupComponent"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="550" Width="900"
         KeyDown="Window_KeyDown"
         Closed="Window_Closed"
         FontSize="14">
@@ -102,24 +102,78 @@
                     <Button 
                         x:Name="DrowPolygonsButton"
                         Padding="4"
+                        FontFamily="{StaticResource Font}"
                         Margin="4 5 4 5">Нарисовать полигон</Button>
                     <Button 
                         x:Name="NextPolygonsButton"
                         Padding="4"
+                        FontFamily="{StaticResource Font}"
                         Margin="4 5 4 5">Следующие примеры</Button>
-                    <Button 
-                        x:Name="BuildConvexHullButton"
-                        Padding="4"
-                        Margin="4 5 4 5">Построить выпуклую оболочку</Button>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            TextAlignment="Center"
+                            FontFamily="{StaticResource Font}"
+                            VerticalAlignment="Center">Количество точек</TextBlock>
+
+                        <Border
+                            Grid.Column="1">
+                            <TextBox
+                                Height="28"
+                                Padding="0 0 0 0"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Text="{Binding Path=PointCountInHull}"></TextBox>
+                        </Border>
+                        
+                        <Button 
+                            Grid.Column="2"
+                            x:Name="BuildConvexHullButton"
+                            Padding="4"
+                            FontFamily="{StaticResource Font}"
+                            Margin="4 5 4 5">Построить выпуклую оболочку</Button>
+                    </Grid>
                     <Button 
                         x:Name="InfoAboutPolygonsButton"
                         Padding="4"
+                        FontFamily="{StaticResource Font}"
                         Margin="4 5 4 5">Списки координат полигонов</Button>
                     <Button 
                         x:Name="FindIntersectionButton"
                         Padding="4"
+                        FontFamily="{StaticResource Font}"
                         Margin="4 5 4 5">Найти пересечение</Button>
-                    
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button 
+                            x:Name="SavePolygonButton"
+                            Padding="4"
+                            FontFamily="{StaticResource Font}"
+                            Margin="4 5 4 5">Сохранить</Button>
+                        <Button 
+                            Grid.Column="1"
+                            x:Name="OpenPolygonFromFileButton"
+                            Padding="4"
+                            FontFamily="{StaticResource Font}"
+                            Margin="4 5 4 5">Открыть</Button>
+                        <Button 
+                            Grid.Column="2"
+                            x:Name="OpenFolderButton"
+                            Padding="4"
+                            FontFamily="{StaticResource Font}"
+                            Margin="4 5 4 5">Папка</Button>
+                    </Grid>
                 </StackPanel>
             </Border>
         </DockPanel>

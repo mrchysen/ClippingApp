@@ -24,6 +24,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CreateRandomHullCommand>();
         services.AddScoped<ShowPolygonDrawWindowCommand>();
         services.AddScoped<FindIntersectionCommand>();
+        services.AddScoped<OpenFolderCommand>();
 
         return services;
     }

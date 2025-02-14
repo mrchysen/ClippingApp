@@ -12,11 +12,12 @@ public class PlotManager
     private WpfPlot _wpfPlot;
     private List<Polygon> _polygons;
     
-    public PlotManager(WpfPlot wpfPlot, List<Polygon> polygons, IClipper clipper)
+    public PlotManager(WpfPlot wpfPlot, List<Polygon> polygons, IClipper clipper, MainWindowContext context)
     {
         _polygons = polygons;
         _wpfPlot = wpfPlot;
         Clipper = clipper;
+        MainWindowContext = context;
     }
 
     public Plot Plot => _wpfPlot.Plot;
@@ -26,6 +27,8 @@ public class PlotManager
     public List<Polygon> Polygons => _polygons;
 
     public IClipper Clipper { get; set; }
+
+    public MainWindowContext MainWindowContext { get; set; }
 
     public void DrawCurrentPolygons()
     {
