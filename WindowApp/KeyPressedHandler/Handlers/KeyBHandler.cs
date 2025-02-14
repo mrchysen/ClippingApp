@@ -5,6 +5,7 @@ using DAL.Files.Polygons;
 using Microsoft.Extensions.Options;
 using Microsoft.Win32;
 using System.IO;
+using System.Windows;
 using WindowApp.Infrastructure;
 using WindowApp.Settings;
 
@@ -22,6 +23,21 @@ public class KeyBHandler : KeyHandler
 
     public override void Handle(PlotManager plotManager)
     {
+        var pathToFile = AskForFile();
+        
+        if(string.IsNullOrWhiteSpace(pathToFile))
+            return;
+
+        var list = new PolygonFileLoader(pathToFile).Load().RandomColors();
+
+        plotManager.Polygons.Clear();
+        plotManager.Polygons.AddRange(list);
+
+        plotManager.DrawCurrentPolygons();
+    }
+
+    private string AskForFile()
+    {
         OpenFileDialog openFileDialog = new OpenFileDialog();
 
         openFileDialog.InitialDirectory = _settings.GetPolygonDataFolderPath;
@@ -31,25 +47,10 @@ public class KeyBHandler : KeyHandler
         var result = openFileDialog.ShowDialog() ?? false;
 
         if (!result)
-            return;
-        
-        var pathToFile = openFileDialog.FileName;
+        {
+            return String.Empty;
+        }
 
-        using PolygonFileLoader loader = new(pathToFile);
-
-        var list = loader.Load().RandomColors();
-
-        loader.Close();
-
-        plotManager.Polygons.Clear();
-        plotManager.Polygons.AddRange(list);
-
-        IPolygonArtist artist = new PolygonArtist(plotManager.Polygons);
-
-        plotManager.Plot.Clear();
-        artist.Plot(plotManager.Plot);
-        plotManager.Plot.Axes.AutoScale();
-
-        plotManager.WpfPlot.Refresh();
+        return openFileDialog.FileName;
     }
 }

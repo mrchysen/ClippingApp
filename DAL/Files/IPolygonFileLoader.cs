@@ -2,9 +2,7 @@
 
 namespace DAL.Files;
 
-public interface IPolygonFileLoader : IDisposable
+public interface IPolygonFileLoader
 {
     List<Polygon> Load();
-
-    void Close();
 }

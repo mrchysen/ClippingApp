@@ -5,32 +5,32 @@ namespace DAL.Files.Polygons;
 
 public class PolygonFileLoader : IPolygonFileLoader
 {
-    protected StreamReader _reader;
+    private readonly string Path;
 
     public PolygonFileLoader(string pathname)
     {
-        _reader = new StreamReader(pathname);
+        Path = pathname;
     }
 
     public List<Polygon> Load()
     {
         List<Polygon>? result;
 
+        using var sr = new StreamReader(Path);
+
         try
         {
-            result = JsonSerializer.Deserialize<List<Polygon>>(_reader.BaseStream);
+            result = JsonSerializer.Deserialize<List<Polygon>>(sr.BaseStream);
         }
         catch 
         {
             return new();
         }
 
+        sr.Close();
+
         if (result == null) return new();
 
         return result;
-    }
-
-    public void Dispose() => _reader.Dispose();
-
-    public void Close() => _reader.Close();    
+    }  
 }

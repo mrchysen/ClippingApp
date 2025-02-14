@@ -21,8 +21,9 @@ namespace WindowApp;
 public partial class MainWindow : Window
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly PlotManager _plotManager;
-
+    
+    private PlotManager _plotManager;
+    private MainWindowContext _context = new();
     private DoubleClickHandler<ButtonsPopup> _doubleClickHandler = null!; 
 
     public MainWindow(IServiceProvider serviceProvider, IOptions<FilesPathSettings> filePathSettingsOptions)
@@ -32,8 +33,10 @@ public partial class MainWindow : Window
         InitializeButtonsClick();
         EnsureDataFoldersExistence(filePathSettingsOptions.Value);
 
+        DataContext = _context;
+
         _serviceProvider = serviceProvider;
-        _plotManager = new(Plot, new List<Polygon>(), _serviceProvider.GetService<ConvexPolygonClipper>()!);
+        _plotManager = new(Plot, new List<Polygon>(), _serviceProvider.GetService<ConvexPolygonClipper>()!, _context);
     }
 
     private void InitializeButtonsClick()
@@ -49,6 +52,12 @@ public partial class MainWindow : Window
             _serviceProvider.GetRequiredService<ShowPolygonDrawWindowCommand>().Handle(_plotManager);
         FindIntersectionButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<FindIntersectionCommand>().Handle(_plotManager);
+        SavePolygonButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<KeySHandler>().Handle(_plotManager);
+        OpenPolygonFromFileButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<KeyBHandler>().Handle(_plotManager);
+        OpenFolderButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<OpenFolderCommand>().Handle(_plotManager);
     }
 
     private void EnsureDataFoldersExistence(FilesPathSettings filePathSettings) 

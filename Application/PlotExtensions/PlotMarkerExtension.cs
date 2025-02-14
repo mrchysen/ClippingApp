@@ -7,6 +7,18 @@ namespace Application.PlotExtensions;
 
 public static class PlotMarkerExtension
 {
+    public static void AddMarkers(this Plot plot, List<PointD> points)
+    {
+        var color = RandomColor.Get();
+
+        for (int i = 0; i < points.Count; i++)
+        {
+            var p = points[i];
+
+            plot.Add.Marker(p.X, p.Y, color: new Color(0, 0, 0), size: 6);
+        }
+    }
+
     public static void AddMarkersWithNumbers(this Plot plot, List<PointD> points)
     {
         var color = RandomColor.Get();
