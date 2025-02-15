@@ -1,48 +1,63 @@
-﻿<Window x:Class="WindowApp.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WindowApp"
-        xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
-        xmlns:bpcomp="clr-namespace:WindowApp.Components.ButtonsPopupComponent"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="900"
-        KeyDown="Window_KeyDown"
-        Closed="Window_Closed"
-        FontSize="14">
+﻿<Window
+    x:Class="WindowApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:WindowApp"
+    xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+    xmlns:bpcomp="clr-namespace:WindowApp.Components.ButtonsPopupComponent"
+    mc:Ignorable="d"
+    Title="MainWindow"
+    Height="550"
+    Width="900"
+    KeyDown="Window_KeyDown"
+    Closed="Window_Closed"
+    FontSize="14">
     <Window.Resources>
-        <FontFamily x:Key="Font">./Fonts/#JetBrains Mono Medium</FontFamily>
+        <FontFamily
+            x:Key="Font">./Fonts/#JetBrains Mono Medium
+        </FontFamily>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition x:Name="RightArea" Width="*"/>
+            <ColumnDefinition
+                Width="*" />
+            <ColumnDefinition
+                Width="Auto" />
+            <ColumnDefinition
+                x:Name="RightArea"
+                Width="*" />
         </Grid.ColumnDefinitions>
-        
-        <ScottPlot:WpfPlot 
-            x:Name="Plot" 
-            Panel.ZIndex="0" 
+
+        <ScottPlot:WpfPlot
+            x:Name="Plot"
+            Panel.ZIndex="0"
             KeyDown="Plot_KeyDown"
-            FontFamily="{StaticResource Font}"/>
-        
-        <bpcomp:ButtonsPopup 
+            FontFamily="{StaticResource Font}" />
+
+        <bpcomp:ButtonsPopup
             x:Name="ButtonsPopup"
             ButtonFontFamily="{StaticResource Font}"
-            Placement="Center" 
-            OnFocusBackground="GreenYellow"/>
+            Placement="Center"
+            OnFocusBackground="GreenYellow" />
 
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
-        
-        <DockPanel Grid.Column="2">
+        <GridSplitter
+            Grid.Column="1"
+            Width="5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ResizeBehavior="PreviousAndNext" />
+
+        <DockPanel
+            Grid.Column="2">
             <Border
                 BorderBrush="Black"
                 BorderThickness="1 1 0 1"
                 Padding="4"
                 Margin="4 4 0 4">
                 <StackPanel>
-                    <Border 
+                    <Border
                         BorderThickness="0.5"
                         BorderBrush="Black" />
                     <TextBlock
@@ -52,7 +67,7 @@
                         FontFamily="{StaticResource Font}">
                         Алгоритм пересечения полигонов
                     </TextBlock>
-                    <Border 
+                    <Border
                         BorderThickness="0.5"
                         BorderBrush="Black" />
                     <TextBlock
@@ -60,10 +75,10 @@
                         FontFamily="{StaticResource Font}">
                         Только для выпуклых
                     </TextBlock>
-                    <Border 
+                    <Border
                         BorderThickness="0.5"
                         BorderBrush="Black" />
-                    <RadioButton 
+                    <RadioButton
                         GroupName="ClippingAlg"
                         Margin="0 10 0 0"
                         DataContext="1"
@@ -72,7 +87,7 @@
                         FontFamily="{StaticResource Font}">
                         Дефолт О(n*m)
                     </RadioButton>
-                    <RadioButton 
+                    <RadioButton
                         GroupName="ClippingAlg"
                         Margin="0 10 0 10"
                         DataContext="2"
@@ -80,7 +95,7 @@
                         FontFamily="{StaticResource Font}">
                         Быстрый О(n+m)
                     </RadioButton>
-                    <Border 
+                    <Border
                         BorderThickness="0.5"
                         BorderBrush="Black" />
                     <TextBlock
@@ -88,10 +103,10 @@
                         FontFamily="{StaticResource Font}">
                         Произвольные
                     </TextBlock>
-                    <Border 
+                    <Border
                         BorderThickness="0.5"
                         BorderBrush="Black" />
-                    <RadioButton 
+                    <RadioButton
                         GroupName="ClippingAlg"
                         Margin="0 10 0 10"
                         DataContext="3"
@@ -99,21 +114,48 @@
                         FontFamily="{StaticResource Font}">
                         Weiler–Atherton О(n*m)
                     </RadioButton>
-                    <Button 
+                    <Button
                         x:Name="DrowPolygonsButton"
                         Padding="4"
                         FontFamily="{StaticResource Font}"
                         Margin="4 5 4 5">Нарисовать полигон</Button>
-                    <Button 
+                    <Button
                         x:Name="NextPolygonsButton"
                         Padding="4"
                         FontFamily="{StaticResource Font}"
-                        Margin="4 5 4 5">Следующие примеры</Button>
+                        Margin="4 5 4 5">Пример пересечения двух произвольных
+                    </Button>
+
+                    <Button
+                        x:Name="InfoAboutPolygonsButton"
+                        Padding="4"
+                        FontFamily="{StaticResource Font}"
+                        Margin="4 5 4 5">Списки координат полигонов</Button>
+                    <Button
+                        x:Name="FindIntersectionButton"
+                        Padding="4"
+                        FontFamily="{StaticResource Font}"
+                        Margin="4 5 4 5">Найти пересечение(первых двух)</Button>
+
+                    <Border
+                        BorderThickness="0.5"
+                        BorderBrush="Black" />
+                    <TextBlock
+                        Padding="5"
+                        FontFamily="{StaticResource Font}">
+                        Выпуклая оболочка
+                    </TextBlock>
+                    <Border
+                        BorderThickness="0.5"
+                        BorderBrush="Black" />
+
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="40"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition
+                                Width="140" />
+                            <ColumnDefinition
+                                Width="40" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
@@ -130,44 +172,44 @@
                                 HorizontalContentAlignment="Center"
                                 Text="{Binding Path=PointCountInHull}"></TextBox>
                         </Border>
-                        
-                        <Button 
+
+                        <Button
                             Grid.Column="2"
                             x:Name="BuildConvexHullButton"
                             Padding="4"
                             FontFamily="{StaticResource Font}"
                             Margin="4 5 4 5">Построить выпуклую оболочку</Button>
                     </Grid>
-                    <Button 
-                        x:Name="InfoAboutPolygonsButton"
-                        Padding="4"
-                        FontFamily="{StaticResource Font}"
-                        Margin="4 5 4 5">Списки координат полигонов</Button>
-                    <Button 
-                        x:Name="FindIntersectionButton"
-                        Padding="4"
-                        FontFamily="{StaticResource Font}"
-                        Margin="4 5 4 5">Найти пересечение</Button>
-
+                    <Border
+                        BorderThickness="0.5"
+                        BorderBrush="Black" />
+                    <TextBlock
+                        Padding="5"
+                        FontFamily="{StaticResource Font}">
+                        Работа с файлом
+                    </TextBlock>
+                    <Border
+                        BorderThickness="0.5"
+                        BorderBrush="Black" />
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <Button 
+                        <Button
                             x:Name="SavePolygonButton"
                             Padding="4"
                             FontFamily="{StaticResource Font}"
                             Margin="4 5 4 5">Сохранить</Button>
-                        <Button 
+                        <Button
                             Grid.Column="1"
                             x:Name="OpenPolygonFromFileButton"
                             Padding="4"
                             FontFamily="{StaticResource Font}"
                             Margin="4 5 4 5">Открыть</Button>
-                        <Button 
+                        <Button
                             Grid.Column="2"
                             x:Name="OpenFolderButton"
                             Padding="4"
