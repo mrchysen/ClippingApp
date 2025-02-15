@@ -11,6 +11,7 @@ public class App : System.Windows.Application
     public App(MainWindow mainWindow)
     {
         _mainWindow = mainWindow;
+        ShutdownMode = ShutdownMode.OnExplicitShutdown;
     }
 
     protected override void OnStartup(StartupEventArgs e)

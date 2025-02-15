@@ -45,7 +45,6 @@ public partial class MainWindow : Window
             _serviceProvider.GetRequiredService<KeyNHandler>().Handle(_plotManager);
         InfoAboutPolygonsButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<KeyIHandler>().Handle(_plotManager);
-        // TODO: добавить выпуклую оболочку и возможность начертить полигон
         BuildConvexHullButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<CreateRandomHullCommand>().Handle(_plotManager);
         DrowPolygonsButton.Click += (o, e) =>
