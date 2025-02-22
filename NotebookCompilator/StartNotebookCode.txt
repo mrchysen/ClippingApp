@@ -1,0 +1,6 @@
+﻿namespace WindowNotebookApp;
+
+class <Name> : GeneratedNotebook
+{
+	public override VirtualNotebook CreateNotebook()
+	{

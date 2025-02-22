@@ -25,15 +25,20 @@ public partial class MainWindow : Window
                     new NotebookTextBlock("Привет!", 18),
                     new NotebookTextBlock("Привет!", 18),
                     new NotebookTextBlock("Привет!", 18),
+                    new NotebookPlot(CreatePlotWithPolygon(5)),
+                    new NotebookTextBlock("Привет!", 18),
+                    new NotebookTextBlock("Привет!", 18),
+                    new NotebookPlot(CreatePlotWithPolygon(4)),
                     new NotebookTextBlock("Привет!", 18),
                     new NotebookTextBlock("Привет!", 18),
                     new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
+                    new NotebookPlot(CreatePlotWithPolygon(3)),
                     new NotebookTextBlock("Привет!", 18),
                 ]),
                 new VirtualNotebook([
-                    new NotebookTextBlock("Ку!", 18)
+                    new NotebookTextBlock("Ку!", 18),
+                    new NotebookPlot(CreatePlotWithPolygon(3)),
+                    
                 ]),
                 new VirtualNotebook([
                     new NotebookTextBlock("Салам!", 18)
