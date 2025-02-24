@@ -1,4 +1,4 @@
-﻿namespace NotebookCodeGenerations;
+﻿namespace NotebookCompilator;
 
 public class GeneratorMarkup
 {

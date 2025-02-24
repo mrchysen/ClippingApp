@@ -14,8 +14,10 @@ public class Generator
 
     public async Task Generate()
     {
-        var startFileCode = await File.ReadAllTextAsync("StartNotebookCode.txt");
-        var endFileCode = await File.ReadAllTextAsync("EndNotebookCode.txt");
+        var startFileCode = await File.ReadAllTextAsync(
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StartNotebookCode.txt"));
+        var endFileCode = await File.ReadAllTextAsync(
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EndNotebookCode.txt"));
 
         if (!Directory.Exists(_path))
         {
@@ -56,7 +58,7 @@ public class Generator
               .Replace("<Name>", fileInfo.FileName.Replace(".cs", ""))
               .Replace("GeneratorMarkup.EndNotebook();", endFileCode);
 
-            await File.WriteAllTextAsync(fileInfo.Path, sb.ToString());
+            await File.WriteAllTextAsync(fileInfo.Path, sb.ToString(), Encoding.UTF8);
 
             count++;
         }
@@ -82,7 +84,7 @@ public class Generator
         {
             var fileContent = await File.ReadAllTextAsync(filePath);
 
-            await File.WriteAllTextAsync(filePath.Replace(".ncs", ".cs"), fileContent);
+            await File.WriteAllTextAsync(filePath.Replace(".ncs", ".cs"), fileContent, Encoding.UTF8);
 
             File.Delete(filePath);
         }

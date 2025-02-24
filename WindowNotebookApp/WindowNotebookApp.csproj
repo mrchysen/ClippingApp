@@ -6,30 +6,24 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Notebooks\Notebook1.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Notebooks\Notebook1.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\NotebookCompilator\NotebookCompilator.csproj" />
     <ProjectReference Include="..\WindowApp\WindowApp.csproj" />
     <ProjectReference Include="..\WindowShared\WindowShared.csproj" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="dir&#xD;&#xA;echo &quot;start&quot;" />
+    <Exec Command="NotebookCompilator -c" />
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dir&#xD;&#xA;echo &quot;end&quot;" />
+    <Exec Command="NotebookCompilator -u" />
   </Target>
 
 </Project>

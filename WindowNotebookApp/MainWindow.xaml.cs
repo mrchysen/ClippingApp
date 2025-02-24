@@ -2,6 +2,7 @@
 using Application.Randoms;
 using Microsoft.Extensions.Options;
 using ScottPlot;
+using System.Reflection;
 using System.Windows;
 using WindowShared.Components.Notebooks;
 using WindowShared.Components.Notebooks.NotebookElements;
@@ -17,32 +18,10 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
+        var assembly = this.GetType().Assembly;
+
         Notebooks.AddNotebooks([
-                new VirtualNotebook([
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookPlot(CreatePlotWithPolygon(5)),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookPlot(CreatePlotWithPolygon(4)),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookTextBlock("Привет!", 18),
-                    new NotebookPlot(CreatePlotWithPolygon(3)),
-                    new NotebookTextBlock("Привет!", 18),
-                ]),
-                new VirtualNotebook([
-                    new NotebookTextBlock("Ку!", 18),
-                    new NotebookPlot(CreatePlotWithPolygon(3)),
-                    
-                ]),
-                new VirtualNotebook([
-                    new NotebookTextBlock("Салам!", 18)
-                ]),
+                ((GeneratedNotebook)assembly.CreateInstance("WindowNotebookApp.Notebook1")).CreateNotebook()
             ]);
     }
 

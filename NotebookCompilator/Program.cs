@@ -3,7 +3,7 @@
 if(args.Length == 0)
 {
     Console.WriteLine("No command was given");
-    return;
+    return 0;
 }
 
 var command = args[0];
@@ -24,7 +24,9 @@ else if(command == "--uncompile" || command == "-u")
 else
 {
     Console.WriteLine("Not supported command");
-    return;
+    return 0;
 }
 
 Console.WriteLine("Done");
+
+return 0;
