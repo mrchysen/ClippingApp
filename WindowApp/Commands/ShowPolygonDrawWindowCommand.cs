@@ -1,4 +1,5 @@
-﻿using WindowApp.Infrastructure;
+﻿using System.Windows;
+using WindowApp.Infrastructure;
 using WindowApp.SubWindows.PolygonsDraw;
 
 namespace WindowApp.Commands;
@@ -10,6 +11,8 @@ public class ShowPolygonDrawWindowCommand : ICommand
         var window = new PolygonDraw();
 
         var result = window.ShowDialog();
+
+        MessageBox.Show(result.ToString());
 
         var context = window.PolygonDrawContext;
 

@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowApp", "WindowApp\Wind
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{F0C28A7F-1339-48D9-B86C-BF15D42F8843}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{53BF1550-96CC-4A2C-98D5-4BB299857830}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{53BF1550-96CC-4A2C-98D5-4BB299857830}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotebookCompilator", "NotebookCompilator\NotebookCompilator.csproj", "{ACC702BD-D1AD-4A63-828A-00E83556E748}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{53BF1550-96CC-4A2C-98D5-4BB299857830}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53BF1550-96CC-4A2C-98D5-4BB299857830}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53BF1550-96CC-4A2C-98D5-4BB299857830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
