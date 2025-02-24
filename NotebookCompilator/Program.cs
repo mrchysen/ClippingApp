@@ -8,7 +8,7 @@ if(args.Length == 0)
 
 var command = args[0];
 var baseDir = AppDomain.CurrentDomain.BaseDirectory;
-var path = Path.Combine(baseDir, "..", "..", "..", "..", "WindowNotebookApp", "Notebooks");
+var path = Path.Combine(baseDir, "..", "..", "..", "..", "WindowNotebookApp", "Notebooks"); // ToDo: get it from args
 var generator = new Generator(path);
 
 if(command == "--compile" || command == "-c")

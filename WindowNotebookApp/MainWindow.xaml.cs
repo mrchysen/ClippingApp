@@ -20,7 +20,7 @@ public partial class MainWindow : Window
 
         var assembly = this.GetType().Assembly;
 
-        Notebooks.AddNotebooks([
+        Notebooks.AddNotebooks([ // ToDo do it more carefully with null possible type
                 ((GeneratedNotebook)assembly.CreateInstance("WindowNotebookApp.Notebook1")).CreateNotebook()
             ]);
     }
