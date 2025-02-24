@@ -1,15 +1,16 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 
 namespace NotebookCompilator;
 
 public class Generator
 {
     private string _path;
+    private string _namespaceName;
 
-    public Generator(string path)
+    public Generator(string path, string namespaceName)
     {
         _path = path;
+        _namespaceName = namespaceName;
     }
 
     public async Task Generate()
@@ -21,7 +22,7 @@ public class Generator
 
         if (!Directory.Exists(_path))
         {
-            Console.WriteLine("No such path. Compilation failed");
+            Console.WriteLine($"No such path {_path}. Compilation failed");
             return;
         }
 
@@ -56,6 +57,7 @@ public class Generator
 
             sb.Replace("GeneratorMarkup.StartNotebook();", startFileCode)
               .Replace("<Name>", fileInfo.FileName.Replace(".cs", ""))
+              .Replace("<Namespace>", _namespaceName)
               .Replace("GeneratorMarkup.EndNotebook();", endFileCode);
 
             await File.WriteAllTextAsync(fileInfo.Path, sb.ToString(), Encoding.UTF8);

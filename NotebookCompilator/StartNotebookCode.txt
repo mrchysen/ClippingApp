@@ -1,4 +1,4 @@
-﻿namespace WindowNotebookApp;
+﻿namespace <Namespace>;
 
 class <Name> : GeneratedNotebook
 {

@@ -13,13 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowApp", "WindowApp\Wind
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{F0C28A7F-1339-48D9-B86C-BF15D42F8843}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{53BF1550-96CC-4A2C-98D5-4BB299857830}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{53BF1550-96CC-4A2C-98D5-4BB299857830}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowShared", "WindowShared\WindowShared.csproj", "{9789B898-35A7-4B6E-92B7-49A5E1A34815}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowNotebookApp", "WindowNotebookApp\WindowNotebookApp.csproj", "{F7619796-BCAE-448F-8E40-1146BE488B94}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotebookCompilator", "NotebookCompilator\NotebookCompilator.csproj", "{ACC702BD-D1AD-4A63-828A-00E83556E748}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotebookCompilator", "NotebookCompilator\NotebookCompilator.csproj", "{ACC702BD-D1AD-4A63-828A-00E83556E748}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,14 +47,6 @@ Global
 		{53BF1550-96CC-4A2C-98D5-4BB299857830}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53BF1550-96CC-4A2C-98D5-4BB299857830}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53BF1550-96CC-4A2C-98D5-4BB299857830}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9789B898-35A7-4B6E-92B7-49A5E1A34815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9789B898-35A7-4B6E-92B7-49A5E1A34815}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9789B898-35A7-4B6E-92B7-49A5E1A34815}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9789B898-35A7-4B6E-92B7-49A5E1A34815}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F7619796-BCAE-448F-8E40-1146BE488B94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7619796-BCAE-448F-8E40-1146BE488B94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7619796-BCAE-448F-8E40-1146BE488B94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7619796-BCAE-448F-8E40-1146BE488B94}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Release|Any CPU.ActiveCfg = Release|Any CPU
