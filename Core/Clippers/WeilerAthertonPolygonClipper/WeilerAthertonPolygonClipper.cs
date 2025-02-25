@@ -28,8 +28,8 @@ public class WeilerAthertonPolygonClipper : IClipper
     // clockwise
     public List<Polygon> Clip(Polygon polygon1, Polygon polygon2)
     {
-        _polygon1 = polygon1.ToDoubleLinkedList();
-        _polygon2 = polygon2.ToDoubleLinkedList();
+        _polygon1 = polygon1.ToDoubleLinkedListWithFlags();
+        _polygon2 = polygon2.ToDoubleLinkedListWithFlags();
 
         FindAllIntersectionAndLinkedThem();
 

@@ -5,7 +5,7 @@ using Core.Utils.Extensions;
 
 namespace Core.HullCreators.QuickHull;
 
-public class QuickHullAlgorithm : IHullCreator
+public class QuickHullAlgorithm : IConvexHullCreator
 {
     public List<PointD> convexHullPoints = new();
     public HashSet<PointD> visited = new();

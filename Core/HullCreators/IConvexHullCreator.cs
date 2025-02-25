@@ -3,7 +3,7 @@ using Core.Models.Polygons;
 
 namespace Core.HullCreators;
 
-public interface IHullCreator
+public interface IConvexHullCreator
 {
     public Polygon CreateHull(List<PointD> points);
 }
