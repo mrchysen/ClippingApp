@@ -1,5 +1,7 @@
 ﻿using Application.PolygonPlotting;
 using Core.Clippers.WeilerAthertonPolygonClipper;
+using Core.HullCreators.NoncovexAlgorithms;
+using Core.Models.Points;
 using Core.Models.Polygons;
 using WindowApp.Infrastructure;
 
@@ -17,49 +19,13 @@ public class KeyAHandler : KeyHandler
 
     public override void Handle(PlotManager plotManager)
     {
-        var pol1 = new Polygon([
-            new(1,1),
-            new(1,10),
-            new(10,1)
-            ]);
-
-        //var pol1 = new Polygon([
-        //    new(1,1),
-        //    new(1,10),
-        //    new(10,10),
-        //    new(10,1)
-        //    ]);
-
-        //var pol2 = new Polygon([
-        //    new(2,2),
-        //    new(3,9),
-        //    new(9,3)
-        //    ]);
-
-        var pol2 = new Polygon([
-            new(2,5),
-            new(10,20),
-            new(20,10),
+        var pol1 = new List<PointD>([
+            new(0,0),
+            new(10,0),
             new(5,2),
-            new(10,10),
+            new(5,1),
             ]);
 
-        //var pol2 = new Polygon([
-        //    new(-1,4),
-        //    new(12,6),
-        //    new(-1,8),
-        //    new(14,10),
-        //    new(14,2),
-        //    ]);
-
-        plotManager.Polygons.Clear();
-
-        var a = clipper.Clip(pol1, pol2);
-        IPolygonArtist artist = new PolygonArtist([pol1, pol2, ..a]);
-
-        plotManager.Polygons.AddRange([pol1, pol2, .. a]);
-
-        plotManager.Plot.Clear();
-        artist.Plot(plotManager.Plot, true);
+        new PoogachevAlgorithm(5).CreateHull(pol1);
     }
 }

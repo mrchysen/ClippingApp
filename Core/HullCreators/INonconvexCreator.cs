@@ -5,5 +5,5 @@ namespace Core.HullCreators;
 
 public interface INonconvexCreator
 {
-    public Polygon CreateHull(List<PointD> points);
+    public Polygon CreateHull(List<PointD> points, IConvexHullCreator? convexHullCreator = null);
 }

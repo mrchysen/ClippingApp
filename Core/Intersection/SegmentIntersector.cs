@@ -12,10 +12,10 @@ public class SegmentIntersector
 
     private double _epsilon => _accuracySettings.GetAccuracy;
     
-    public SegmentIntersector(IAccuracySettings accuracySettings, IEqualizer<double> equalizer)
+    public SegmentIntersector(IAccuracySettings? accuracySettings = null, IEqualizer<double>? equalizer = null)
     {
-        _accuracySettings = accuracySettings;
-        _equalizer = equalizer;
+        _accuracySettings = accuracySettings ?? new CoreAccuracySetting();
+        _equalizer = equalizer ?? new DoubleEqualizer();
     }
 
     public virtual PointD? GetIntersectionPoint(Line line1, Line line2)
