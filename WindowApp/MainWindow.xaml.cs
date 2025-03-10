@@ -47,6 +47,8 @@ public partial class MainWindow : Window
             _serviceProvider.GetRequiredService<KeyIHandler>().Handle(_plotManager);
         BuildConvexHullButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<CreateRandomHullCommand>().Handle(_plotManager);
+        BuildNonconvexHullButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<CreateRandomNonconvexHullCommand>().Handle(_plotManager);
         DrowPolygonsButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<ShowPolygonDrawWindowCommand>().Handle(_plotManager);
         FindIntersectionButton.Click += (o, e) =>

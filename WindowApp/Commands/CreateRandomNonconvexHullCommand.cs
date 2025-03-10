@@ -1,23 +1,23 @@
-﻿using Application.PlotExtensions;
-using Core.HullCreators.QuickHull;
+﻿using Core.HullCreators.NoncovexAlgorithms;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using WindowApp.Infrastructure;
+using Application.PlotExtensions;
 
 namespace WindowApp.Commands;
 
-public class CreateRandomHullCommand : ICommand
+public class CreateRandomNonconvexHullCommand : ICommand
 {
     private readonly IPolygonGenerator _polygonGenerator;
 
-    public CreateRandomHullCommand(IPolygonGenerator polygonGenerator)
+    public CreateRandomNonconvexHullCommand(IPolygonGenerator polygonGenerator)
     {
         _polygonGenerator = polygonGenerator;
     }
 
     public void Handle(PlotManager plotManager)
     {
-        var quickHull = new QuickHullAlgorithm();
+        var quickHull = new PoogachevAlgorithm(plotManager.MainWindowContext.HullParameter);
 
         List<PointD> points = _polygonGenerator.GeneratePoints(plotManager.MainWindowContext.PointCountInHull);
 

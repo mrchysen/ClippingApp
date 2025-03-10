@@ -6,7 +6,7 @@ public class CoreAccuracySetting : IAccuracySettings
 
     public CoreAccuracySetting(double? accuracy = null)
     {
-        _accuracy = accuracy ?? 0.001d;
+        _accuracy = accuracy ?? 0.0001d;
     }
 
     public double GetAccuracy => _accuracy;
