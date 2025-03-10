@@ -2,6 +2,7 @@
 
 public static class NodeExtensions
 {
+    // Bug: it does not increment Count of LinkedList
     public static void AddAfter<T>(this Node<T> node, T item)
     {
         var newNode = new Node<T>();

@@ -1,5 +1,6 @@
 ﻿using Application.PlotExtensions;
 using Application.PolygonPlotting;
+using Core.HullCreators.NoncovexAlgorithms;
 using Core.HullCreators.QuickHull;
 using Core.Models.Points;
 using Core.Models.Polygons;
@@ -19,7 +20,7 @@ public class CreateRandomHullCommand : ICommand
 
     public void Handle(PlotManager plotManager)
     {
-        var quickHull = new QuickHullAlgorithm();
+        var quickHull = new PoogachevAlgorithm(2);
 
         List<PointD> points = _polygonGenerator.GeneratePoints(plotManager.MainWindowContext.PointCountInHull);
 

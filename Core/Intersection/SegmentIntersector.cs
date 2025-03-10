@@ -5,6 +5,7 @@ using Core.Utils.Equalizers;
 
 namespace Core.Intersection;
 
+// TODO: Вынести в интерфейс?
 public class SegmentIntersector
 {
     private readonly IAccuracySettings _accuracySettings;
@@ -46,8 +47,6 @@ public class SegmentIntersector
 
         return null;
     }
-
-    
 
     private bool PointOnLine(Line l, PointD p)
     {

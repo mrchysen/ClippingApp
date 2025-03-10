@@ -3,6 +3,7 @@ using Core.Intersection;
 using Core.Models.DoubleLinkedLists;
 using Core.Models.Points;
 using Core.Models.Polygons;
+using Core.Utils.Equalizers;
 
 namespace Core.HullCreators.NoncovexAlgorithms;
 
@@ -55,9 +56,10 @@ public class PoogachevAlgorithm : INonconvexCreator
             if(pointToAdd != null)
             {
                 pointP.AddAfter(pointToAdd.Value);
+                polygon.Count++;
                 insidePoints.Remove(pointToAdd.Value);
             }
-            else // No points
+            else // No point found
             {
                 break;
             }
@@ -69,23 +71,38 @@ public class PoogachevAlgorithm : INonconvexCreator
     }
 
     // Пересекают ли PT и QT выпуклую оболочку
-    private bool IsCrossHull(DoubleLinkedList<PointD> polygon, Node<PointD> value, PointD pointT)
+    private bool IsCrossHull(DoubleLinkedList<PointD> polygon, Node<PointD> segmentPQ, PointD pointT)
     {
         var firstPoint = polygon.Head;
-        var secondPoint = firstPoint.Next;
-        var intersector = new SegmentIntersector();
+        var currentPoint = polygon.Head;
+        var intersector = new SegmentAndPolygonIntersector();
+        var equalizer = new PointDEqualizer();
 
         do
         {
-            firstPoint = secondPoint;
-            secondPoint = secondPoint.Next;
+            var points = intersector.GetIntersectionPoint(
+                new(segmentPQ.Value, pointT), // PT and polygon
+                polygon)
+                .Where(p => !equalizer.IsEquals(p, segmentPQ.Value))
+                .ToList();
 
-            if ((secondPoint.Value - firstPoint.Value).Norm() > maxDistance)
-            {
+            if (points.Count > 0)
+                return true;
 
-            }
+            points = intersector.GetIntersectionPoint(
+                new(segmentPQ.Next.Value, pointT), // PQ and polygon
+                polygon)
+                .Where(p => !equalizer.IsEquals(p, segmentPQ.Next.Value))
+                .ToList();
+
+            if (points.Count > 0)
+                return true;
+
+            currentPoint = currentPoint.Next;
         }
         while (firstPoint != polygon.Head);
+
+        return false;
     }
 
     private bool NotEmptyTriangle(PointD p1, PointD p2, PointD p3, List<PointD> points)
@@ -99,7 +116,7 @@ public class PoogachevAlgorithm : INonconvexCreator
         return false;
     }
 
-    // Начальная точка отрезока на полигоне с максимальной длиной
+    // Начальная точка отрезочка на полигоне с максимальной длиной
     private Node<PointD> GetStartNodeWithMaxDistance(DoubleLinkedList<PointD> polygon)
     {
         var firstPoint = polygon.Head;
