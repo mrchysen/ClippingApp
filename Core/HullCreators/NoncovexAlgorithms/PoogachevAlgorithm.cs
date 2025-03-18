@@ -4,17 +4,21 @@ using Core.Models.DoubleLinkedLists;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using Core.Utils.Equalizers;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Core.HullCreators.NoncovexAlgorithms;
 
 // https://na-journal.ru/5-2022-informacionnye-tekhnologii/3730-postroenie-nevypukloi-obolochki-mnozhestva-tochek?ysclid=m7iyumppat211114331
 public class PoogachevAlgorithm : INonconvexCreator
 {
-    private int _count;
+    private int _parameter;
 
-    public PoogachevAlgorithm(int count)
+    private HashSet<PointD> visited = new();
+
+    public PoogachevAlgorithm(int parameter)
     {
-        _count = count;
+        _parameter = parameter;
     }
 
     public Polygon CreateHull(List<PointD> points, IConvexHullCreator? convexHullCreator = null)
@@ -26,7 +30,7 @@ public class PoogachevAlgorithm : INonconvexCreator
 
         var pointCount = polygon.Count;
         var step = 0;
-        while(pointCount * _count > step)
+        while(pointCount * _parameter > step)
         {
             var pointP = GetStartNodeWithMaxDistance(polygon);
 
@@ -61,7 +65,13 @@ public class PoogachevAlgorithm : INonconvexCreator
             }
             else // No point found
             {
-                break;
+                Debug.WriteLine($"step {step} max {pointCount * _parameter}");
+                Debug.WriteLine($"visited {visited.Count}");
+
+                visited.Add(pointP.Value);
+
+                if (visited.Count > points.Count / 2)
+                    break;
             }
 
             step++;
@@ -129,7 +139,7 @@ public class PoogachevAlgorithm : INonconvexCreator
             firstPoint = secondPoint;
             secondPoint = secondPoint.Next;
 
-            if ((secondPoint.Value - firstPoint.Value).Norm() > maxDistance)
+            if (!visited.Contains(firstPoint.Value) && (secondPoint.Value - firstPoint.Value).Norm() > maxDistance)
             {
                 answerPoint = firstPoint;
                 maxDistance = (secondPoint.Value - firstPoint.Value).Norm();
