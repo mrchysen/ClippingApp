@@ -19,7 +19,7 @@ public class PolygonArtist : IPolygonArtist
 	{
 		Plot plot = new();
 
-		var polygons = new PolygonConverter().Convert(Polygons);
+		var polygons = new PolygonConverter().ConvertListToScottPlot(Polygons);
 
 		polygons.ForEach(el => plot.PlottableList.Add(el));
 
@@ -37,7 +37,7 @@ public class PolygonArtist : IPolygonArtist
 	{
         var plot = plotInput ?? new();
 
-        var polygons = new PolygonConverter().Convert(Polygons);
+        var polygons = new PolygonConverter().ConvertListToScottPlot(Polygons);
 
         polygons.ForEach(plot.PlottableList.Add);
 

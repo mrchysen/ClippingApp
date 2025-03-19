@@ -56,7 +56,8 @@
                 BorderThickness="1 1 0 1"
                 Padding="4"
                 Margin="4 4 0 4">
-                <StackPanel>
+                <ScrollViewer>
+                    <StackPanel>
                     <Border
                         BorderThickness="0.5"
                         BorderBrush="Black" />
@@ -180,7 +181,73 @@
                             FontFamily="{StaticResource Font}"
                             Margin="4 5 4 5">Построить выпуклую оболочку</Button>
                     </Grid>
-                    <Border
+
+                        <Border
+                            BorderThickness="0.5"
+                            BorderBrush="Black" />
+                        <TextBlock
+                            Padding="5"
+                            FontFamily="{StaticResource Font}">
+                            Невыпуклая оболочка
+                        </TextBlock>
+                        <Border
+                            BorderThickness="0.5"
+                            BorderBrush="Black" />
+
+                        <Grid
+                            Margin="0 4 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="140" />
+                                <ColumnDefinition
+                                    Width="40" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                TextAlignment="Center"
+                                FontFamily="{StaticResource Font}"
+                                VerticalAlignment="Center">Количество точек</TextBlock>
+                            
+                            <TextBox
+                                Height="28"
+                                Grid.Column="1"
+                                Padding="0 0 0 0"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Text="{Binding Path=PointCountInHull}"></TextBox>
+
+                            <TextBlock
+                                Grid.Row="1"
+                                TextAlignment="Center"
+                                FontFamily="{StaticResource Font}"
+                                VerticalAlignment="Center">Параметр</TextBlock>
+                            
+                            <TextBox
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Height="28"
+                                Padding="0 0 0 0"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Text="{Binding Path=HullParameter}"></TextBox>
+
+
+                            <Button
+                                Grid.Column="2"
+                                Grid.Row="1"
+                                x:Name="BuildNonconvexHullButton"
+                                Padding="4"
+                                FontFamily="{StaticResource Font}"
+                                Margin="4 5 4 5">Построить невыпуклую оболочку</Button>
+                        </Grid>
+
+                        <Border
                         BorderThickness="0.5"
                         BorderBrush="Black" />
                     <TextBlock
@@ -217,6 +284,7 @@
                             Margin="4 5 4 5">Папка</Button>
                     </Grid>
                 </StackPanel>
+                </ScrollViewer>
             </Border>
         </DockPanel>
     </Grid>

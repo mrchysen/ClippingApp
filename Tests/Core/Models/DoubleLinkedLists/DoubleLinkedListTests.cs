@@ -1,5 +1,4 @@
 ﻿using Core.Models.DoubleLinkedLists;
-using System;
 
 namespace Tests.Core.Models.DoubleLinkedLists;
 

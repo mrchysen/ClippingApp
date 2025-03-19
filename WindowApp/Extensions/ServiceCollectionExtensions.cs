@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCommands(this IServiceCollection services)
     {
         services.AddScoped<CreateRandomHullCommand>();
+        services.AddScoped<CreateRandomNonconvexHullCommand>();
         services.AddScoped<ShowPolygonDrawWindowCommand>();
         services.AddScoped<FindIntersectionCommand>();
         services.AddScoped<OpenFolderCommand>();

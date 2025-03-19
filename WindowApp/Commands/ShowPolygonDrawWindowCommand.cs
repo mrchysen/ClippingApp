@@ -10,9 +10,7 @@ public class ShowPolygonDrawWindowCommand : ICommand
     {
         var window = new PolygonDraw();
 
-        var result = window.ShowDialog();
-
-        MessageBox.Show(result.ToString());
+        window.ShowDialog();
 
         var context = window.PolygonDrawContext;
 

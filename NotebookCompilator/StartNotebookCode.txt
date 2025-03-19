@@ -1,6 +1,0 @@
-﻿namespace <Namespace>;
-
-class <Name> : GeneratedNotebook
-{
-	public override VirtualNotebook CreateNotebook()
-	{

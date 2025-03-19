@@ -1,4 +1,5 @@
-﻿using Core.Models.Colors;
+﻿using Core.Intersection;
+using Core.Models.Colors;
 using Core.Models.Lines;
 using Core.Models.Points;
 using Core.Models.Polygons;

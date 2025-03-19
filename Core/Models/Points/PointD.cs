@@ -25,7 +25,7 @@ public partial struct PointD
     public override string ToString() 
         => $"{{{X:#.####} {Y:#.####}}}";
 
-    public double Norm() => Math.Sqrt(X * X + Y * Y);
+    public double Norm(int power = 1) => Math.Pow(Math.Sqrt(X * X + Y * Y), power);
 
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public PointD Normilized => new PointD(X / Norm(), Y / Norm());

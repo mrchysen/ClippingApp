@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ClippingApp\ConsoleApp.csproj", "{2C0E8D12-6C18-4F4D-8503-7FEA546D7771}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{643435F6-B6D9-44C6-B070-59F6F81B2AC7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{EED6BBC8-A4D3-4D76-987C-35ECBC2D4BBE}"
@@ -15,18 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{53BF1550-96CC-4A2C-98D5-4BB299857830}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotebookCompilator", "NotebookCompilator\NotebookCompilator.csproj", "{ACC702BD-D1AD-4A63-828A-00E83556E748}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2C0E8D12-6C18-4F4D-8503-7FEA546D7771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C0E8D12-6C18-4F4D-8503-7FEA546D7771}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C0E8D12-6C18-4F4D-8503-7FEA546D7771}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C0E8D12-6C18-4F4D-8503-7FEA546D7771}.Release|Any CPU.Build.0 = Release|Any CPU
 		{643435F6-B6D9-44C6-B070-59F6F81B2AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{643435F6-B6D9-44C6-B070-59F6F81B2AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{643435F6-B6D9-44C6-B070-59F6F81B2AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +39,6 @@ Global
 		{53BF1550-96CC-4A2C-98D5-4BB299857830}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53BF1550-96CC-4A2C-98D5-4BB299857830}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53BF1550-96CC-4A2C-98D5-4BB299857830}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACC702BD-D1AD-4A63-828A-00E83556E748}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -40,4 +40,16 @@ public class PlotManager
 
         WpfPlot.Refresh();
     }
+
+    public void DrawCurrentPolygons(Polygon polygon)
+    {
+        _polygons = [polygon];
+        IPolygonArtist artist = new PolygonArtist([polygon]);
+
+        Plot.Clear();
+        artist.Plot(Plot, true);
+        Plot.Axes.AutoScale();
+
+        WpfPlot.Refresh();
+    }
 }

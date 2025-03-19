@@ -5,7 +5,7 @@ using Core.Utils.Extensions;
 
 namespace Core.HullCreators.QuickHull;
 
-public class QuickHullAlgorithm : IHullCreator
+public class QuickHullAlgorithm : IConvexHullCreator
 {
     public List<PointD> convexHullPoints = new();
     public HashSet<PointD> visited = new();
@@ -61,19 +61,11 @@ public class QuickHullAlgorithm : IHullCreator
     {
         foreach (var point in points)
         {
-            if(IsPointInTriangle(p1,p2,p3, point))
+            if(HullHelperUtils.IsPointInTriangle(p1,p2,p3, point))
             {
                 visited.Add(point);
             }
         }
-    }
-    private bool IsPointInTriangle(PointD A, PointD B, PointD C, PointD P)
-    {
-        double ABP = (B - A) * (P - A);
-        double BCP = (C - B) * (P - B);
-        double CAP = (A - C) * (P - C);
-
-        return (ABP >= 0 && BCP >= 0 && CAP >= 0) || (ABP <= 0 && BCP <= 0 && CAP <= 0);
     }
 
     private List<PointD> LeftPoints(Line line, List<PointD> points, Predicate<double> leftOrRightPredicate)

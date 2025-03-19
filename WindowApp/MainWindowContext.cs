@@ -5,6 +5,8 @@ namespace WindowApp;
 public class MainWindowContext : INotifyPropertyChanged
 {
     private int _pointCountInHull = 10;
+
+    private int _hullParameter = 2;
     public int PointCountInHull
     {
         get { return _pointCountInHull; }
@@ -12,6 +14,16 @@ public class MainWindowContext : INotifyPropertyChanged
         {
             _pointCountInHull = value;
             OnPropertyChanged(nameof(PointCountInHull));
+        }
+    }
+
+    public int HullParameter
+    {
+        get { return _hullParameter; }
+        set
+        {
+            _hullParameter = value;
+            OnPropertyChanged(nameof(HullParameter));
         }
     }
 
