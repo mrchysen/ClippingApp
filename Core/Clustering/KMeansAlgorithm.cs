@@ -34,6 +34,7 @@ public class KMeansAlgorithm : IClusteringAlgorithm
         // Делаем до тех пор пока центроиды не перестанут менять местоположение
         while (AreAllCentroidNotChanged())
         {
+            // Смотрим какие точки принадлежат центроидам
             foreach(var point in _points)
             {
                 Cluster nearCluster = _clusters[0];
@@ -51,7 +52,12 @@ public class KMeansAlgorithm : IClusteringAlgorithm
                 nearCluster.Points.Add(point);
             }
 
-
+            // Пересчитываем центроиды
+            foreach (var cluster in _clusters)
+            {
+                cluster.ComputeNewCentroid();
+                cluster.Points.Clear();
+            }
         }
 
         return _clusters.ToList();

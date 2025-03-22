@@ -4,7 +4,7 @@ namespace WindowApp.SubWindows.PolygonsDraw.PolygonDrawCommands;
 
 public class ClearPolygonCommand : IDrawPolygonCommand
 {
-    public void Handle(PolygonDrawContext context)
+    public void Handle(PointsWindowContext context)
     {
         var service = new RevertLastEventService();
 

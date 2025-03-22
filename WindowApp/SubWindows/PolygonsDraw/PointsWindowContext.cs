@@ -7,7 +7,7 @@ using WindowApp.Extensions;
 
 namespace WindowApp.SubWindows.PolygonsDraw;
 
-public class PolygonDrawContext
+public class PointsWindowContext
 {
     public List<Point> Points { get; set; } = new();
     public List<Ellipse> Ellipses { get; set; } = new();
@@ -22,7 +22,7 @@ public class PolygonDrawContext
     public StackPanel StackPanel { get; init; }
     public Canvas Canvas { get; init; }
 
-    public PolygonDrawContext(Canvas canvas, StackPanel stackPanel)
+    public PointsWindowContext(Canvas canvas, StackPanel stackPanel)
     {
         Canvas = canvas;
         StackPanel = stackPanel;    

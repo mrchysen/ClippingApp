@@ -4,5 +4,5 @@ namespace WindowApp.Commands;
 
 public interface ICommand
 {
-    void Handle(PlotManager plotManager);
+    Task Handle(PlotManager plotManager);
 }

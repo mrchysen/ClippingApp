@@ -4,6 +4,6 @@ namespace WindowApp.SubWindows.PolygonsDraw.PolygonDrawCommands;
 
 public class RevertLastAddCommand : IDrawPolygonCommand
 {
-    public void Handle(PolygonDrawContext context) 
+    public void Handle(PointsWindowContext context) 
         => new RevertLastEventService().RevertLastEvent(context);
 }

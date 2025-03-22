@@ -4,6 +4,9 @@ namespace Core.Clustering;
 
 public class Cluster
 {
+    private PointD _currentCentroid;
+    private PointD? _lastCentroid;
+
     public List<PointD> Points { get; set; } = new();
 
     public PointD Centroid 
@@ -15,9 +18,6 @@ public class Cluster
             _currentCentroid = value;
         } 
     }
-
-    private PointD _currentCentroid;
-    private PointD? _lastCentroid;
 
     public bool IsCentroidChanged(double epsilon = 0.001d)
     {

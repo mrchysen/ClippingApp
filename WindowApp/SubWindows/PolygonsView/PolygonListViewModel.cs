@@ -1,5 +1,4 @@
-﻿using Core.Models.Colors;
-using Core.Models.Points;
+﻿using Core.Models.Points;
 using Core.Models.Polygons;
 using System.Windows.Media;
 

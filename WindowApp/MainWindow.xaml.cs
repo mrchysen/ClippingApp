@@ -36,20 +36,21 @@ public partial class MainWindow : Window
         DataContext = _context;
 
         _serviceProvider = serviceProvider;
-        _plotManager = new(Plot, new List<Polygon>(), _serviceProvider.GetService<ConvexPolygonClipper>()!, _context);
+        _plotManager = new(Plot, _serviceProvider.GetService<ConvexPolygonClipper>()!, _context, new List<Polygon>());
     }
 
     private void InitializeButtonsClick()
     {
+        // TODO добавить cancelaration token
         NextPolygonsButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<KeyNHandler>().Handle(_plotManager);
         InfoAboutPolygonsButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<KeyIHandler>().Handle(_plotManager);
-        BuildConvexHullButton.Click += (o, e) =>
-            _serviceProvider.GetRequiredService<CreateRandomHullCommand>().Handle(_plotManager);
-        BuildNonconvexHullButton.Click += (o, e) =>
-            _serviceProvider.GetRequiredService<CreateRandomNonconvexHullCommand>().Handle(_plotManager);
-        DrowPolygonsButton.Click += (o, e) =>
+        BuildConvexHullButton.Click += async (o, e) =>
+            await _serviceProvider.GetRequiredService<CreateRandomHullCommand>().Handle(_plotManager);
+        BuildNonconvexHullButton.Click += async (o, e) =>
+            await _serviceProvider.GetRequiredService<CreateRandomNonconvexHullCommand>().Handle(_plotManager);
+        DrawPolygonsButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<ShowPolygonDrawWindowCommand>().Handle(_plotManager);
         FindIntersectionButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<FindIntersectionCommand>().Handle(_plotManager);
@@ -59,6 +60,10 @@ public partial class MainWindow : Window
             _serviceProvider.GetRequiredService<KeyBHandler>().Handle(_plotManager);
         OpenFolderButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<OpenFolderCommand>().Handle(_plotManager);
+        DrawPointsButton.Click += (o, e) => 
+            _serviceProvider.GetRequiredService<ShowPointDrawWindowCommand>().Handle(_plotManager);
+        ClearPointsAndPolygonsButton.Click += (o, e) =>
+            _serviceProvider.GetRequiredService<ClearPolygonsAndPointsCommand>().Handle(_plotManager);
     }
 
     private void EnsureDataFoldersExistence(FilesPathSettings filePathSettings) 

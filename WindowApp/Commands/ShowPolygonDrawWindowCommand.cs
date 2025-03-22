@@ -6,7 +6,7 @@ namespace WindowApp.Commands;
 
 public class ShowPolygonDrawWindowCommand : ICommand
 {
-    public void Handle(PlotManager plotManager)
+    public Task Handle(PlotManager plotManager)
     {
         var window = new PolygonDraw();
 
@@ -20,5 +20,7 @@ public class ShowPolygonDrawWindowCommand : ICommand
             plotManager.Polygons.AddRange(context.Polygons);
             plotManager.DrawCurrentPolygons();
         }
+
+        return Task.CompletedTask;
     }
 }

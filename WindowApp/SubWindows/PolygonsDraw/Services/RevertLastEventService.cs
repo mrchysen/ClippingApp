@@ -6,7 +6,7 @@ namespace WindowApp.SubWindows.PolygonsDraw.Services;
 
 public class RevertLastEventService
 {
-    public void RevertLastEvent(PolygonDrawContext context)
+    public void RevertLastEvent(PointsWindowContext context)
     {
         if (context.Points.Count > 0)
         {

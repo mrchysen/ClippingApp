@@ -12,13 +12,20 @@ namespace Core.HullCreators.NoncovexAlgorithms;
 // https://na-journal.ru/5-2022-informacionnye-tekhnologii/3730-postroenie-nevypukloi-obolochki-mnozhestva-tochek?ysclid=m7iyumppat211114331
 public class PoogachevAlgorithm : INonconvexCreator
 {
+    private readonly SegmentAndPolygonIntersector _intersector;
+    private readonly IEqualizer<PointD> _equalizer;
+
     private int _parameter;
+    private HashSet<PointD> _visited = new();
 
-    private HashSet<PointD> visited = new();
-
-    public PoogachevAlgorithm(int parameter)
+    public PoogachevAlgorithm(
+        int parameter,
+        SegmentAndPolygonIntersector? intersector = null,
+        IEqualizer<PointD>? equalizer = null)
     {
         _parameter = parameter;
+        _intersector = intersector ?? new();
+        _equalizer = equalizer ?? new PointDEqualizer();
     }
 
     public Polygon CreateHull(List<PointD> points, IConvexHullCreator? convexHullCreator = null)
@@ -66,11 +73,11 @@ public class PoogachevAlgorithm : INonconvexCreator
             else // No point found
             {
                 Debug.WriteLine($"step {step} max {pointCount * _parameter}");
-                Debug.WriteLine($"visited {visited.Count}");
+                Debug.WriteLine($"visited {_visited.Count}");
 
-                visited.Add(pointP.Value);
+                _visited.Add(pointP.Value);
 
-                if (visited.Count > points.Count / 2)
+                if (_visited.Count > points.Count / 2)
                     break;
             }
 
@@ -85,24 +92,22 @@ public class PoogachevAlgorithm : INonconvexCreator
     {
         var firstPoint = polygon.Head;
         var currentPoint = polygon.Head;
-        var intersector = new SegmentAndPolygonIntersector();
-        var equalizer = new PointDEqualizer();
 
         do
         {
-            var points = intersector.GetIntersectionPoint(
+            var points = _intersector.GetIntersectionPoint(
                 new(segmentPQ.Value, pointT), // PT and polygon
                 polygon)
-                .Where(p => !equalizer.IsEquals(p, segmentPQ.Value))
+                .Where(p => !_equalizer.IsEquals(p, segmentPQ.Value))
                 .ToList();
 
             if (points.Count > 0)
                 return true;
 
-            points = intersector.GetIntersectionPoint(
+            points = _intersector.GetIntersectionPoint(
                 new(segmentPQ.Next.Value, pointT), // PQ and polygon
                 polygon)
-                .Where(p => !equalizer.IsEquals(p, segmentPQ.Next.Value))
+                .Where(p => !_equalizer.IsEquals(p, segmentPQ.Next.Value))
                 .ToList();
 
             if (points.Count > 0)
@@ -139,7 +144,7 @@ public class PoogachevAlgorithm : INonconvexCreator
             firstPoint = secondPoint;
             secondPoint = secondPoint.Next;
 
-            if (!visited.Contains(firstPoint.Value) && (secondPoint.Value - firstPoint.Value).Norm() > maxDistance)
+            if (!_visited.Contains(firstPoint.Value) && (secondPoint.Value - firstPoint.Value).Norm() > maxDistance)
             {
                 answerPoint = firstPoint;
                 maxDistance = (secondPoint.Value - firstPoint.Value).Norm();

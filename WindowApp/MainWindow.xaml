@@ -58,232 +58,265 @@
                 Margin="4 4 0 4">
                 <ScrollViewer>
                     <StackPanel>
-                    <Border
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-                    <TextBlock
-                        Padding="5"
-                        TextAlignment="Center"
-                        FontSize="18"
-                        FontFamily="{StaticResource Font}">
-                        Алгоритм пересечения полигонов
-                    </TextBlock>
-                    <Border
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-                    <TextBlock
-                        Padding="5"
-                        FontFamily="{StaticResource Font}">
-                        Только для выпуклых
-                    </TextBlock>
-                    <Border
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-                    <RadioButton
-                        GroupName="ClippingAlg"
-                        Margin="0 10 0 0"
-                        DataContext="1"
-                        Checked="ClipperAlgRadioButton_Checked"
-                        IsChecked="True"
-                        FontFamily="{StaticResource Font}">
-                        Дефолт О(n*m)
-                    </RadioButton>
-                    <RadioButton
-                        GroupName="ClippingAlg"
-                        Margin="0 10 0 10"
-                        DataContext="2"
-                        Checked="ClipperAlgRadioButton_Checked"
-                        FontFamily="{StaticResource Font}">
-                        Быстрый О(n+m)
-                    </RadioButton>
-                    <Border
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-                    <TextBlock
-                        Padding="5"
-                        FontFamily="{StaticResource Font}">
-                        Произвольные
-                    </TextBlock>
-                    <Border
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-                    <RadioButton
-                        GroupName="ClippingAlg"
-                        Margin="0 10 0 10"
-                        DataContext="3"
-                        Checked="ClipperAlgRadioButton_Checked"
-                        FontFamily="{StaticResource Font}">
-                        Weiler–Atherton О(n*m)
-                    </RadioButton>
-                    <Button
-                        x:Name="DrowPolygonsButton"
-                        Padding="4"
-                        FontFamily="{StaticResource Font}"
-                        Margin="4 5 4 5">Нарисовать полигон</Button>
-                    <Button
-                        x:Name="NextPolygonsButton"
-                        Padding="4"
-                        FontFamily="{StaticResource Font}"
-                        Margin="4 5 4 5">Пример пересечения двух произвольных
-                    </Button>
-
-                    <Button
-                        x:Name="InfoAboutPolygonsButton"
-                        Padding="4"
-                        FontFamily="{StaticResource Font}"
-                        Margin="4 5 4 5">Списки координат полигонов</Button>
-                    <Button
-                        x:Name="FindIntersectionButton"
-                        Padding="4"
-                        FontFamily="{StaticResource Font}"
-                        Margin="4 5 4 5">Найти пересечение(первых двух)</Button>
-
-                    <Border
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-                    <TextBlock
-                        Padding="5"
-                        FontFamily="{StaticResource Font}">
-                        Выпуклая оболочка
-                    </TextBlock>
-                    <Border
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="140" />
-                            <ColumnDefinition
-                                Width="40" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock
-                            TextAlignment="Center"
-                            FontFamily="{StaticResource Font}"
-                            VerticalAlignment="Center">Количество точек</TextBlock>
-
                         <Border
-                            Grid.Column="1">
-                            <TextBox
-                                Height="28"
-                                Padding="0 0 0 0"
-                                VerticalContentAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                Text="{Binding Path=PointCountInHull}"></TextBox>
-                        </Border>
-
-                        <Button
-                            Grid.Column="2"
-                            x:Name="BuildConvexHullButton"
-                            Padding="4"
-                            FontFamily="{StaticResource Font}"
-                            Margin="4 5 4 5">Построить выпуклую оболочку</Button>
-                    </Grid>
-
-                        <Border
-                            BorderThickness="0.5"
-                            BorderBrush="Black" />
+                        BorderThickness="0.5"
+                        BorderBrush="Black" />
                         <TextBlock
                             Padding="5"
+                            TextAlignment="Center"
+                            FontSize="18"
                             FontFamily="{StaticResource Font}">
-                            Невыпуклая оболочка
+                            Алгоритм пересечения полигонов
                         </TextBlock>
-                        <Border
-                            BorderThickness="0.5"
-                            BorderBrush="Black" />
 
-                        <Grid
-                            Margin="0 4 0 0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition
-                                    Width="140" />
-                                <ColumnDefinition
-                                    Width="40" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                        <!-- Radion Button Menu -->
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-
+                        <StackPanel>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
                             <TextBlock
-                                TextAlignment="Center"
-                                FontFamily="{StaticResource Font}"
-                                VerticalAlignment="Center">Количество точек</TextBlock>
-                            
-                            <TextBox
-                                Height="28"
-                                Grid.Column="1"
-                                Padding="0 0 0 0"
-                                VerticalContentAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                Text="{Binding Path=PointCountInHull}"></TextBox>
-
+                                Padding="5"
+                                FontFamily="{StaticResource Font}">
+                                Только для выпуклых
+                            </TextBlock>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+                            <RadioButton
+                                GroupName="ClippingAlg"
+                                Margin="0 10 0 0"
+                                DataContext="1"
+                                Checked="ClipperAlgRadioButton_Checked"
+                                IsChecked="True"
+                                FontFamily="{StaticResource Font}">
+                                Дефолт О(n*m)
+                            </RadioButton>
+                            <RadioButton
+                                GroupName="ClippingAlg"
+                                Margin="0 10 0 10"
+                                DataContext="2"
+                                Checked="ClipperAlgRadioButton_Checked"
+                                FontFamily="{StaticResource Font}">
+                                Быстрый О(n+m)
+                            </RadioButton>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
                             <TextBlock
-                                Grid.Row="1"
-                                TextAlignment="Center"
-                                FontFamily="{StaticResource Font}"
-                                VerticalAlignment="Center">Параметр</TextBlock>
-                            
-                            <TextBox
-                                Grid.Column="1"
-                                Grid.Row="1"
-                                Height="28"
-                                Padding="0 0 0 0"
-                                VerticalContentAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                Text="{Binding Path=HullParameter}"></TextBox>
-
-
+                                Padding="5"
+                                FontFamily="{StaticResource Font}">
+                                Произвольные
+                            </TextBlock>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+                            <RadioButton
+                                GroupName="ClippingAlg"
+                                Margin="0 10 0 10"
+                                DataContext="3"
+                                Checked="ClipperAlgRadioButton_Checked"
+                                FontFamily="{StaticResource Font}">
+                                Weiler–Atherton О(n*m)
+                            </RadioButton>
+                        </StackPanel>
+                        
+                        <!-- Button Menu -->
+                        
+                        <StackPanel>
                             <Button
-                                Grid.Column="2"
-                                Grid.Row="1"
-                                x:Name="BuildNonconvexHullButton"
+                                x:Name="DrawPolygonsButton"
                                 Padding="4"
                                 FontFamily="{StaticResource Font}"
-                                Margin="4 5 4 5">Построить невыпуклую оболочку</Button>
+                                Margin="4 5 4 5">Нарисовать полигон</Button>
+                            <Button
+                                x:Name="NextPolygonsButton"
+                                Padding="4"
+                                FontFamily="{StaticResource Font}"
+                                Margin="4 5 4 5">Пример пересечения двух произвольных
+                            </Button>
+                            <Button
+                                x:Name="InfoAboutPolygonsButton"
+                                Padding="4"
+                                FontFamily="{StaticResource Font}"
+                                Margin="4 5 4 5">Списки координат полигонов</Button>
+                            <Button
+                                x:Name="FindIntersectionButton"
+                                Padding="4"
+                                FontFamily="{StaticResource Font}"
+                                Margin="4 5 4 5">Найти пересечение(первых двух)</Button>
+                            <Button
+                                x:Name="DrawPointsButton"
+                                Padding="4"
+                                FontFamily="{StaticResource Font}"
+                                Margin="4 5 4 5">Нарисовать облако точек</Button>
+                            <Button
+                                x:Name="ClearPointsAndPolygonsButton"
+                                Padding="4"
+                                FontFamily="{StaticResource Font}"
+                                Margin="4 5 4 5">Очистить экран</Button>
+                        </StackPanel>
+                    
+                        <!-- Convex hull -->
+                        
+                        <StackPanel>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+                            <TextBlock
+                                Padding="5"
+                                FontFamily="{StaticResource Font}">
+                                Выпуклая оболочка
+                            </TextBlock>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="140" />
+                                    <ColumnDefinition
+                                        Width="40" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    TextAlignment="Center"
+                                    FontFamily="{StaticResource Font}"
+                                    VerticalAlignment="Center">Количество точек</TextBlock>
+
+                                <Border
+                                    Grid.Column="1">
+                                    <TextBox
+                                        Height="28"
+                                        Padding="0 0 0 0"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        Text="{Binding Path=PointCountInHull}"></TextBox>
+                                </Border>
+
+                                <Button
+                                    Grid.Column="2"
+                                    x:Name="BuildConvexHullButton"
+                                    Padding="4"
+                                    FontFamily="{StaticResource Font}"
+                                    Margin="4 5 4 5">Построить выпуклую оболочку</Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Non convex hull -->
+
+                        <StackPanel>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+                            <TextBlock
+                                Padding="5"
+                                FontFamily="{StaticResource Font}">
+                                Невыпуклая оболочка
+                            </TextBlock>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+
+                            <Grid
+                                Margin="0 4 0 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="140" />
+                                    <ColumnDefinition
+                                        Width="40" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    TextAlignment="Center"
+                                    FontFamily="{StaticResource Font}"
+                                    VerticalAlignment="Center">Количество точек</TextBlock>
+
+                                <TextBox
+                                    Height="28"
+                                    Grid.Column="1"
+                                    Padding="0 0 0 0"
+                                    VerticalContentAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    Text="{Binding Path=PointCountInHull}"></TextBox>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    TextAlignment="Center"
+                                    FontFamily="{StaticResource Font}"
+                                    VerticalAlignment="Center">Параметр</TextBlock>
+
+                                <TextBox
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Height="28"
+                                    Padding="0 0 0 0"
+                                    VerticalContentAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    Text="{Binding Path=HullParameter}"></TextBox>
+
+                                <Button
+                                    Grid.Column="2"
+                                    Grid.Row="1"
+                                    x:Name="BuildNonconvexHullButton"
+                                    Padding="4"
+                                    FontFamily="{StaticResource Font}"
+                                    Margin="4 5 4 5">Построить невыпуклую оболочку</Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- File menu TODO унести в Menu --> 
+                        
+                        <Grid>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+                            <TextBlock
+                                Padding="5"
+                                FontFamily="{StaticResource Font}">
+                                Работа с файлом
+                            </TextBlock>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Button
+                                    x:Name="SavePolygonButton"
+                                    Padding="4"
+                                    FontFamily="{StaticResource Font}"
+                                    Margin="4 5 4 5">Сохранить</Button>
+                                <Button
+                                    Grid.Column="1"
+                                    x:Name="OpenPolygonFromFileButton"
+                                    Padding="4"
+                                    FontFamily="{StaticResource Font}"
+                                    Margin="4 5 4 5">Открыть</Button>
+                                <Button
+                                    Grid.Column="2"
+                                    x:Name="OpenFolderButton"
+                                    Padding="4"
+                                    FontFamily="{StaticResource Font}"
+                                    Margin="4 5 4 5">Папка</Button>
+                            </Grid>
                         </Grid>
-
-                        <Border
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-                    <TextBlock
-                        Padding="5"
-                        FontFamily="{StaticResource Font}">
-                        Работа с файлом
-                    </TextBlock>
-                    <Border
-                        BorderThickness="0.5"
-                        BorderBrush="Black" />
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <Button
-                            x:Name="SavePolygonButton"
-                            Padding="4"
-                            FontFamily="{StaticResource Font}"
-                            Margin="4 5 4 5">Сохранить</Button>
-                        <Button
-                            Grid.Column="1"
-                            x:Name="OpenPolygonFromFileButton"
-                            Padding="4"
-                            FontFamily="{StaticResource Font}"
-                            Margin="4 5 4 5">Открыть</Button>
-                        <Button
-                            Grid.Column="2"
-                            x:Name="OpenFolderButton"
-                            Padding="4"
-                            FontFamily="{StaticResource Font}"
-                            Margin="4 5 4 5">Папка</Button>
-                    </Grid>
-                </StackPanel>
+                        
+                    </StackPanel>
                 </ScrollViewer>
             </Border>
         </DockPanel>
