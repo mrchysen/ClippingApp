@@ -1,4 +1,5 @@
 ﻿using Core.Colors;
+using Core.Models.Colors;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using ScottPlot;
@@ -7,15 +8,20 @@ namespace Application.PlotExtensions;
 
 public static class PlotMarkerExtension
 {
-    public static void AddMarkers(this Plot plot, List<PointD> points)
+    public static void AddMarkers(this Plot plot, List<PointD> points, CoreColor? color = null)
     {
-        var color = RandomColor.Get();
+        var pointColor = color ?? RandomColor.Get();
 
         for (int i = 0; i < points.Count; i++)
         {
             var p = points[i];
 
-            plot.Add.Marker(p.X, p.Y, color: new Color(0, 0, 0), size: 6);
+            plot.Add.Marker(p.X, p.Y, 
+                color: new ScottPlot.Color(
+                    pointColor.R, 
+                    pointColor.G, 
+                    pointColor.B), 
+                size: 6);
         }
     }
 

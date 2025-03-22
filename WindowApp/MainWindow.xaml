@@ -175,7 +175,7 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition
-                                        Width="140" />
+                                        Width="180" />
                                     <ColumnDefinition
                                         Width="40" />
                                     <ColumnDefinition />
@@ -224,7 +224,7 @@
                                 Margin="0 4 0 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition
-                                        Width="140" />
+                                        Width="180" />
                                     <ColumnDefinition
                                         Width="40" />
                                     <ColumnDefinition />
@@ -273,9 +273,57 @@
                             </Grid>
                         </StackPanel>
 
+                        <!-- Clustering -->
+
+                        <StackPanel>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+                            <TextBlock
+                                Padding="5"
+                                FontFamily="{StaticResource Font}">
+                                Кластеризация
+                            </TextBlock>
+                            <Border
+                                BorderThickness="0.5"
+                                BorderBrush="Black" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="180" />
+                                    <ColumnDefinition
+                                        Width="40" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    TextAlignment="Center"
+                                    FontFamily="{StaticResource Font}"
+                                    VerticalAlignment="Center">Количество кластеров</TextBlock>
+
+                                <Border
+                                    Grid.Column="1">
+                                    <TextBox
+                                        Height="28"
+                                        Padding="0 0 0 0"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        Text="{Binding Path=ClusterCount}"></TextBox>
+                                </Border>
+
+                                <Button
+                                    Grid.Column="2"
+                                    x:Name="ClusteringButton"
+                                    Padding="4"
+                                    FontFamily="{StaticResource Font}"
+                                    Margin="4 5 4 5">Построить кластера</Button>
+                            </Grid>
+                        </StackPanel>
+
                         <!-- File menu TODO унести в Menu --> 
                         
-                        <Grid>
+                        <StackPanel>
                             <Border
                                 BorderThickness="0.5"
                                 BorderBrush="Black" />
@@ -314,7 +362,7 @@
                                     FontFamily="{StaticResource Font}"
                                     Margin="4 5 4 5">Папка</Button>
                             </Grid>
-                        </Grid>
+                        </StackPanel>
                         
                     </StackPanel>
                 </ScrollViewer>
