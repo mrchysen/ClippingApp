@@ -11,6 +11,9 @@ public class ClusteringCommand : ICommand
 {
     public async Task Handle(PlotManager plotManager)
     {
+        if (plotManager.Points.Count == 0)
+            return;
+
         var task = Task.Run(() =>
         {
             var clusteringAlgorithm = new KMeansAlgorithm(
