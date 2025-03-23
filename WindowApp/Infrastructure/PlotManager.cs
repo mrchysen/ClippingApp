@@ -1,5 +1,6 @@
 ﻿using Application.PolygonPlotting;
 using Core.Clippers;
+using Core.Clustering;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using ScottPlot;
@@ -11,20 +12,23 @@ public class PlotManager
 {
     private WpfPlot _wpfPlot;
     private List<Polygon> _polygons;
-    private List<PointD> _points; 
+    private List<PointD> _points;
+    private List<Cluster> _clusters;
 
     public PlotManager(
         WpfPlot wpfPlot, 
         IClipper clipper, 
         MainWindowContext context, 
         List<Polygon>? polygons = null, 
-        List<PointD>? points = null)
+        List<PointD>? points = null,
+        List<Cluster>? cluster = null)
     {
         _wpfPlot = wpfPlot;
         Clipper = clipper;
         MainWindowContext = context;
         _polygons = polygons ?? new();
         _points = points ?? new();
+        _clusters = cluster ?? new();
     }
 
     public Plot Plot => _wpfPlot.Plot;
@@ -34,6 +38,8 @@ public class PlotManager
     public List<Polygon> Polygons => _polygons;
 
     public List<PointD> Points => _points;
+
+    public List<Cluster> Clusters => _clusters;
 
     public IClipper Clipper { get; set; }
 
@@ -50,7 +56,7 @@ public class PlotManager
         WpfPlot.Refresh();
     }
 
-    public void DrawCurrentPolygons(Polygon polygon)
+    public void DrawCurrentPolygon(Polygon polygon)
     {
         _polygons = [polygon];
         IPolygonArtist artist = new PolygonArtist([polygon]);

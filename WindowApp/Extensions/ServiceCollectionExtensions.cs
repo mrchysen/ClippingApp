@@ -28,6 +28,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<FindIntersectionCommand>();
         services.AddScoped<OpenFolderCommand>();
         services.AddScoped<ClearPolygonsAndPointsCommand>();
+        services.AddScoped<ClusteringCommand>();
 
         return services;
     }

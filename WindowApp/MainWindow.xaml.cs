@@ -64,6 +64,8 @@ public partial class MainWindow : Window
             _serviceProvider.GetRequiredService<ShowPointDrawWindowCommand>().Handle(_plotManager);
         ClearPointsAndPolygonsButton.Click += (o, e) =>
             _serviceProvider.GetRequiredService<ClearPolygonsAndPointsCommand>().Handle(_plotManager);
+        ClusteringButton.Click += (o, e) => 
+            _serviceProvider.GetRequiredService<ClusteringCommand>().Handle(_plotManager);
     }
 
     private void EnsureDataFoldersExistence(FilesPathSettings filePathSettings) 

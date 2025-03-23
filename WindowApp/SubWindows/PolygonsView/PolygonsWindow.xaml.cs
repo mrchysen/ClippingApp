@@ -1,4 +1,6 @@
-﻿using Core.Models.Points;
+﻿using Core.Clustering;
+using Core.Colors;
+using Core.Models.Points;
 using Core.Models.Polygons;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -8,14 +10,11 @@ namespace WindowApp.SubWindows.Polygons;
 
 public partial class PolygonsWindow : Window
 {
-    private List<Polygon> _polygons;
     private ObservableCollection<PolygonListViewModel> _listBoxPolygons { get; set; } = [];
 
-    public PolygonsWindow(List<Polygon> polygons)
+    public PolygonsWindow(List<Polygon> polygons, List<PointD> points, List<Cluster> clusters)
     {
         InitializeComponent();
-
-        _polygons = polygons;
 
         PolygonListBox.SelectionChanged += (o, e) =>
         {
@@ -33,20 +32,42 @@ public partial class PolygonsWindow : Window
             }
         };
 
+        List<PolygonListViewModel> polygonListViewModels = new();
+
         if (polygons.Count > 0)
         {
-            CurrentPolygonDataGrid.ItemsSource = CreatePolygonDataList(_polygons[0].Points);
-            
-            var polygonListViewModels = _polygons.Select(el => PolygonListViewModel.Create(el, "Полигон ")).ToList();
-            
-            for (int i = 0; i < polygonListViewModels.Count; i++)
+            var currentPolygonListViewModels = polygons.Select(el =>
+                PolygonListViewModel.Create(el.Points, el.Color, "Полигон "))
+                .ToList();
+
+            for (int i = 0; i < currentPolygonListViewModels.Count; i++)
             {
-                polygonListViewModels[i].Name += (i + 1).ToString();
+                currentPolygonListViewModels[i].Name += (i + 1).ToString();
             }
 
-            CurrentPolygonName.Text = "Полигон 1";
-            PolygonListBox.ItemsSource = polygonListViewModels;
+            polygonListViewModels.AddRange(currentPolygonListViewModels);
         }
+
+        if (points.Count > 0)
+        {
+            var pointsCloud = PolygonListViewModel
+                .Create(points, RandomColor.Get(), "Облако точек");
+
+            polygonListViewModels.Add(pointsCloud);
+        }
+
+        if (clusters.Count > 0)
+        {
+            foreach (var cluster in clusters)
+            {
+                var color = RandomColor.Get();
+
+                polygonListViewModels.Add(PolygonListViewModel.Create(cluster.Points, color, "Кластер "));
+                polygonListViewModels.Add(PolygonListViewModel.Create([cluster.Centroid], color, "Центроида"));
+            }
+        }
+
+        PolygonListBox.ItemsSource = polygonListViewModels;
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

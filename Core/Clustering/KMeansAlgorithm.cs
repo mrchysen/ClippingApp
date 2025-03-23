@@ -1,6 +1,7 @@
 ﻿using Core.Clustering.Metrics;
 using Core.Models.Points;
 using Core.Models.Points.Generator;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 
 namespace Core.Clustering;
@@ -34,8 +35,13 @@ public class KMeansAlgorithm : IClusteringAlgorithm
         // Делаем до тех пор пока центроиды не перестанут менять местоположение
         while (AreAllCentroidNotChanged())
         {
+            foreach (var cluster in _clusters)
+            {
+                cluster.Points.Clear();
+            }
+
             // Смотрим какие точки принадлежат центроидам
-            foreach(var point in _points)
+            foreach (var point in _points)
             {
                 Cluster nearCluster = _clusters[0];
                 double distance = _metric.Compute(nearCluster.Centroid, point);
@@ -56,7 +62,6 @@ public class KMeansAlgorithm : IClusteringAlgorithm
             foreach (var cluster in _clusters)
             {
                 cluster.ComputeNewCentroid();
-                cluster.Points.Clear();
             }
         }
 
@@ -69,9 +74,10 @@ public class KMeansAlgorithm : IClusteringAlgorithm
 
     private void InitializeCentroids()
     {
-        foreach (var cluster in _clusters)
+        for (int i = 0; i < _clusters.Length; i++)
         {
-            cluster.Centroid = _pointGenerator.GeneratePoint();
+            _clusters[i] = new Cluster();
+            _clusters[i].Centroid = _pointGenerator.GeneratePoint();
         }
     }
 
