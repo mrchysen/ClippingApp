@@ -1,6 +1,7 @@
 ﻿using Application.PolygonPlotting;
 using Core.Clippers;
-using Core.Clippers.ConvexPolygonClipper;
+using Core.Clustering;
+using Core.Models.Points;
 using Core.Models.Polygons;
 using ScottPlot;
 using ScottPlot.WPF;
@@ -11,13 +12,23 @@ public class PlotManager
 {
     private WpfPlot _wpfPlot;
     private List<Polygon> _polygons;
-    
-    public PlotManager(WpfPlot wpfPlot, List<Polygon> polygons, IClipper clipper, MainWindowContext context)
+    private List<PointD> _points;
+    private List<Cluster> _clusters;
+
+    public PlotManager(
+        WpfPlot wpfPlot, 
+        IClipper clipper, 
+        MainWindowContext context, 
+        List<Polygon>? polygons = null, 
+        List<PointD>? points = null,
+        List<Cluster>? cluster = null)
     {
-        _polygons = polygons;
         _wpfPlot = wpfPlot;
         Clipper = clipper;
         MainWindowContext = context;
+        _polygons = polygons ?? new();
+        _points = points ?? new();
+        _clusters = cluster ?? new();
     }
 
     public Plot Plot => _wpfPlot.Plot;
@@ -25,6 +36,10 @@ public class PlotManager
     public WpfPlot WpfPlot => _wpfPlot;
 
     public List<Polygon> Polygons => _polygons;
+
+    public List<PointD> Points => _points;
+
+    public List<Cluster> Clusters => _clusters;
 
     public IClipper Clipper { get; set; }
 
@@ -41,13 +56,29 @@ public class PlotManager
         WpfPlot.Refresh();
     }
 
-    public void DrawCurrentPolygons(Polygon polygon)
+    public void DrawCurrentPolygon(Polygon polygon)
     {
         _polygons = [polygon];
         IPolygonArtist artist = new PolygonArtist([polygon]);
 
         Plot.Clear();
         artist.Plot(Plot, true);
+        Plot.Axes.AutoScale();
+
+        WpfPlot.Refresh();
+    }
+
+    public void DrawCurrentPoints(List<PointD> points)
+    {
+        _points = points;
+
+        Plot.Clear();
+
+        foreach (var point in points)
+        {
+            Plot.Add.Marker(point.X, point.Y, size: 10, color:Colors.Black);
+        }
+
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();

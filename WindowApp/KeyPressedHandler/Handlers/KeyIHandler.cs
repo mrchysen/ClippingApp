@@ -14,7 +14,7 @@ public class KeyIHandler : KeyHandler
 
     public override void Handle(PlotManager plotManager)
     {
-        _window = new(plotManager.Polygons);
+        _window = new(plotManager.Polygons, plotManager.Points, plotManager.Clusters);
 
         _window.Show();
     }

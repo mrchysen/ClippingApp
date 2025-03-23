@@ -14,8 +14,10 @@ public class OpenFolderCommand : ICommand
         _settings = options.Value;
     }
 
-    public void Handle(PlotManager plotManager)
+    public Task Handle(PlotManager plotManager)
     {
         Process.Start(new ProcessStartInfo { FileName = _settings.GetPolygonDataFolderPath, UseShellExecute = true });
+
+        return Task.CompletedTask;
     }
 }

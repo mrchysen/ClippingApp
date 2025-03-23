@@ -11,7 +11,7 @@ namespace WindowApp.SubWindows.PolygonsDraw;
 
 public partial class PolygonDraw : Window
 {
-    private PolygonDrawContext _context;
+    private PointsWindowContext _context;
 
     public const int GridXLines = 99;
     public const int DeltaX = 20;
@@ -21,7 +21,7 @@ public partial class PolygonDraw : Window
     public const double ArrowHeight = 11;
     public const double CircleRadius = 14;
 
-    public PolygonDrawContext PolygonDrawContext => _context;
+    public PointsWindowContext PolygonDrawContext => _context;
 
     public PolygonDraw()
     {

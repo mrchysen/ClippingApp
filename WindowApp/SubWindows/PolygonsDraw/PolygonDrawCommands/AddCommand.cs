@@ -7,7 +7,7 @@ namespace WindowApp.SubWindows.PolygonsDraw.PolygonDrawCommands;
 
 public class AddCommand : IDrawPolygonCommand
 {
-    public void Handle(PolygonDrawContext context)
+    public void Handle(PointsWindowContext context)
     {
         if (context.Points.Count > 2)
         {

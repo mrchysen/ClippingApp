@@ -15,15 +15,34 @@ public class CreateRandomHullCommand : ICommand
         _polygonGenerator = polygonGenerator;
     }
 
-    public void Handle(PlotManager plotManager)
+    public async Task Handle(PlotManager plotManager)
     {
-        var quickHull = new QuickHullAlgorithm();
+        var task = Task.Run(() =>
+        {
+            Polygon polygon;
+            IEnumerable<PointD> insidePoints;
 
-        List<PointD> points = _polygonGenerator.GeneratePoints(plotManager.MainWindowContext.PointCountInHull);
+            var quickHull = new QuickHullAlgorithm();
 
-        var polygon = quickHull.CreateHull(points);
+            if (plotManager.Points.Count > 0)
+            {
+                polygon = quickHull.CreateHull(plotManager.Points);
 
-        var insidePoints = points.Where(p => !polygon.Points.Contains(p));
+                insidePoints = plotManager.Points.Where(p => !polygon.Points.Contains(p));
+
+                return (polygon, insidePoints);
+            }
+
+            List<PointD> points = _polygonGenerator.GeneratePoints(plotManager.MainWindowContext.PointCountInHull);
+
+            polygon = quickHull.CreateHull(points);
+
+            insidePoints = points.Where(p => !polygon.Points.Contains(p));
+
+            return (polygon, insidePoints);
+        });
+
+        var (polygon, insidePoints) = await task;
 
         plotManager.Polygons.Clear();
         plotManager.Polygons.Add(polygon);

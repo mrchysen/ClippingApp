@@ -1,5 +1,6 @@
 ﻿using Core.Colors;
 using Core.Models.Points;
+using Core.Models.Points.Generator;
 using Core.Models.Polygons;
 using Core.Utils.Extensions;
 using Microsoft.Extensions.Options;
@@ -10,7 +11,7 @@ namespace Application.Randoms;
 public class RandomPolygonGenerator : IPolygonGenerator
 {
     private readonly Random _random;
-    private readonly Rectangle _area;
+    private readonly PointGenerator _pointGenerator;
 
     public RandomPolygonGenerator(Random random, IOptions<RandomSettings> options)
     {
@@ -18,11 +19,13 @@ public class RandomPolygonGenerator : IPolygonGenerator
 
         _random = random;
 
-        _area = new Rectangle(
+        var _area = new Rectangle(
             settings.Area.X,
             settings.Area.Y,
             settings.Area.Width,
             settings.Area.Height);
+
+        _pointGenerator = new(_area);
     }
 
     public Polygon Generate(bool sortByAngle, bool clockwise = false, int count = 3)
@@ -31,7 +34,7 @@ public class RandomPolygonGenerator : IPolygonGenerator
 
         for (int i = 0; i < count; i++)
         {
-            polygon.Points.Add(GetPointInArea());
+            polygon.Points.Add(_pointGenerator.GeneratePoint());
         }
 
         polygon.Color = RandomColor.Get();
@@ -52,17 +55,11 @@ public class RandomPolygonGenerator : IPolygonGenerator
 
         for (int i = 0; i < count; i++)
         {
-            list.Add(GetPointInArea());
+            list.Add(_pointGenerator.GeneratePoint());
         }
 
         return list;
     }
 
-    private PointD GetPointInArea()
-    {
-        var x = (_area.X + _area.Width - _area.X) * _random.NextDouble() + _area.X;
-        var y = (_area.Y + _area.Height - _area.Y) * _random.NextDouble() + _area.Y;
-
-        return new PointD(x, y);
-    }
+    
 }

@@ -2,6 +2,6 @@
 {
     public interface IDrawPolygonCommand
     {
-        void Handle(PolygonDrawContext context);
+        void Handle(PointsWindowContext context);
     }
 }

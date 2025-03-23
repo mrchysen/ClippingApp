@@ -12,8 +12,8 @@ public class QuickHullAlgorithm : IConvexHullCreator
 
     public Polygon CreateHull(List<PointD> points)
     {
-        PointD max_p = points.Aggregate(MaxPointD);
-        PointD min_p = points.Aggregate(MinPointD);
+        PointD max_p = points.Aggregate(PointDHelper.MaxPointD);
+        PointD min_p = points.Aggregate(PointDHelper.MinPointD);
 
         convexHullPoints.Add(max_p);
         convexHullPoints.Add(min_p);
@@ -86,50 +86,4 @@ public class QuickHullAlgorithm : IConvexHullCreator
 
     private Predicate<double> RightPredicate => (value) => value < 0; // правая полуплоскость
     private Predicate<double> LeftPredicate => (value) => value > 0; // левая полуплоскось
-
-    public static PointD MaxPointD(PointD p1, PointD p2)
-    {
-        if (p1.Y > p2.Y)
-        {
-            return p1;
-        }
-        else if (p1.Y == p2.Y)
-        {
-            if (p1.X > p2.X)
-            {
-                return p1;
-            }
-            else
-            {
-                return p2;
-            }
-        }
-        else
-        {
-            return p2;
-        }
-    }
-
-    public static PointD MinPointD(PointD p1, PointD p2)
-    {
-        if (p1.Y > p2.Y)
-        {
-            return p2;
-        }
-        else if (p1.Y == p2.Y)
-        {
-            if (p1.X > p2.X)
-            {
-                return p2;
-            }
-            else
-            {
-                return p1;
-            }
-        }
-        else
-        {
-            return p1;
-        }
-    }
 }
