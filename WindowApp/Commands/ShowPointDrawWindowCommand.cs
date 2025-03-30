@@ -3,9 +3,16 @@ using WindowApp.SubWindows.PointsDraw;
 
 namespace WindowApp.Commands;
 
-public class ShowPointDrawWindowCommand : ICommand
+public class ShowPointDrawWindowCommand : IMainWindowCommand
 {
-    public Task Handle(PlotManager plotManager)
+    private PlotManager _plotManager;
+
+    public ShowPointDrawWindowCommand(PlotManager plotManager)
+    {
+        _plotManager = plotManager;
+    }
+
+    public Task Handle()
     {
         var window = new PointsWindow();
 
@@ -15,7 +22,7 @@ public class ShowPointDrawWindowCommand : ICommand
 
         if (context.Points.Count > 0)
         {
-            plotManager.DrawCurrentPoints(context.Points);
+            _plotManager.DrawCurrentPoints(context.Points);
         }
 
         return Task.CompletedTask;

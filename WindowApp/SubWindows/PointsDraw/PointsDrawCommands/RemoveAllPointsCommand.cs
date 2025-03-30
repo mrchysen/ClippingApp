@@ -2,7 +2,7 @@
 
 public class RemoveAllPointsCommand : IPointsDrawCommand
 {
-    public void Handle(PointsWindowContext context)
+    public void Handle(PointsWindowViewModel context)
     {
         context.Canvas.Children.Clear();
         context.Ellipses.Clear();

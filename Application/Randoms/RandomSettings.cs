@@ -2,7 +2,7 @@
 
 public class RandomSettings
 {
-    public RandomArea Area { get; set; } = null!;
+    public RandomArea Area { get; set; } = new();
 }
 
 public class RandomArea

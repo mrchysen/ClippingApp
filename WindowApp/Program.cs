@@ -13,8 +13,7 @@ public class Program
 
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<MainWindow>();
-        builder.Services.AddKeyHandlers();
-        builder.Services.AddCommands();
+        builder.Services.AddMainWindowCommands();
         builder.Services.AddCore();
 
         builder.Services.Configure<RandomSettings>(

@@ -6,16 +6,18 @@ using WindowApp.Infrastructure;
 
 namespace WindowApp.Commands;
 
-public class CreateRandomHullCommand : ICommand
+public class CreateRandomHullCommand : IMainWindowCommand
 {
     private readonly IPolygonGenerator _polygonGenerator;
+    private PlotManager _plotManager;
 
-    public CreateRandomHullCommand(IPolygonGenerator polygonGenerator)
+    public CreateRandomHullCommand(PlotManager plotManager, IPolygonGenerator polygonGenerator)
     {
         _polygonGenerator = polygonGenerator;
+        _plotManager = plotManager;
     }
 
-    public async Task Handle(PlotManager plotManager)
+    public async Task Handle()
     {
         var task = Task.Run(() =>
         {
@@ -24,16 +26,16 @@ public class CreateRandomHullCommand : ICommand
 
             var quickHull = new QuickHullAlgorithm();
 
-            if (plotManager.Points.Count > 0)
+            if (_plotManager.Points.Count > 0)
             {
-                polygon = quickHull.CreateHull(plotManager.Points);
+                polygon = quickHull.CreateHull(_plotManager.Points);
 
-                insidePoints = plotManager.Points.Where(p => !polygon.Points.Contains(p));
+                insidePoints = _plotManager.Points.Where(p => !polygon.Points.Contains(p));
 
                 return (polygon, insidePoints);
             }
 
-            List<PointD> points = _polygonGenerator.GeneratePoints(plotManager.MainWindowContext.PointCountInHull);
+            List<PointD> points = _polygonGenerator.GeneratePoints(_plotManager.MainWindowContext.PointCountInHull);
 
             polygon = quickHull.CreateHull(points);
 
@@ -44,10 +46,10 @@ public class CreateRandomHullCommand : ICommand
 
         var (polygon, insidePoints) = await task;
 
-        plotManager.Polygons.Clear();
-        plotManager.Polygons.Add(polygon);
+        _plotManager.Polygons.Clear();
+        _plotManager.Polygons.Add(polygon);
 
-        plotManager.DrawCurrentPolygons();
-        plotManager.Plot.AddMarkers(insidePoints.ToList());
+        _plotManager.DrawCurrentPolygons();
+        _plotManager.Plot.AddMarkers(insidePoints.ToList());
     }
 }

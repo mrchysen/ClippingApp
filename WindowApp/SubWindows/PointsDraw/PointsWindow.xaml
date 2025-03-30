@@ -5,7 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WindowApp.SubWindows.PointsDraw"
         mc:Ignorable="d"
-        Title="PointsWindow" Height="450" Width="800">
+        Title="Рисование точек" Height="450" Width="800">
+
+    <Window.DataContext>
+        <local:PointsWindowViewModel />
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <FontFamily
+            x:Key="Font">./../../Fonts/#JetBrains Mono Medium
+        </FontFamily>
+
+        <Style
+            TargetType="TextBlock">
+            <Setter
+                Property="FontFamily"
+                Value="{StaticResource Font}" />
+        </Style>
+
+        <Style
+            TargetType="Button">
+            <Setter
+                Property="Margin"
+                Value="4 5 4 5" />
+
+            <Setter
+                Property="Padding"
+                Value="4" />
+
+            <Setter
+                Property="FontFamily"
+                Value="{StaticResource Font}" />
+        </Style>
+
+        <Style
+            x:Key="Border"
+            TargetType="Border">
+            <Setter
+                Property="BorderThickness"
+                Value="0.5" />
+            <Setter
+                Property="Margin"
+                Value="4" />
+            <Setter
+                Property="BorderBrush"
+                Value="Black" />
+        </Style>
+
+    </Window.Resources>
+
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -40,22 +89,37 @@
             Background="White">
 
             <Button
-                x:Name="RevertLastAddButton"
-                Padding="4"
-                Margin="4 5 4 5">Отменить последнее добавление</Button>
+                x:Name="RevertLastAddButton">Отменить последнее добавление</Button>
 
             <Button
-                x:Name="ClearPointsButton"
-                Padding="4"
-                Margin="4 5 4 5">Удалить все точки</Button>
+                x:Name="ClearPointsButton">Удалить все точки</Button>
 
-            <ScrollViewer>
-                <StackPanel
-                    x:Name="PolygonInfo"
-                    Orientation="Vertical">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="180" />
+                    <ColumnDefinition
+                        Width="40" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-                </StackPanel>
-            </ScrollViewer>
+                <TextBlock
+                    TextAlignment="Center"
+                    VerticalAlignment="Center">Количество точек</TextBlock>
+
+                <Border
+                    Grid.Column="1">
+                    <TextBox
+                        Height="28"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        Text="{Binding PointCount}"></TextBox>
+                </Border>
+
+                <Button
+                    Grid.Column="2"
+                    x:Name="GeneratePointsButton">Сгенерировать случайно</Button>
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>

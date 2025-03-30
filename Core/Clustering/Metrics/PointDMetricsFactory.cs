@@ -8,10 +8,14 @@ public static class PointDMetricsFactory
         => metricName switch
         {
             Metric.Euclidean => new EuclideanMetric(),
+            Metric.Cos => new CosMetric(),
+            Metric.Chebyshev => new ChebyshevMetric(),
             _ => throw new Exception("Not supported metric") 
         };
 }
 
 public enum Metric{
-    Euclidean
+    Euclidean,
+    Cos,
+    Chebyshev
 }

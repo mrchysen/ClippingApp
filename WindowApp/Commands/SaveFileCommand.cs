@@ -1,24 +1,23 @@
 ﻿using DAL.Files.Polygons;
 using System.IO;
-using Core.Models.Polygons;
+using System.Windows;
 using WindowApp.Infrastructure;
 using WindowApp.Settings;
-using Microsoft.Extensions.Options;
-using System.Windows;
 
-namespace WindowApp.KeyPressedHandler.Handlers;
+namespace WindowApp.Commands;
 
-// S = save
-public class KeySHandler : KeyHandler
+public class SaveFileCommand : IMainWindowCommand
 {
-    private readonly FilesPathSettings _filesPathSettings;
+    private FilesPathSettings _filesPathSettings;
+    private PlotManager _plotManager;
 
-    public KeySHandler(IOptions<FilesPathSettings> options)
+    public SaveFileCommand(PlotManager plotManager, FilesPathSettings? filesPathSettings = null)
     {
-        _filesPathSettings = options.Value;
+        _filesPathSettings = filesPathSettings ?? new();
+        _plotManager = plotManager;
     }
 
-    public override void Handle(PlotManager plotManager)
+    public Task Handle()
     {
         var fileName = GetDate() + ".json";
         var path = ConfigurePath(_filesPathSettings.GetPolygonDataFolderPath);
@@ -27,15 +26,15 @@ public class KeySHandler : KeyHandler
 
         bool saveResult = true;
 
-        if(plotManager.Polygons.Count == 0)
+        if (_plotManager.Polygons.Count == 0)
         {
             MessageBox.Show("Сохранить не удалось. Полигонов нет.", "Информация");
-            return;
+            return Task.CompletedTask;
         }
 
         try
         {
-            saveResult = saver.Save(plotManager.Polygons);
+            saveResult = saver.Save(_plotManager.Polygons);
         }
         catch
         {
@@ -44,14 +43,16 @@ public class KeySHandler : KeyHandler
 
         saver.Close();
 
-        if(saveResult) 
+        if (saveResult)
             MessageBox.Show($"Сохранено в {fileName}.", "Информация");
         else
             MessageBox.Show("Сохранить не удалось.", "Информация");
+
+        return Task.CompletedTask;
     }
 
-    private string ConfigurePath(string path) => 
-        Path.Combine(path, GetDate() + ".json"); 
+    private string ConfigurePath(string path) =>
+        Path.Combine(path, GetDate() + ".json");
 
     private string GetDate() => DateTime.Now.ToString("dd-MM-yyyy") + "_" + Guid.NewGuid().ToString();
 }

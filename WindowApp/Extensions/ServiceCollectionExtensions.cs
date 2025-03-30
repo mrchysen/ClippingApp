@@ -12,14 +12,13 @@ using Core.Settings;
 using Core.Utils.Equalizers;
 using Microsoft.Extensions.DependencyInjection;
 using WindowApp.Commands;
-using WindowApp.KeyPressedHandler.Handlers;
 using WindowApp.Settings;
 
 namespace WindowApp.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCommands(this IServiceCollection services)
+    public static IServiceCollection AddMainWindowCommands(this IServiceCollection services)
     {
         services.AddScoped<CreateRandomHullCommand>();
         services.AddScoped<CreateRandomNonconvexHullCommand>();
@@ -27,20 +26,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ShowPolygonDrawWindowCommand>();
         services.AddScoped<FindIntersectionCommand>();
         services.AddScoped<OpenFolderCommand>();
-        services.AddScoped<ClearPolygonsAndPointsCommand>();
+        services.AddScoped<ClearPlotCommand>();
         services.AddScoped<ClusteringCommand>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddKeyHandlers(this IServiceCollection services)
-    {
-        services.AddScoped<KeyBHandler>();
-        services.AddScoped<KeyNHandler>();
-        services.AddScoped<KeySHandler>();
-        services.AddScoped<KeyFHandler>();
-        services.AddScoped<KeyIHandler>();
-        services.AddScoped<KeyAHandler>();
 
         return services;
     }

@@ -6,13 +6,13 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WindowApp.SubWindows.Polygons;
+namespace WindowApp.SubWindows.ObjectsInfo;
 
-public partial class PolygonsWindow : Window
+public partial class ObjectsInfoWindow : Window
 {
-    private ObservableCollection<PolygonListViewModel> _listBoxPolygons { get; set; } = [];
+    private ObservableCollection<ObjectsInfoViewModel> _listBoxPolygons { get; set; } = [];
 
-    public PolygonsWindow(List<Polygon> polygons, List<PointD> points, List<Cluster> clusters)
+    public ObjectsInfoWindow(List<Polygon> polygons, List<PointD> points, List<Cluster> clusters)
     {
         InitializeComponent();
 
@@ -25,19 +25,19 @@ public partial class PolygonsWindow : Window
 
             if (listBox.SelectedItem != null)
             {
-                var selectedItem = (PolygonListViewModel)listBox.SelectedItem;
+                var selectedItem = (ObjectsInfoViewModel)listBox.SelectedItem;
 
                 CurrentPolygonName.Text = selectedItem.Name;
                 CurrentPolygonDataGrid.ItemsSource = CreatePolygonDataList(selectedItem.Points);
             }
         };
 
-        List<PolygonListViewModel> polygonListViewModels = new();
+        List<ObjectsInfoViewModel> polygonListViewModels = new();
 
         if (polygons.Count > 0)
         {
             var currentPolygonListViewModels = polygons.Select(el =>
-                PolygonListViewModel.Create(el.Points, el.Color, "Полигон "))
+                ObjectsInfoViewModel.Create(el.Points, el.Color, "Полигон "))
                 .ToList();
 
             for (int i = 0; i < currentPolygonListViewModels.Count; i++)
@@ -50,7 +50,7 @@ public partial class PolygonsWindow : Window
 
         if (points.Count > 0)
         {
-            var pointsCloud = PolygonListViewModel
+            var pointsCloud = ObjectsInfoViewModel
                 .Create(points, RandomColor.Get(), "Облако точек");
 
             polygonListViewModels.Add(pointsCloud);
@@ -62,8 +62,8 @@ public partial class PolygonsWindow : Window
             {
                 var color = RandomColor.Get();
 
-                polygonListViewModels.Add(PolygonListViewModel.Create(cluster.Points, color, "Кластер "));
-                polygonListViewModels.Add(PolygonListViewModel.Create([cluster.Centroid], color, "Центроида"));
+                polygonListViewModels.Add(ObjectsInfoViewModel.Create(cluster.Points, color, "Кластер "));
+                polygonListViewModels.Add(ObjectsInfoViewModel.Create([cluster.Centroid], color, "Центроида"));
             }
         }
 
@@ -76,9 +76,9 @@ public partial class PolygonsWindow : Window
         Visibility = Visibility.Hidden;
     }
 
-    private List<PolygonPointModel> CreatePolygonDataList(List<PointD> list)
+    private List<ObjectsInfoPointModel> CreatePolygonDataList(List<PointD> list)
     {
-        var polygonDataList = list.Select(p => new PolygonPointModel()
+        var polygonDataList = list.Select(p => new ObjectsInfoPointModel()
         {
             X = p.X,
             Y = p.Y

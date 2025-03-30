@@ -1,12 +1,18 @@
-﻿using System.Windows;
-using WindowApp.Infrastructure;
+﻿using WindowApp.Infrastructure;
 using WindowApp.SubWindows.PolygonsDraw;
 
 namespace WindowApp.Commands;
 
-public class ShowPolygonDrawWindowCommand : ICommand
+public class ShowPolygonDrawWindowCommand : IMainWindowCommand
 {
-    public Task Handle(PlotManager plotManager)
+    private PlotManager _plotManager;
+
+    public ShowPolygonDrawWindowCommand(PlotManager plotManager)
+    {
+        _plotManager = plotManager;
+    }
+
+    public Task Handle()
     {
         var window = new PolygonDraw();
 
@@ -16,9 +22,9 @@ public class ShowPolygonDrawWindowCommand : ICommand
 
         if(context.Polygons.Count > 0)
         {
-            plotManager.Polygons.Clear();
-            plotManager.Polygons.AddRange(context.Polygons);
-            plotManager.DrawCurrentPolygons();
+            _plotManager.Polygons.Clear();
+            _plotManager.Polygons.AddRange(context.Polygons);
+            _plotManager.DrawCurrentPolygons();
         }
 
         return Task.CompletedTask;

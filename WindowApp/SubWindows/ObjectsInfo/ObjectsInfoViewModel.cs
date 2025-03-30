@@ -1,11 +1,10 @@
 ﻿using Core.Models.Colors;
 using Core.Models.Points;
-using Core.Models.Polygons;
 using System.Windows.Media;
 
-namespace WindowApp.SubWindows.Polygons;
+namespace WindowApp.SubWindows.ObjectsInfo;
 
-class PolygonListViewModel
+class ObjectsInfoViewModel
 {
     public string Name { get; set; } = string.Empty;
 
@@ -13,8 +12,8 @@ class PolygonListViewModel
 
     public SolidColorBrush Fill { get; set; }
 
-    public static PolygonListViewModel Create(List<PointD> points, CoreColor color, string polygonName) 
-        => new PolygonListViewModel()
+    public static ObjectsInfoViewModel Create(List<PointD> points, CoreColor color, string polygonName) 
+        => new ObjectsInfoViewModel()
             {
                 Name = polygonName,
                 Points = points,

@@ -2,14 +2,21 @@
 
 namespace WindowApp.Commands;
 
-public class FindIntersectionCommand : ICommand
+public class FindIntersectionCommand : IMainWindowCommand
 {
-    public Task Handle(PlotManager plotManager)
+    private PlotManager _plotManager;
+
+    public FindIntersectionCommand(PlotManager plotManager)
     {
-        if (plotManager.Polygons.Count > 1)
+        _plotManager = plotManager;
+    }
+
+    public Task Handle()
+    {
+        if (_plotManager.Polygons.Count > 1)
         {
-            plotManager.Polygons.AddRange(plotManager.Clipper.Clip(plotManager.Polygons[0], plotManager.Polygons[1]));
-            plotManager.DrawCurrentPolygons();
+            _plotManager.Polygons.AddRange(_plotManager.Clipper.Clip(_plotManager.Polygons[0], _plotManager.Polygons[1]));
+            _plotManager.DrawCurrentPolygons();
         }
 
         return Task.CompletedTask;

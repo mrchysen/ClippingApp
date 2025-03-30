@@ -21,8 +21,8 @@ public class PointGenerator : IPointGenerator
 
     public PointD GeneratePoint()
     {
-        var x = (_area.X + _area.Width - _area.X) * _random.NextDouble() + _area.X;
-        var y = (_area.Y + _area.Height - _area.Y) * _random.NextDouble() + _area.Y;
+        var x = (_area.Width) * _random.NextDouble() + _area.X;
+        var y = (_area.Height) * _random.NextDouble() + _area.Y;
 
         return new PointD(x, y);
     }

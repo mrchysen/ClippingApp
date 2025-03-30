@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿using WindowApp.Utils;
 
 namespace WindowApp;
 
-public class MainWindowContext : INotifyPropertyChanged
+public class MainWindowViewModel : ViewModelBase
 {
     private int _pointCountInHull = 10;
 
@@ -38,12 +38,5 @@ public class MainWindowContext : INotifyPropertyChanged
             _hullParameter = value;
             OnPropertyChanged(nameof(HullParameter));
         }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

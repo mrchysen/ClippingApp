@@ -4,22 +4,39 @@ using Core.Colors;
 using ScottPlot;
 using WindowApp.Infrastructure;
 using Application.PlotExtensions;
+using WindowApp.Components.Plates.Clustering;
+using Core.Models.Points;
 
 namespace WindowApp.Commands;
 
-public class ClusteringCommand : ICommand
+public class ClusteringCommand : IMainWindowCommand
 {
-    public async Task Handle(PlotManager plotManager)
+    private PlotManager _plotManager;
+    private ClusteringViewModel _viewModel;
+    private IMetric<double, PointD> _metric;
+
+    public ClusteringCommand(
+        PlotManager plotManager, 
+        ClusteringViewModel viewModel,
+        IMetric<double, PointD> metric)
     {
-        if (plotManager.Points.Count == 0)
+        _plotManager = plotManager;
+        _viewModel = viewModel;
+        _metric = metric;
+    }
+
+    public async Task Handle()
+    {
+        if (_plotManager.Points.Count == 0)
             return;
 
         var task = Task.Run(() =>
         {
-            var clusteringAlgorithm = new KMeansAlgorithm(
-            PointDMetricsFactory.CreateMetric(Metric.Euclidean),
-            plotManager.Points,
-            plotManager.MainWindowContext.ClusterCount);
+            var clusteringAlgorithm = new KMeansAlgorithm( 
+            _metric,
+            _plotManager.Points,
+            _viewModel.ClusterCount,
+            _metric is CosMetric ? true : false); // условия на ограничение по кол-ву итераций
 
             var clusters = clusteringAlgorithm.CreateClusters();
 
@@ -29,26 +46,26 @@ public class ClusteringCommand : ICommand
 
             return (clusters, colors);
         });
-        
+
         var (clusters, colors) = await task;
 
-        plotManager.Plot.Clear();
-        plotManager.Clusters.Clear();
-        plotManager.Clusters.AddRange(clusters);
+        _plotManager.Plot.Clear();
+        _plotManager.Clusters.Clear();
+        _plotManager.Clusters.AddRange(clusters);
 
         for (int i = 0; i < clusters.Count; i++)
         {
-            plotManager.Plot.AddMarkers(clusters[i].Points, 
+            _plotManager.Plot.AddMarkers(clusters[i].Points, 
                 colors[i],
                 14);
 
-            plotManager.Plot.AddOneMarker(clusters[i].Centroid,
+            _plotManager.Plot.AddOneMarker(clusters[i].Centroid,
                 colors[i],
                 MarkerShape.Eks,
                 16);
         }
 
-        plotManager.Plot.Axes.AutoScale();
-        plotManager.WpfPlot.Refresh();
+        _plotManager.Plot.Axes.AutoScale();
+        _plotManager.WpfPlot.Refresh();
     }
 }

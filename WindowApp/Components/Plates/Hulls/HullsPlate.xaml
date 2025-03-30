@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="WindowApp.Components.Plates.HullsPlate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:WindowApp.Components.Plates.Hulls"
+             xmlns:local="clr-namespace:WindowApp.Components.Plates"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="800"
+             Background="White">
+
+    <UserControl.Resources>
+        <FontFamily
+            x:Key="Font">./../../../Fonts/#JetBrains Mono Medium
+        </FontFamily>
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <vm:HullsViewModel />
+    </UserControl.DataContext>
+    
+    <StackPanel>
+
+        <StackPanel>
+            <Border
+                BorderThickness="0.5"
+                BorderBrush="Black" />
+            <TextBlock
+                Padding="5"
+                FontFamily="{StaticResource Font}">
+Выпуклая оболочка
+            </TextBlock>
+            <Border
+                BorderThickness="0.5"
+                BorderBrush="Black" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="180" />
+                    <ColumnDefinition
+                        Width="40" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    TextAlignment="Center"
+                    FontFamily="{StaticResource Font}"
+                    VerticalAlignment="Center">Количество точек</TextBlock>
+
+                <Border
+                    Grid.Column="1">
+                    <TextBox
+                        Height="28"
+                        Padding="0 0 0 0"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        Text="{Binding PointCount}"></TextBox>
+                </Border>
+
+                <Button
+                    Grid.Column="2"
+                    x:Name="BuildConvexHullButton"
+                    Padding="4"
+                    FontFamily="{StaticResource Font}"
+                    Margin="4 5 4 5">Построить выпуклую оболочку</Button>
+            </Grid>
+        </StackPanel>
+
+        <!-- Non convex hull -->
+
+        <StackPanel>
+            <Border
+                BorderThickness="0.5"
+                BorderBrush="Black" />
+            <TextBlock
+                Padding="5"
+                FontFamily="{StaticResource Font}">
+Невыпуклая оболочка
+            </TextBlock>
+            <Border
+                BorderThickness="0.5"
+                BorderBrush="Black" />
+
+            <Grid
+                Margin="0 4 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="180" />
+                    <ColumnDefinition
+                        Width="40" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    TextAlignment="Center"
+                    FontFamily="{StaticResource Font}"
+                    VerticalAlignment="Center">Количество точек</TextBlock>
+
+                <TextBox
+                    Height="28"
+                    Grid.Column="1"
+                    Padding="0 0 0 0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Text="{Binding PointCount}"></TextBox>
+
+                <TextBlock
+                    Grid.Row="1"
+                    TextAlignment="Center"
+                    FontFamily="{StaticResource Font}"
+                    VerticalAlignment="Center">Параметр</TextBlock>
+
+                <TextBox
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Height="28"
+                    Padding="0 0 0 0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Text="{Binding NonconvexParameter}"></TextBox>
+
+                <Button
+                    Grid.Column="2"
+                    Grid.Row="1"
+                    x:Name="BuildNonconvexHullButton"
+                    Padding="4"
+                    FontFamily="{StaticResource Font}"
+                    Margin="4 5 4 5">Построить невыпуклую оболочку</Button>
+            </Grid>
+        </StackPanel>
+
+        <Button
+            x:Name="InfoAboutPolygonsButton"
+            Padding="4"
+            FontFamily="{StaticResource Font}"
+            Margin="4 5 4 5">Списки координат</Button>
+        <Button
+            x:Name="DrawPointsButton"
+            Padding="4"
+            FontFamily="{StaticResource Font}"
+            Margin="4 5 4 5">Нарисовать облако точек</Button>
+    </StackPanel>
+</UserControl>

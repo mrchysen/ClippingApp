@@ -15,18 +15,23 @@ public class KMeansAlgorithm : IClusteringAlgorithm
     private IPointGenerator _pointGenerator;
     private Cluster[] _clusters;
 
+    private int _iterations = 0;
+    private const int _iterationsLimit = 100_000;
+    private bool _iterationLimitEnable = false;
+
     public KMeansAlgorithm(
         IMetric<double, PointD> metric,
         IList<PointD> points,
-        int clusterCount)
+        int clusterCount, 
+        bool iterationLimitEnable = false)
     {
         _clusterCount = clusterCount;
         _metric = metric;
         _points = points;
         _clusters = new Cluster[clusterCount];
-        _pointGenerator = CreatePointGenerator();  
+        _pointGenerator = CreatePointGenerator();
+        _iterationLimitEnable = iterationLimitEnable;
     }
-
 
     public List<Cluster> CreateClusters()
     {
@@ -35,6 +40,9 @@ public class KMeansAlgorithm : IClusteringAlgorithm
         // Делаем до тех пор пока центроиды не перестанут менять местоположение
         while (AreAllCentroidNotChanged())
         {
+            if (_iterationLimitEnable && _iterations > _iterationsLimit)
+                break;
+
             foreach (var cluster in _clusters)
             {
                 cluster.Points.Clear();
@@ -63,15 +71,17 @@ public class KMeansAlgorithm : IClusteringAlgorithm
             {
                 cluster.ComputeNewCentroid();
             }
+
+            _iterations++;
         }
 
         return _clusters.ToList();
     }
 
+    // Все центроиды сильно не сместились
     private bool AreAllCentroidNotChanged()
         => _clusters.All(c => !c.IsCentroidChanged());
     
-
     private void InitializeCentroids()
     {
         for (int i = 0; i < _clusters.Length; i++)
@@ -83,15 +93,18 @@ public class KMeansAlgorithm : IClusteringAlgorithm
 
     private PointGenerator CreatePointGenerator()
     {
-        var highPoint = _points.Aggregate(PointDHelper.MaxPointD); 
-        var lowPoint = _points.Aggregate(PointDHelper.MinPointD);
+        var leftX = _points.Min(x => x.X);
+        var rightX = _points.Max(x => x.X);
+
+        var leftY = _points.Min(x => x.Y);
+        var rightY = _points.Max(x => x.Y);
 
         return new PointGenerator(new Rectangle()
         {
-            Width = (int)(highPoint.X - lowPoint.X),
-            Height = (int)(highPoint.Y - highPoint.Y),
-            X = (int)lowPoint.X,
-            Y = (int)lowPoint.Y
+            Width = (int)(rightX - leftX),
+            Height = (int)(rightY - leftY),
+            X = (int)leftX,
+            Y = (int)leftY
         });
     }
 }

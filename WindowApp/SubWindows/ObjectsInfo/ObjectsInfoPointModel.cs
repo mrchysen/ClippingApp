@@ -1,6 +1,6 @@
-﻿namespace WindowApp.SubWindows.Polygons;
+﻿namespace WindowApp.SubWindows.ObjectsInfo;
 
-public class PolygonPointModel
+public class ObjectsInfoPointModel
 {
     public int Number { get; set; }
 

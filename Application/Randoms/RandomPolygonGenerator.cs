@@ -3,7 +3,6 @@ using Core.Models.Points;
 using Core.Models.Points.Generator;
 using Core.Models.Polygons;
 using Core.Utils.Extensions;
-using Microsoft.Extensions.Options;
 using System.Drawing;
 
 namespace Application.Randoms;
@@ -13,11 +12,11 @@ public class RandomPolygonGenerator : IPolygonGenerator
     private readonly Random _random;
     private readonly PointGenerator _pointGenerator;
 
-    public RandomPolygonGenerator(Random random, IOptions<RandomSettings> options)
+    public RandomPolygonGenerator(RandomSettings? settings = null)
     {
-        var settings = options.Value;
+        settings = settings ?? new RandomSettings();
 
-        _random = random;
+        _random = new Random();
 
         var _area = new Rectangle(
             settings.Area.X,
@@ -60,6 +59,4 @@ public class RandomPolygonGenerator : IPolygonGenerator
 
         return list;
     }
-
-    
 }

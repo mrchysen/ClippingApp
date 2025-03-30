@@ -2,5 +2,5 @@
 
 public interface IPointsDrawCommand
 {
-    void Handle(PointsWindowContext context);
+    void Handle(PointsWindowViewModel context);
 }

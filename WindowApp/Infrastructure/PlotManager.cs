@@ -8,6 +8,7 @@ using ScottPlot.WPF;
 
 namespace WindowApp.Infrastructure;
 
+// TODO: сильно толстый класс => распилить на маленькие вынести в сервисы
 public class PlotManager
 {
     private WpfPlot _wpfPlot;
@@ -18,7 +19,7 @@ public class PlotManager
     public PlotManager(
         WpfPlot wpfPlot, 
         IClipper clipper, 
-        MainWindowContext context, 
+        MainWindowViewModel context, 
         List<Polygon>? polygons = null, 
         List<PointD>? points = null,
         List<Cluster>? cluster = null)
@@ -43,26 +44,29 @@ public class PlotManager
 
     public IClipper Clipper { get; set; }
 
-    public MainWindowContext MainWindowContext { get; set; }
+    public MainWindowViewModel MainWindowContext { get; set; }
 
     public void DrawCurrentPolygons()
     {
         IPolygonArtist artist = new PolygonArtist(Polygons);
 
         Plot.Clear();
-        artist.Plot(Plot, true);
+        artist.Draw(Plot, true);
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();
     }
 
-    public void DrawCurrentPolygon(Polygon polygon)
+    public void DrawCurrentPolygon(Polygon polygon, bool ClearLastPolygons = true)
     {
-        _polygons = [polygon];
-        IPolygonArtist artist = new PolygonArtist([polygon]);
+        _polygons = ClearLastPolygons ? [polygon] : [polygon, .. _polygons];
+        IPolygonArtist artist = new PolygonArtist(_polygons);
 
-        Plot.Clear();
-        artist.Plot(Plot, true);
+        if (ClearLastPolygons)
+        {
+            Plot.Clear();
+        }
+        artist.Draw(Plot, true);
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();
@@ -82,5 +86,20 @@ public class PlotManager
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();
+    }
+
+    public void ClearOnlyPlot()
+    {
+        _wpfPlot.Plot.Clear();
+        _wpfPlot.Refresh();
+    }
+
+    public void Clear()
+    {
+        _points.Clear();
+        _polygons.Clear();
+        _clusters.Clear();
+        _wpfPlot.Plot.Clear();
+        _wpfPlot.Refresh();
     }
 }
