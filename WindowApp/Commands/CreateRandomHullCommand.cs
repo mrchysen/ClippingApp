@@ -1,7 +1,9 @@
 ﻿using Application.PlotExtensions;
+using Application.Randoms;
 using Core.HullCreators.QuickHull;
 using Core.Models.Points;
 using Core.Models.Polygons;
+using WindowApp.Components.Plates.Hulls;
 using WindowApp.Infrastructure;
 
 namespace WindowApp.Commands;
@@ -10,10 +12,15 @@ public class CreateRandomHullCommand : IMainWindowCommand
 {
     private readonly IPolygonGenerator _polygonGenerator;
     private PlotManager _plotManager;
+    private HullsViewModel _viewModel;
 
-    public CreateRandomHullCommand(PlotManager plotManager, IPolygonGenerator polygonGenerator)
+    public CreateRandomHullCommand(
+        PlotManager plotManager, 
+        HullsViewModel viewModel,
+        IPolygonGenerator? polygonGenerator = null)
     {
-        _polygonGenerator = polygonGenerator;
+        _polygonGenerator = polygonGenerator ?? new RandomPolygonGenerator();
+        _viewModel = viewModel;
         _plotManager = plotManager;
     }
 
@@ -35,7 +42,7 @@ public class CreateRandomHullCommand : IMainWindowCommand
                 return (polygon, insidePoints);
             }
 
-            List<PointD> points = _polygonGenerator.GeneratePoints(_plotManager.MainWindowContext.PointCountInHull);
+            List<PointD> points = _polygonGenerator.GeneratePoints(_viewModel.PointCount);
 
             polygon = quickHull.CreateHull(points);
 

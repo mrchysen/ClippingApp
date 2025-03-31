@@ -9,14 +9,11 @@ namespace Application.Randoms;
 
 public class RandomPolygonGenerator : IPolygonGenerator
 {
-    private readonly Random _random;
     private readonly PointGenerator _pointGenerator;
 
     public RandomPolygonGenerator(RandomSettings? settings = null)
     {
         settings = settings ?? new RandomSettings();
-
-        _random = new Random();
 
         var _area = new Rectangle(
             settings.Area.X,

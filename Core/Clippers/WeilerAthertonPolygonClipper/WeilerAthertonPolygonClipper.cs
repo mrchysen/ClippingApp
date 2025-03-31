@@ -15,9 +15,10 @@ public class WeilerAthertonPolygonClipper : IClipper
 
     private readonly SegmentIntersector _segmentIntersector;
 
-    public WeilerAthertonPolygonClipper(SegmentIntersector segmentIntersector)
+    public WeilerAthertonPolygonClipper(
+        SegmentIntersector? segmentIntersector = null)
     {
-        _segmentIntersector = segmentIntersector;
+        _segmentIntersector = segmentIntersector ?? new();
     }
 
     public List<Polygon> Clip(List<Polygon> polygons)
@@ -28,6 +29,7 @@ public class WeilerAthertonPolygonClipper : IClipper
     // clockwise
     public List<Polygon> Clip(Polygon polygon1, Polygon polygon2)
     {
+        visited.Clear();
         _polygon1 = polygon1.ToDoubleLinkedListWithFlags();
         _polygon2 = polygon2.ToDoubleLinkedListWithFlags();
 

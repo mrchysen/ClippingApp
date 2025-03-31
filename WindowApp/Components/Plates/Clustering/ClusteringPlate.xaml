@@ -146,5 +146,10 @@
             Прямоугольный оболочки на кластерах
         </Button>
 
+        <Button
+            x:Name="DrawEllipsesHullButton">
+            Эллипсоидные оболочки на кластерах
+        </Button>
+
     </StackPanel>
 </UserControl>

@@ -32,7 +32,9 @@ public partial class ClusteringPlate : UserControl
         DrawConvexHullButton.Click += async (o, e)
             => await new CreateConvexHullsOnClustersCommand(PlotManager).Handle();
         DrawRectangularHullButton.Click += async (o, e)
-            => await new CreateShapeOfClustersCommand(PlotManager).Handle();
+            => await new CreateRectangularsOnClustersCommand(PlotManager).Handle();
+        DrawEllipsesHullButton.Click += async (o, e)
+            => await new CreateEllipsesOnClustersCommand(PlotManager).Handle();
     }
 
     private void RadioButton_Checked(object sender, System.Windows.RoutedEventArgs e)

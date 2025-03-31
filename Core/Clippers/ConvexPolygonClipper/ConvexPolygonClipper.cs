@@ -17,15 +17,15 @@ public class ConvexPolygonClipper : IClipper
     private readonly PointsOrdererByAngle _pointsOrdererByAngle;
 
     public ConvexPolygonClipper(
-        PointDEqualizer pointEqualizer, 
-        PointPolygonInclusionFinder pointInclusion, 
-        SegmentAndPolygonIntersector lineAndPolygonIntersector, 
-        PointsOrdererByAngle pointsOrdererByAngle)
+        PointDEqualizer? pointEqualizer = null, 
+        PointPolygonInclusionFinder? pointInclusion = null, 
+        SegmentAndPolygonIntersector? lineAndPolygonIntersector = null, 
+        PointsOrdererByAngle? pointsOrdererByAngle = null)
     {
-        _pointEqualizer = pointEqualizer;
-        _pointInclusion = pointInclusion;
-        _lineAndPolygonIntersector = lineAndPolygonIntersector;
-        _pointsOrdererByAngle = pointsOrdererByAngle;
+        _pointEqualizer = pointEqualizer ?? new();
+        _pointInclusion = pointInclusion ?? new();
+        _lineAndPolygonIntersector = lineAndPolygonIntersector ?? new();
+        _pointsOrdererByAngle = pointsOrdererByAngle ?? new();
     }
 
     public List<Polygon> Clip(List<Polygon> polygons)

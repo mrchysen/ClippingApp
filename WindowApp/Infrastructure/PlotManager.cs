@@ -19,16 +19,12 @@ public class PlotManager
     private List<Cluster> _clusters;
 
     public PlotManager(
-        WpfPlot wpfPlot, 
-        IClipper clipper, 
-        MainWindowViewModel context, 
+        WpfPlot wpfPlot,
         List<Polygon>? polygons = null, 
         List<PointD>? points = null,
         List<Cluster>? cluster = null)
     {
         _wpfPlot = wpfPlot;
-        Clipper = clipper;
-        MainWindowContext = context;
         _polygons = polygons ?? new();
         _points = points ?? new();
         _clusters = cluster ?? new();
@@ -43,10 +39,6 @@ public class PlotManager
     public List<PointD> Points => _points;
 
     public List<Cluster> Clusters => _clusters;
-
-    public IClipper Clipper { get; set; }
-
-    public MainWindowViewModel MainWindowContext { get; set; }
 
     public void DrawCurrentPolygons(List<Polygon>? polygons = null, bool drawClustersPoints = false)
     {
