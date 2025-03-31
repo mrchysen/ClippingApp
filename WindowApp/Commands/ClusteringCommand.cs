@@ -40,35 +40,17 @@ public class ClusteringCommand : IMainWindowCommand
 
             var clusters = clusteringAlgorithm.CreateClusters();
 
-            var colors = Enumerable.Range(0, clusters.Count)
-                .Select(el => RandomColor.Get())
-                .ToList();
+            
 
-            return (clusters, colors);
+            return clusters;
         });
         
-        var (clusters, colors) = await task;
+        var clusters = await task;
 
-        lock (_plotManager.Clusters)
-        {
-            _plotManager.Plot.Clear();
-            _plotManager.Clusters.Clear();
-            _plotManager.Clusters.AddRange(clusters);
+        _plotManager.Plot.Clear();
+        _plotManager.Clusters.Clear();
+        _plotManager.Clusters.AddRange(clusters);
 
-            for (int i = 0; i < clusters.Count; i++)
-            {
-                _plotManager.Plot.AddMarkers(clusters[i].Points,
-                    colors[i],
-                    14);
-
-                _plotManager.Plot.AddOneMarker(clusters[i].Centroid,
-                    colors[i],
-                    MarkerShape.Eks,
-                    16);
-            }
-
-            _plotManager.Plot.Axes.AutoScale();
-            _plotManager.WpfPlot.Refresh();
-        }
+        _plotManager.DrawClusters();
     }
 }

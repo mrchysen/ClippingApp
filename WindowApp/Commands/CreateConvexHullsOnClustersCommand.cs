@@ -15,24 +15,19 @@ public class CreateConvexHullsOnClustersCommand : IMainWindowCommand
 
     public async Task Handle()
     {
-        await Task.Run(() => {
+        _plotManager.ClearOnlyPlot();
+        _plotManager.Polygons.Clear();
+        var hullCreater = new QuickHullAlgorithm();
 
-            lock (_plotManager.Clusters)
-            {
-                _plotManager.ClearOnlyPlot();
-                _plotManager.Polygons.Clear();
-            }
-            var hullCreater = new QuickHullAlgorithm();
+        List<Cluster> clusters = new(_plotManager.Clusters);
 
-            List<Cluster> clusters = new(_plotManager.Clusters);
-            
-
-            for (int i = 0; i < clusters.Count; i++)
-            {
-                var polygon = hullCreater.CreateHull(clusters[i].Points);
-
-                _plotManager.DrawCurrentPolygon(polygon, false);
-            }
+        var task = Task.Run(() => 
+        {
+            return clusters.Select(el => hullCreater.CreateHull(el.Points)).ToList();
         });
+
+        var polygons = await task;
+
+        _plotManager.DrawCurrentPolygons(polygons);
     }
 }

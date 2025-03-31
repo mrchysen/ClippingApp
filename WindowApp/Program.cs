@@ -22,7 +22,7 @@ public class Program
         var host = builder.Build();
 
         var app = host.Services.GetService<App>();
-        
+
         app?.Run();
     }
 }

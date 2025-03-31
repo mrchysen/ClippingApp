@@ -141,5 +141,10 @@
             Выпуклые оболочки на кластерах
         </Button>
 
+        <Button
+            x:Name="DrawRectangularHullButton">
+            Прямоугольный оболочки на кластерах
+        </Button>
+
     </StackPanel>
 </UserControl>

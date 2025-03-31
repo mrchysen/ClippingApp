@@ -1,6 +1,8 @@
-﻿using Application.PolygonPlotting;
+﻿using Application.PlotExtensions;
+using Application.PolygonPlotting;
 using Core.Clippers;
 using Core.Clustering;
+using Core.Colors;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using ScottPlot;
@@ -46,15 +48,20 @@ public class PlotManager
 
     public MainWindowViewModel MainWindowContext { get; set; }
 
-    public void DrawCurrentPolygons()
+    public void DrawCurrentPolygons(List<Polygon>? polygons = null, bool drawClustersPoints = false)
     {
-        IPolygonArtist artist = new PolygonArtist(Polygons);
+        _polygons = polygons ?? _polygons;
+
+        IPolygonArtist artist = new PolygonArtist(_polygons);
 
         Plot.Clear();
         artist.Draw(Plot, true);
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();
+
+        if (drawClustersPoints)
+            DrawClusters();
     }
 
     public void DrawCurrentPolygon(Polygon polygon, bool ClearLastPolygons = true)
@@ -92,6 +99,28 @@ public class PlotManager
     {
         _wpfPlot.Plot.Clear();
         _wpfPlot.Refresh();
+    }
+
+    public void DrawClusters()
+    {
+        var colors = Enumerable.Range(0, _clusters.Count)
+            .Select(el => RandomColor.Get())
+            .ToList();
+
+        for (int i = 0; i < _clusters.Count; i++)
+        {
+            Plot.AddMarkers(_clusters[i].Points,
+                colors[i],
+                14);
+
+            Plot.AddOneMarker(_clusters[i].Centroid,
+                colors[i],
+                MarkerShape.Eks,
+                16);
+        }
+
+        Plot.Axes.AutoScale();
+        WpfPlot.Refresh();
     }
 
     public void Clear()
