@@ -1,4 +1,4 @@
-﻿
+﻿using Core.Clustering;
 using Core.HullCreators.QuickHull;
 using WindowApp.Infrastructure;
 
@@ -16,13 +16,20 @@ public class CreateConvexHullsOnClustersCommand : IMainWindowCommand
     public async Task Handle()
     {
         await Task.Run(() => {
-            _plotManager.ClearOnlyPlot();
-            _plotManager.Polygons.Clear();
+
+            lock (_plotManager.Clusters)
+            {
+                _plotManager.ClearOnlyPlot();
+                _plotManager.Polygons.Clear();
+            }
             var hullCreater = new QuickHullAlgorithm();
 
-            foreach (var cluster in _plotManager.Clusters)
+            List<Cluster> clusters = new(_plotManager.Clusters);
+            
+
+            for (int i = 0; i < clusters.Count; i++)
             {
-                var polygon = hullCreater.CreateHull(cluster.Points);
+                var polygon = hullCreater.CreateHull(clusters[i].Points);
 
                 _plotManager.DrawCurrentPolygon(polygon, false);
             }

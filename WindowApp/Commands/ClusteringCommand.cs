@@ -32,7 +32,7 @@ public class ClusteringCommand : IMainWindowCommand
 
         var task = Task.Run(() =>
         {
-            var clusteringAlgorithm = new KMeansAlgorithm( 
+            var clusteringAlgorithm = new KMeansAlgorithm(
             _metric,
             _plotManager.Points,
             _viewModel.ClusterCount,
@@ -46,26 +46,29 @@ public class ClusteringCommand : IMainWindowCommand
 
             return (clusters, colors);
         });
-
+        
         var (clusters, colors) = await task;
 
-        _plotManager.Plot.Clear();
-        _plotManager.Clusters.Clear();
-        _plotManager.Clusters.AddRange(clusters);
-
-        for (int i = 0; i < clusters.Count; i++)
+        lock (_plotManager.Clusters)
         {
-            _plotManager.Plot.AddMarkers(clusters[i].Points, 
-                colors[i],
-                14);
+            _plotManager.Plot.Clear();
+            _plotManager.Clusters.Clear();
+            _plotManager.Clusters.AddRange(clusters);
 
-            _plotManager.Plot.AddOneMarker(clusters[i].Centroid,
-                colors[i],
-                MarkerShape.Eks,
-                16);
+            for (int i = 0; i < clusters.Count; i++)
+            {
+                _plotManager.Plot.AddMarkers(clusters[i].Points,
+                    colors[i],
+                    14);
+
+                _plotManager.Plot.AddOneMarker(clusters[i].Centroid,
+                    colors[i],
+                    MarkerShape.Eks,
+                    16);
+            }
+
+            _plotManager.Plot.Axes.AutoScale();
+            _plotManager.WpfPlot.Refresh();
         }
-
-        _plotManager.Plot.Axes.AutoScale();
-        _plotManager.WpfPlot.Refresh();
     }
 }

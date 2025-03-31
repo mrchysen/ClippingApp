@@ -25,7 +25,7 @@ public partial class ClusteringPlate : UserControl
 
     private void InitializeButtons()
     {
-        ClusteringButton.Click += async (o, e) 
+        ClusteringButton.Click += async (o, e)
             => await new ClusteringCommand(PlotManager, ViewModel, _metric).Handle();
         DrawPointsButton.Click += async (o, e)
             => await new ShowPointDrawWindowCommand(PlotManager).Handle();
