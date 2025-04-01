@@ -53,10 +53,7 @@ public class CreateRandomHullCommand : IMainWindowCommand
 
         var (polygon, insidePoints) = await task;
 
-        _plotManager.Polygons.Clear();
-        _plotManager.Polygons.Add(polygon);
-
-        _plotManager.DrawCurrentPolygons();
+        _plotManager.DrawCurrentPolygon(polygon, true);
         _plotManager.Plot.AddMarkers(insidePoints.ToList());
     }
 }

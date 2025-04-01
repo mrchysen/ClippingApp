@@ -24,12 +24,12 @@ public class OpenFileCommand : IMainWindowCommand
         if (string.IsNullOrWhiteSpace(pathToFile))
             return Task.CompletedTask;
 
-        var list = new PolygonFileLoader(pathToFile).Load().RandomColors();
+        var polygons = new PolygonFileLoader(pathToFile)
+            .Load()
+            .RandomColors()
+            .ToList();
 
-        _plotManager.Polygons.Clear();
-        _plotManager.Polygons.AddRange(list);
-
-        _plotManager.DrawCurrentPolygons();
+        _plotManager.DrawCurrentPolygons(polygons);
 
         return Task.CompletedTask;
     }

@@ -22,9 +22,7 @@ public class ShowPolygonDrawWindowCommand : IMainWindowCommand
 
         if(context.Polygons.Count > 0)
         {
-            _plotManager.Polygons.Clear();
-            _plotManager.Polygons.AddRange(context.Polygons);
-            _plotManager.DrawCurrentPolygons();
+            _plotManager.DrawCurrentPolygons(context.Polygons);
         }
 
         return Task.CompletedTask;

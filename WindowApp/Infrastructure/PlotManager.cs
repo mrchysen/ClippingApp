@@ -40,9 +40,12 @@ public class PlotManager
 
     public List<Cluster> Clusters => _clusters;
 
-    public void DrawCurrentPolygons(List<Polygon>? polygons = null, bool drawClustersPoints = false)
+    public void DrawCurrentPolygons(
+        List<Polygon> polygons, 
+        bool drawClustersPoints = false,
+        bool ClearLastPolygons = true)
     {
-        _polygons = polygons ?? _polygons;
+        _polygons = ClearLastPolygons ? [..polygons] : [.._polygons, ..polygons];
 
         IPolygonArtist artist = new PolygonArtist(_polygons);
 

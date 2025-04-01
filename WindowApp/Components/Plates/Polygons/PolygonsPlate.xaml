@@ -125,6 +125,6 @@
         <Button
             x:Name="NextPolygonsButton">Пример пересечения двух произвольных</Button>
         <Button
-            x:Name="FindIntersectionButton">Найти пересечение(первых двух)</Button>
+            x:Name="FindIntersectionButton">Найти пересечения</Button>
     </StackPanel>
 </UserControl>

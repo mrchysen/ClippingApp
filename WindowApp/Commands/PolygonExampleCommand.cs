@@ -29,7 +29,10 @@ public class PolygonExampleCommand : IMainWindowCommand
             _polygonGenerator.Generate(true, IsClokwiseAlgotithm(_clipper), count:5),
             _polygonGenerator.Generate(true, IsClokwiseAlgotithm(_clipper), count:3)
         ]);
-        _plotManager.Polygons.AddRange(_clipper.Clip(_plotManager.Polygons[0], _plotManager.Polygons[1]));
+
+        var polygons = _clipper.Clip(_plotManager.Polygons[0], _plotManager.Polygons[1]);
+
+        _plotManager.Polygons.AddRange(polygons);
         IPolygonArtist artist = new PolygonArtist(_plotManager.Polygons);
         _plotManager.Plot.Clear();
         artist.Draw(_plotManager.Plot, true);
