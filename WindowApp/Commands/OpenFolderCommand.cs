@@ -1,20 +1,18 @@
-﻿using Microsoft.Extensions.Options;
-using System.Diagnostics;
-using WindowApp.Infrastructure;
+﻿using System.Diagnostics;
 using WindowApp.Settings;
 
 namespace WindowApp.Commands;
 
-public class OpenFolderCommand : ICommand
+public class OpenFolderCommand : IMainWindowCommand
 {
     private readonly FilesPathSettings _settings;
 
-    public OpenFolderCommand(IOptions<FilesPathSettings> options)
+    public OpenFolderCommand(FilesPathSettings? settings = null)
     {
-        _settings = options.Value;
+        _settings = settings ?? new();
     }
 
-    public Task Handle(PlotManager plotManager)
+    public Task Handle()
     {
         Process.Start(new ProcessStartInfo { FileName = _settings.GetPolygonDataFolderPath, UseShellExecute = true });
 

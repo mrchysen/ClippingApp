@@ -2,7 +2,7 @@
 
 public class RevertLastAddCommand : IPointsDrawCommand
 {
-    public void Handle(PointsWindowContext context)
+    public void Handle(PointsWindowViewModel context)
     {
         if (context.Points.Count == 0)
             return;

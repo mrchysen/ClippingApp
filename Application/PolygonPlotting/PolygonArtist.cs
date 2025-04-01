@@ -33,7 +33,7 @@ public class PolygonArtist : IPolygonArtist
 		return info;
 	}
 
-	public Plot Plot(Plot? plotInput = null, bool addMarkers = true)
+	public Plot Draw(Plot? plotInput = null, bool addMarkers = true)
 	{
         var plot = plotInput ?? new();
 

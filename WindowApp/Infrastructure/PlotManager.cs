@@ -1,6 +1,8 @@
-﻿using Application.PolygonPlotting;
+﻿using Application.PlotExtensions;
+using Application.PolygonPlotting;
 using Core.Clippers;
 using Core.Clustering;
+using Core.Colors;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using ScottPlot;
@@ -8,6 +10,7 @@ using ScottPlot.WPF;
 
 namespace WindowApp.Infrastructure;
 
+// TODO: сильно толстый класс => распилить на маленькие вынести в сервисы
 public class PlotManager
 {
     private WpfPlot _wpfPlot;
@@ -16,16 +19,12 @@ public class PlotManager
     private List<Cluster> _clusters;
 
     public PlotManager(
-        WpfPlot wpfPlot, 
-        IClipper clipper, 
-        MainWindowContext context, 
+        WpfPlot wpfPlot,
         List<Polygon>? polygons = null, 
         List<PointD>? points = null,
         List<Cluster>? cluster = null)
     {
         _wpfPlot = wpfPlot;
-        Clipper = clipper;
-        MainWindowContext = context;
         _polygons = polygons ?? new();
         _points = points ?? new();
         _clusters = cluster ?? new();
@@ -41,28 +40,35 @@ public class PlotManager
 
     public List<Cluster> Clusters => _clusters;
 
-    public IClipper Clipper { get; set; }
-
-    public MainWindowContext MainWindowContext { get; set; }
-
-    public void DrawCurrentPolygons()
+    public void DrawCurrentPolygons(
+        List<Polygon> polygons, 
+        bool drawClustersPoints = false,
+        bool ClearLastPolygons = true)
     {
-        IPolygonArtist artist = new PolygonArtist(Polygons);
+        _polygons = ClearLastPolygons ? [..polygons] : [.._polygons, ..polygons];
+
+        IPolygonArtist artist = new PolygonArtist(_polygons);
 
         Plot.Clear();
-        artist.Plot(Plot, true);
+        artist.Draw(Plot, true);
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();
+
+        if (drawClustersPoints)
+            DrawClusters();
     }
 
-    public void DrawCurrentPolygon(Polygon polygon)
+    public void DrawCurrentPolygon(Polygon polygon, bool ClearLastPolygons = true)
     {
-        _polygons = [polygon];
-        IPolygonArtist artist = new PolygonArtist([polygon]);
+        _polygons = ClearLastPolygons ? [polygon] : [polygon, .. _polygons];
+        IPolygonArtist artist = new PolygonArtist(_polygons);
 
-        Plot.Clear();
-        artist.Plot(Plot, true);
+        if (ClearLastPolygons)
+        {
+            Plot.Clear();
+        }
+        artist.Draw(Plot, true);
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();
@@ -82,5 +88,42 @@ public class PlotManager
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();
+    }
+
+    public void ClearOnlyPlot()
+    {
+        _wpfPlot.Plot.Clear();
+        _wpfPlot.Refresh();
+    }
+
+    public void DrawClusters()
+    {
+        var colors = Enumerable.Range(0, _clusters.Count)
+            .Select(el => RandomColor.Get())
+            .ToList();
+
+        for (int i = 0; i < _clusters.Count; i++)
+        {
+            Plot.AddMarkers(_clusters[i].Points,
+                colors[i],
+                14);
+
+            Plot.AddOneMarker(_clusters[i].Centroid,
+                colors[i],
+                MarkerShape.Eks,
+                16);
+        }
+
+        Plot.Axes.AutoScale();
+        WpfPlot.Refresh();
+    }
+
+    public void Clear()
+    {
+        _points.Clear();
+        _polygons.Clear();
+        _clusters.Clear();
+        _wpfPlot.Plot.Clear();
+        _wpfPlot.Refresh();
     }
 }

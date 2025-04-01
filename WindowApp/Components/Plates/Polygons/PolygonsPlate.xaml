@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="WindowApp.Components.Plates.PolygonsPlate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WindowApp.Components.Plates"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="800"
+             Background="White">
+
+    <UserControl.Resources>
+        <FontFamily
+            x:Key="Font">./../../../Fonts/#JetBrains Mono Medium
+        </FontFamily>
+
+        <Style
+            TargetType="RadioButton">
+            <Setter
+                Property="Margin"
+                Value="8" />
+
+            <Setter
+                Property="FontFamily"
+                Value="{StaticResource Font}" />
+        </Style>
+
+        <Style
+            TargetType="TextBlock">
+            <Setter
+                Property="FontFamily"
+                Value="{StaticResource Font}" />
+        </Style>
+
+        <Style
+            TargetType="Button">
+            <Setter
+                Property="Margin"
+                Value="4 5 4 5" />
+
+            <Setter
+                Property="Padding"
+                Value="4" />
+
+            <Setter
+                Property="FontFamily"
+                Value="{StaticResource Font}" />
+        </Style>
+
+        <Style
+            x:Key="Border"
+            TargetType="Border">
+            <Setter
+                Property="BorderThickness"
+                Value="0.5" />
+            <Setter
+                Property="Margin"
+                Value="4" />
+            <Setter
+                Property="BorderBrush"
+                Value="Black" />
+        </Style>
+        
+    </UserControl.Resources>
+
+    <StackPanel>
+        <TextBlock
+            Padding="5"
+            TextAlignment="Center"
+            FontSize="18">
+            Алгоритм пересечения полигонов
+        </TextBlock>
+
+        <!-- Radion Button Menu -->
+
+        <StackPanel>
+            <Border
+                Style="{StaticResource Border}" />
+            
+            <TextBlock
+                Padding="5">
+                Только для выпуклых
+            </TextBlock>
+            
+            <Border
+                Style="{StaticResource Border}" />
+            
+            <RadioButton
+                GroupName="ClippingAlg"
+                DataContext="0"
+                Checked="ClipperAlgRadioButton_Checked"
+                IsChecked="True">
+                Дефолт О(n*m)
+            </RadioButton>
+            
+            <RadioButton
+                GroupName="ClippingAlg"
+                DataContext="1"
+                Checked="ClipperAlgRadioButton_Checked">
+                Быстрый О(n+m)
+            </RadioButton>
+            
+            <Border Style="{StaticResource Border}"/>
+            
+            <TextBlock
+                Padding="5">
+                Произвольные
+            </TextBlock>
+            
+            <Border Style="{StaticResource Border}"/>
+            
+            <RadioButton
+                GroupName="ClippingAlg"
+                DataContext="2"
+                Checked="ClipperAlgRadioButton_Checked">
+                Weiler–Atherton О(n*m)
+            </RadioButton>
+
+            <Border
+                Style="{StaticResource Border}" />
+        </StackPanel>
+
+        <Button
+            x:Name="DrawPolygonsButton">Нарисовать полигон</Button>
+        <Button
+            x:Name="NextPolygonsButton">Пример пересечения двух произвольных</Button>
+        <Button
+            x:Name="FindIntersectionButton">Найти пересечения</Button>
+    </StackPanel>
+</UserControl>

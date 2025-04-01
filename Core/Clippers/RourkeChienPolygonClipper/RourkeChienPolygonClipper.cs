@@ -14,11 +14,11 @@ public class RourkeChienPolygonClipper : IClipper
     private readonly PointPolygonInclusionFinder _pointPolygonInclusionFinder;
 
     public RourkeChienPolygonClipper(
-        SegmentIntersector segmentIntersector, 
-        PointPolygonInclusionFinder pointPolygonInclusionFinder)
+        SegmentIntersector? segmentIntersector = null, 
+        PointPolygonInclusionFinder? pointPolygonInclusionFinder = null)
     {
-        _segmentIntersector = segmentIntersector;
-        _pointPolygonInclusionFinder = pointPolygonInclusionFinder;
+        _segmentIntersector = segmentIntersector ?? new();
+        _pointPolygonInclusionFinder = pointPolygonInclusionFinder ?? new();
     }
 
     public List<Polygon> Clip(List<Polygon> polygons)

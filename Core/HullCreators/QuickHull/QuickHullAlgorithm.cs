@@ -2,6 +2,7 @@
 using Core.Models.Points;
 using Core.Models.Polygons;
 using Core.Utils.Extensions;
+using System.ComponentModel;
 
 namespace Core.HullCreators.QuickHull;
 
@@ -12,6 +13,12 @@ public class QuickHullAlgorithm : IConvexHullCreator
 
     public Polygon CreateHull(List<PointD> points)
     {
+        if (points.Count == 0)
+            return new();
+
+        convexHullPoints.Clear();
+        visited.Clear();
+
         PointD max_p = points.Aggregate(PointDHelper.MaxPointD);
         PointD min_p = points.Aggregate(PointDHelper.MinPointD);
 

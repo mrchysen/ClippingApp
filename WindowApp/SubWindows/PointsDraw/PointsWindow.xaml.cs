@@ -10,22 +10,26 @@ namespace WindowApp.SubWindows.PointsDraw;
 
 public partial class PointsWindow : Window
 {
-    private PointsWindowContext _context;
+    private PointsWindowViewModel _context;
 
     public const int DeltaX = 20;
     public const int DeltaY = 20;
+
+    public const int ElipseSize = 10;
 
     public PointsWindow()
     {
         InitializeComponent();
 
         _context = new(WindowCanvas);
+        DataContext = _context;
 
         ClearPointsButton.Click += (o, e) => new RemoveAllPointsCommand().Handle(_context);
         RevertLastAddButton.Click += (o, e) => new RevertLastAddCommand().Handle(_context);
+        GeneratePointsButton.Click += (o, e) => new GenerateRandomPointsCommand().Handle(_context);
     }
 
-    public PointsWindowContext Context => _context;
+    public PointsWindowViewModel Context => _context;
 
     private void WindowCanvas_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -39,14 +43,7 @@ public partial class PointsWindow : Window
     {
         Point mousePosition = e.GetPosition(WindowCanvas);
 
-        Ellipse ellipse = new Ellipse
-        {
-            Width = 5,
-            Height = 5,
-            Fill = new SolidColorBrush(Colors.Aqua),
-            Stroke = Brushes.Black,
-            StrokeThickness = 2
-        };
+        Ellipse ellipse = CreateEllipse();
 
         var ellipseX = mousePosition.X - ellipse.Width / 2;
         var ellipseY = mousePosition.Y - ellipse.Height / 2;
@@ -59,4 +56,13 @@ public partial class PointsWindow : Window
 
         WindowCanvas.Children.Add(ellipse);
     }
+
+    public static Ellipse CreateEllipse() => new Ellipse
+    {
+        Width = ElipseSize,
+        Height = ElipseSize,
+        Fill = new SolidColorBrush(Colors.Aqua),
+        Stroke = Brushes.Black,
+        StrokeThickness = 2
+    };
 }

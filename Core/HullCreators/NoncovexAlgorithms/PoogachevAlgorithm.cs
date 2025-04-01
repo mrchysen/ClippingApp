@@ -5,7 +5,6 @@ using Core.Models.Points;
 using Core.Models.Polygons;
 using Core.Utils.Equalizers;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Core.HullCreators.NoncovexAlgorithms;
 
