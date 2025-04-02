@@ -33,7 +33,7 @@
                 x:Name="PolygonListBox" 
                 Grid.Row="2"
                 FontFamily="{StaticResource Font}"
-                Background="{StaticResource sEC}">
+                Background="{StaticResource MenuColor}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5" Orientation="Horizontal">
