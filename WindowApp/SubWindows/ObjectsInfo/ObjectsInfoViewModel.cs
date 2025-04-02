@@ -8,6 +8,8 @@ class ObjectsInfoViewModel
 {
     public string Name { get; set; } = string.Empty;
 
+    public ObjectType Type { get; set; }
+
     public List<PointD> Points { get; set; }
 
     public SolidColorBrush Fill { get; set; }
@@ -19,4 +21,12 @@ class ObjectsInfoViewModel
                 Points = points,
                 Fill = new SolidColorBrush(Color.FromArgb(255, color.R, color.G, color.B))
             };
+}
+
+public enum ObjectType
+{
+    PointCloud,
+    Centroid,
+    Polygon,
+    Cluster
 }
