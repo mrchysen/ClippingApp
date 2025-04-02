@@ -1,10 +1,8 @@
-﻿using Core.Clippers.ConvexPolygonClipper;
-using Core.Models.Polygons;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using System.Drawing;
 using System.IO;
 using System.Windows;
-using System.Windows.Input;
+using System.Windows.Media;
 using WindowApp.Commands;
 using WindowApp.Components.Plates;
 using WindowApp.Infrastructure;
@@ -16,15 +14,27 @@ public partial class MainWindow : Window
 {
     private PlotManager _plotManager;
 
-    public MainWindow(IServiceProvider serviceProvider, IOptions<FilesPathSettings> filePathSettingsOptions)
+    public MainWindow(IOptions<FilesPathSettings> filePathSettingsOptions)
     {
         InitializeComponent();
+        InitializeTheme();
 
         _plotManager = new(Plot);
-        
+
         InitializePlateDataContext();
         InitializeMenuItemClicks();
         EnsureDataFoldersExistence(filePathSettingsOptions.Value);
+    }
+
+    private void InitializeTheme()
+    {
+        var backgroundBrush = Resources["BackgroundColor"] as SolidColorBrush;
+        var fontBrush = Resources["FontColor"] as SolidColorBrush;
+
+        Background = backgroundBrush;
+        Plot.Plot.FigureBackground.Color =
+            new($"#{backgroundBrush!.Color.R:X2}{backgroundBrush!.Color.G:X2}{backgroundBrush!.Color.B:X2}");
+        Plot.Plot.Axes.Color(new($"#{fontBrush!.Color.R:X2}{fontBrush!.Color.G:X2}{fontBrush!.Color.B:X2}"));
     }
 
     private void InitializeMenuItemClicks()

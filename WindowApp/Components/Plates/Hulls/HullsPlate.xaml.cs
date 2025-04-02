@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media;
 using WindowApp.Commands;
 using WindowApp.Components.Plates.Hulls;
 using WindowApp.Infrastructure;
@@ -15,6 +16,8 @@ public partial class HullsPlate : UserControl
     {
         InitializeComponent();
         InitializeButtons();
+
+        Background = Resources["BackgroundColor"] as SolidColorBrush;
     }
 
     private void InitializeButtons()

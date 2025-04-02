@@ -29,6 +29,8 @@ public partial class PolygonDraw : Window
         DrawCanvasGrid();
         _context = new(WindowCanvas, PolygonInfo);
 
+        Background = Resources["BackgroundColor"] as SolidColorBrush;
+
         AddButton.Click += (o, e) => new AddCommand().Handle(_context);
         RevertLastAddButton.Click += (o, e) => new RevertLastAddCommand().Handle(_context);
         ClearPolygonButton.Click += (o, e) => new ClearPolygonCommand().Handle(_context);
@@ -92,12 +94,12 @@ public partial class PolygonDraw : Window
 
         for (int i = 1; i < GridXLines + 1; i++)
         {
-            WindowCanvas.Children.Add(CreateLine(new Point(i * DeltaX, 0), new Point(i * DeltaX, Height * 3), brush));
+            WindowCanvas.Children.Add(CreateLine(new Point(i * DeltaX, 0), new Point(i * DeltaX, Height * 3), Resources["FontColor"] as SolidColorBrush));
         }
 
         for (int i = 1; i < GridYLines + 1; i++)
         {
-            WindowCanvas.Children.Add(CreateLine(new Point(0, i * DeltaY), new Point(Width * 2, i * DeltaY), brush));
+            WindowCanvas.Children.Add(CreateLine(new Point(0, i * DeltaY), new Point(Width * 2, i * DeltaY), Resources["FontColor"] as SolidColorBrush));
         }
     }
 

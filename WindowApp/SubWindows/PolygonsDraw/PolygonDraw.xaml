@@ -7,7 +7,40 @@
         mc:Ignorable="d"
         Title="PolygonDraw" Height="450" Width="800">
 
-    <Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="../../SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style
+                TargetType="Button">
+                <Setter
+                    Property="Margin"
+                    Value="4 5 4 5" />
+
+                <Setter
+                    Property="Padding"
+                    Value="4" />
+
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
+
+                <Setter 
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource PrimaryColor}" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid 
+        Background="{StaticResource BackgroundColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition  Width="Auto"/>
@@ -19,40 +52,42 @@
             Margin="2"
             BorderThickness="1"
             BorderBrush="Black"
-            Background="White">
+            Background="{StaticResource BackgroundColor}">
             <Canvas 
-                x:Name="WindowCanvas" MouseDown="WindowCanvas_MouseDown"
+                x:Name="WindowCanvas" 
+                MouseDown="WindowCanvas_MouseDown"
                 Background="Transparent"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
+                VerticalAlignment="Stretch"
+                ClipToBounds="True">
             </Canvas>
         </Border>
 
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+        <GridSplitter Grid.Column="1" />
 
         <StackPanel
-            Grid.Column="2"
-            Background="White">
+            Grid.Column="2">
 
             <Button
-                x:Name="AddButton"
-                Padding="4"
-                Margin="4 5 4 5">Добавить</Button>
+                x:Name="AddButton">
+                Добавить
+            </Button>
             
             <Button
-                x:Name="RevertLastAddButton"
-                Padding="4"
-                Margin="4 5 4 5">Отменить последнее добавление</Button>
+                x:Name="RevertLastAddButton">
+                Отменить последнее добавление
+            </Button>
 
             <Button
-                x:Name="ClearPolygonButton"
-                Padding="4"
-                Margin="4 5 4 5">Удалить рисуемый полигон</Button>
+                x:Name="ClearPolygonButton">
+                Удалить рисуемый полигон
+            </Button>
 
-            <StackPanel 
+            <Border Style="{StaticResource Border}" />
+
+            <StackPanel
                 x:Name="PolygonInfo"
                 Orientation="Vertical">
-                
             </StackPanel>
         </StackPanel>
     </Grid>

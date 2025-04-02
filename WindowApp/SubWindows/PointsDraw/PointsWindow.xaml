@@ -10,52 +10,54 @@
     <Window.DataContext>
         <local:PointsWindowViewModel />
     </Window.DataContext>
-    
+
     <Window.Resources>
-        <FontFamily
-            x:Key="Font">./../../Fonts/#JetBrains Mono Medium
-        </FontFamily>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="../../SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Style
+                TargetType="TextBlock">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
 
-        <Style
-            TargetType="TextBlock">
-            <Setter
-                Property="FontFamily"
-                Value="{StaticResource Font}" />
-        </Style>
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+            </Style>
 
-        <Style
-            TargetType="Button">
-            <Setter
-                Property="Margin"
-                Value="4 5 4 5" />
+            <Style
+                TargetType="Button">
+                <Setter
+                    Property="Margin"
+                    Value="4 5 4 5" />
 
-            <Setter
-                Property="Padding"
-                Value="4" />
+                <Setter
+                    Property="Padding"
+                    Value="4" />
 
-            <Setter
-                Property="FontFamily"
-                Value="{StaticResource Font}" />
-        </Style>
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
 
-        <Style
-            x:Key="Border"
-            TargetType="Border">
-            <Setter
-                Property="BorderThickness"
-                Value="0.5" />
-            <Setter
-                Property="Margin"
-                Value="4" />
-            <Setter
-                Property="BorderBrush"
-                Value="Black" />
-        </Style>
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
 
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource PrimaryColor}" />
+            </Style>
+
+        </ResourceDictionary>
     </Window.Resources>
 
 
-    <Grid>
+    <Grid
+        Background="{StaticResource BackgroundColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
@@ -67,7 +69,7 @@
             Margin="2"
             BorderThickness="1"
             BorderBrush="Black"
-            Background="White">
+            Background="{StaticResource BackgroundColor}">
             <Canvas
                 x:Name="WindowCanvas"
                 MouseDown="WindowCanvas_MouseDown"
@@ -77,22 +79,22 @@
             </Canvas>
         </Border>
 
-        <GridSplitter
-            Grid.Column="1"
-            Width="5"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            ResizeBehavior="PreviousAndNext" />
+        <GridSplitter Grid.Column="1" />
 
         <StackPanel
             Grid.Column="2"
-            Background="White">
+            Background="{StaticResource BackgroundColor}">
 
             <Button
-                x:Name="RevertLastAddButton">Отменить последнее добавление</Button>
+                x:Name="RevertLastAddButton">
+                Отменить последнее добавление
+            </Button>
 
             <Button
                 x:Name="ClearPointsButton">Удалить все точки</Button>
+
+            <Border
+                Style="{StaticResource Border}" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -113,13 +115,16 @@
                         Height="28"
                         VerticalContentAlignment="Center"
                         HorizontalContentAlignment="Center"
-                        Text="{Binding PointCount}"></TextBox>
+                        Text="{Binding PointCount}"
+                        Background="{StaticResource PrimaryColor}"></TextBox>
                 </Border>
 
                 <Button
                     Grid.Column="2"
                     x:Name="GeneratePointsButton">Сгенерировать случайно</Button>
             </Grid>
+
+            <Border Style="{StaticResource Border}" />
         </StackPanel>
     </Grid>
 </Window>

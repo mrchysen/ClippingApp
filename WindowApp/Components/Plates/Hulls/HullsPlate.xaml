@@ -11,9 +11,61 @@
              Background="White">
 
     <UserControl.Resources>
-        <FontFamily
-            x:Key="Font">./../../../Fonts/#JetBrains Mono Medium
-        </FontFamily>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="./../../../SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style
+                TargetType="TextBlock">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
+
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+            </Style>
+
+            <Style
+                TargetType="TextBox">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
+
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource PrimaryColor}" />
+            </Style>
+
+            <Style
+                TargetType="Button">
+                <Setter
+                    Property="Margin"
+                    Value="4 5 4 5" />
+
+                <Setter
+                    Property="Padding"
+                    Value="4" />
+
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
+
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource PrimaryColor}" />
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <UserControl.DataContext>
@@ -24,13 +76,11 @@
 
         <StackPanel>
             <TextBlock
-                Padding="5"
-                FontFamily="{StaticResource Font}">
+                Padding="5">
                 Выпуклая оболочка
             </TextBlock>
-            <Border
-                BorderThickness="0.5"
-                BorderBrush="Black" />
+            
+            <Border Style="{StaticResource Border}" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -43,7 +93,6 @@
 
                 <TextBlock
                     TextAlignment="Center"
-                    FontFamily="{StaticResource Font}"
                     VerticalAlignment="Center">Количество точек</TextBlock>
 
                 <Border
@@ -63,22 +112,20 @@
                     FontFamily="{StaticResource Font}"
                     Margin="4 5 4 5">Построить выпуклую оболочку</Button>
             </Grid>
+
+            <Border
+                Style="{StaticResource Border}" />
         </StackPanel>
 
         <!-- Non convex hull -->
 
         <StackPanel>
-            <Border
-                BorderThickness="0.5"
-                BorderBrush="Black" />
             <TextBlock
-                Padding="5"
-                FontFamily="{StaticResource Font}">
+                Padding="5">
                 Невыпуклая оболочка
             </TextBlock>
-            <Border
-                BorderThickness="0.5"
-                BorderBrush="Black" />
+            
+            <Border Style="{StaticResource Border}"/>
 
             <Grid
                 Margin="0 4 0 0">
@@ -97,7 +144,6 @@
 
                 <TextBlock
                     TextAlignment="Center"
-                    FontFamily="{StaticResource Font}"
                     VerticalAlignment="Center">Количество точек</TextBlock>
 
                 <TextBox
@@ -111,7 +157,6 @@
                 <TextBlock
                     Grid.Row="1"
                     TextAlignment="Center"
-                    FontFamily="{StaticResource Font}"
                     VerticalAlignment="Center">Параметр</TextBlock>
 
                 <TextBox
@@ -126,25 +171,21 @@
                 <Button
                     Grid.Column="2"
                     Grid.Row="0"
-                    x:Name="BuildNonconvexHullButton"
-                    Padding="4"
-                    FontFamily="{StaticResource Font}"
-                    Margin="4 5 4 5">Применить невыпуклую оболочку</Button>
+                    x:Name="BuildNonconvexHullButton">Применить невыпуклую оболочку</Button>
 
                 <Button
                     Grid.Column="2"
                     Grid.Row="1"
-                    x:Name="GenerateNonconvexHullButton"
-                    Padding="4"
-                    FontFamily="{StaticResource Font}"
-                    Margin="4 5 4 5">Сгенерировать невыпуклую оболочку</Button>
+                    x:Name="GenerateNonconvexHullButton">Сгенерировать невыпуклую оболочку</Button>
             </Grid>
         </StackPanel>
 
         <Button
-            x:Name="DrawPointsButton"
-            Padding="4"
-            FontFamily="{StaticResource Font}"
-            Margin="4 5 4 5">Нарисовать облако точек</Button>
+            x:Name="DrawPointsButton">
+            Нарисовать облако точек
+        </Button>
+
+        <Border
+            Style="{StaticResource Border}" />
     </StackPanel>
 </UserControl>

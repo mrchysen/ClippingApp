@@ -1,6 +1,7 @@
 ﻿using Core.Clustering.Metrics;
 using Core.Models.Points;
 using System.Windows.Controls;
+using System.Windows.Media;
 using WindowApp.Commands;
 using WindowApp.Components.Plates.Clustering;
 using WindowApp.Infrastructure;
@@ -19,6 +20,8 @@ public partial class ClusteringPlate : UserControl
     {
         InitializeComponent();
         InitializeButtons();
+
+        Background = Resources["BackgroundColor"] as SolidColorBrush;
 
         _metric = PointDMetricsFactory.CreateMetric(Metric.Euclidean);
     }
