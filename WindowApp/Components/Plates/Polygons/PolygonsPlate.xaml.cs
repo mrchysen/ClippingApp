@@ -4,6 +4,7 @@ using Core.Clippers.RourkeChienPolygonClipper;
 using Core.Clippers.WeilerAthertonPolygonClipper;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using WindowApp.Commands;
 using WindowApp.Infrastructure;
 
@@ -18,6 +19,8 @@ public partial class PolygonsPlate : UserControl
     {
         InitializeComponent();
         InitializeButtons();
+
+        Background = Resources["BackgroundColor"] as SolidColorBrush;
 
         _clipper = new ConvexPolygonClipper();
     }

@@ -21,6 +21,8 @@ public partial class PointsWindow : Window
     {
         InitializeComponent();
 
+        Background = Resources["BackgroundColor"] as SolidColorBrush;
+
         _context = new(WindowCanvas);
         DataContext = _context;
 

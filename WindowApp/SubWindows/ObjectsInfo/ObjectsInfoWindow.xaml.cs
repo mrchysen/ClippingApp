@@ -5,6 +5,7 @@ using Core.Models.Polygons;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace WindowApp.SubWindows.ObjectsInfo;
 
@@ -15,6 +16,8 @@ public partial class ObjectsInfoWindow : Window
     public ObjectsInfoWindow(List<Polygon> polygons, List<PointD> points, List<Cluster> clusters)
     {
         InitializeComponent();
+
+        Background = Resources["BackgroundColor"] as SolidColorBrush;
 
         PolygonListBox.SelectionChanged += (o, e) =>
         {

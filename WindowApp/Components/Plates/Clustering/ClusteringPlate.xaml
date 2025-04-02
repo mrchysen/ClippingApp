@@ -9,51 +9,74 @@
              d:DesignHeight="450" 
              d:DesignWidth="800"
              d:Background="White">
-    
+
     <UserControl.Resources>
-        <FontFamily
-            x:Key="Font">./../../../Fonts/#JetBrains Mono Medium
-        </FontFamily>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="./../../../SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style TargetType="TextBlock">
-            <Setter
-                Property="FontFamily" 
-                Value="{StaticResource Font}"/>
-        </Style>
-        
-        <Style TargetType="Button">
-            <Setter
-                Property="Margin"
-                Value="4 5 4 5" />
+            <Style
+                TargetType="TextBlock">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
 
-            <Setter
-                Property="Padding"
-                Value="4" />
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+            </Style>
 
-            <Setter
-                Property="FontFamily"
-                Value="{StaticResource Font}" />
-        </Style>
+            <Style
+                TargetType="TextBox">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
 
-        <Style x:Key="Border" TargetType="Border">
-            <Setter
-                Property="BorderThickness"
-                Value="0.5" />
-            <Setter
-                Property="Margin"
-                Value="4" />
-            <Setter
-                Property="BorderBrush"
-                Value="Black" />
-        </Style>
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+            </Style>
 
-        <Style
-            TargetType="RadioButton">
-            <Setter
-                Property="Margin"
-                Value="8" />
-        </Style>
+            <Style
+                TargetType="Button">
+                <Setter
+                    Property="Margin"
+                    Value="4 5 4 5" />
 
+                <Setter
+                    Property="Padding"
+                    Value="4" />
+
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
+
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource PrimaryColor}" />
+            </Style>
+
+            <Style
+                TargetType="RadioButton">
+                <Setter
+                    Property="Margin"
+                    Value="8" />
+
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
+
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource PrimaryColor}" />
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <UserControl.DataContext>
@@ -73,7 +96,9 @@
             <TextBlock
                 TextAlignment="Center"
                 FontFamily="{StaticResource Font}"
-                VerticalAlignment="Center">Количество кластеров</TextBlock>
+                VerticalAlignment="Center">
+                Количество кластеров
+            </TextBlock>
 
             <Border
                 Grid.Column="1">
@@ -82,13 +107,17 @@
                     Padding="0 0 0 0"
                     VerticalContentAlignment="Center"
                     HorizontalContentAlignment="Center"
-                    Text="{Binding ClusterCount}"></TextBox>
+                    Text="{Binding ClusterCount}"
+                    Background="{StaticResource PrimaryColor}"></TextBox>
             </Border>
 
             <Button
                 Grid.Column="2"
                 x:Name="ClusteringButton">Построить кластера</Button>
         </Grid>
+
+        <Border 
+            Style="{StaticResource Border}" />
 
         <Button
             x:Name="DrawPointsButton">
@@ -150,6 +179,8 @@
             x:Name="DrawEllipsesHullButton">
             Эллипсоидные оболочки на кластерах
         </Button>
+
+        <Border Style="{StaticResource Border}" />
 
     </StackPanel>
 </UserControl>

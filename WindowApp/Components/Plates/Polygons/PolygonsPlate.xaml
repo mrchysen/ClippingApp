@@ -10,57 +10,65 @@
              Background="White">
 
     <UserControl.Resources>
-        <FontFamily
-            x:Key="Font">./../../../Fonts/#JetBrains Mono Medium
-        </FontFamily>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="./../../../SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style
-            TargetType="RadioButton">
-            <Setter
-                Property="Margin"
-                Value="8" />
+            <Style
+                TargetType="RadioButton">
+                <Setter
+                    Property="Margin"
+                    Value="8" />
 
-            <Setter
-                Property="FontFamily"
-                Value="{StaticResource Font}" />
-        </Style>
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
 
-        <Style
-            TargetType="TextBlock">
-            <Setter
-                Property="FontFamily"
-                Value="{StaticResource Font}" />
-        </Style>
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
 
-        <Style
-            TargetType="Button">
-            <Setter
-                Property="Margin"
-                Value="4 5 4 5" />
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource PrimaryColor}" />
+            </Style>
 
-            <Setter
-                Property="Padding"
-                Value="4" />
+            <Style
+                TargetType="TextBlock">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
 
-            <Setter
-                Property="FontFamily"
-                Value="{StaticResource Font}" />
-        </Style>
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+            </Style>
 
-        <Style
-            x:Key="Border"
-            TargetType="Border">
-            <Setter
-                Property="BorderThickness"
-                Value="0.5" />
-            <Setter
-                Property="Margin"
-                Value="4" />
-            <Setter
-                Property="BorderBrush"
-                Value="Black" />
-        </Style>
-        
+            <Style
+                TargetType="Button">
+                <Setter
+                    Property="Margin"
+                    Value="4 5 4 5" />
+
+                <Setter
+                    Property="Padding"
+                    Value="4" />
+
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Font}" />
+
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource PrimaryColor}" />
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <StackPanel>
@@ -126,5 +134,8 @@
             x:Name="NextPolygonsButton">Пример пересечения двух произвольных</Button>
         <Button
             x:Name="FindIntersectionButton">Найти пересечения</Button>
+
+        <Border
+            Style="{StaticResource Border}" />
     </StackPanel>
 </UserControl>

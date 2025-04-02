@@ -8,40 +8,116 @@
     xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
     xmlns:plates="clr-namespace:WindowApp.Components.Plates"
     mc:Ignorable="d"
-    Title="MainWindow"
+    Title="Клипующее приложение"
     Height="550"
     Width="900"
     Closed="Window_Closed"
     FontSize="14">
-    
     <Window.Resources>
-        <FontFamily
-            x:Key="Font">./Fonts/#JetBrains Mono Medium
-        </FontFamily>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style TargetType="MenuItem">
-            <Setter
-                Property="Control.FontFamily"
-                Value="{StaticResource Font}" />
-            <Setter 
-                Property="FontSize"
-                Value="16"/>
-        </Style>
+            <Style
+                TargetType="MenuItem">
+                <Setter
+                    Property="Control.FontFamily"
+                    Value="{StaticResource Font}" />
+                <Setter
+                    Property="FontSize"
+                    Value="16" />
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+            </Style>
 
-        <Style x:Key="TabItemTextBlock">
-            <Setter
-                Property="Control.FontFamily"
-                Value="{StaticResource Font}" />
-        </Style>
+            <Style
+                x:Key="ColoredTabItemStyle"
+                TargetType="{x:Type TabItem}">
+                <Setter
+                    Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate
+                            TargetType="{x:Type TabItem}">
+                            <Grid
+                                Background="{StaticResource PrimaryColor}">
+                                <Border
+                                    Name="Border"
+                                    Background="{StaticResource PrimaryColor}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1,1,1,0">
+                                    <ContentPresenter
+                                        x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="12,2,12,2" />
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger
+                                    Property="IsSelected"
+                                    Value="True">
+                                    <Setter
+                                        TargetName="Border"
+                                        Property="Background"
+                                        Value="{StaticResource SecondaryColor}" />
+                                    <Setter
+                                        TargetName="Border"
+                                        Property="BorderBrush"
+                                        Value="#FF0078D7" />
+                                    <Setter
+                                        TargetName="ContentSite"
+                                        Property="TextElement.Foreground"
+                                        Value="White" />
+                                </Trigger>
+                                <Trigger
+                                    Property="IsSelected"
+                                    Value="False">
+                                    <Setter
+                                        TargetName="Border"
+                                        Property="Background"
+                                        Value="{StaticResource PrimaryColor}" />
+                                    <Setter
+                                        TargetName="Border"
+                                        Property="BorderBrush"
+                                        Value="#FFAAAAAA" />
+                                    <Setter
+                                        TargetName="ContentSite"
+                                        Property="TextElement.Foreground"
+                                        Value="Black" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Setter
+                    Property="Control.FontFamily"
+                    Value="{StaticResource Font}" />
+
+                <Setter
+                    Property="Background"
+                    Value="{StaticResource PrimaryColor}" />
+
+                <Setter
+                    Property="Foreground"
+                    Value="{StaticResource FontColor}" />
+            </Style>
+        </ResourceDictionary>
     </Window.Resources>
 
     <DockPanel>
         <Menu
             DockPanel.Dock="Top"
             Height="25"
-            VerticalAlignment="Top">
+            VerticalAlignment="Top"
+            Background="{StaticResource MenuColor}">
             <MenuItem
-                Header="Файл">
+                Header="Файл"
+                Background="{StaticResource MenuColor}">
                 <MenuItem
                     x:Name="SaveFileMenuItem"
                     Header="Сохранить" />
@@ -52,11 +128,10 @@
                     x:Name="OpenFolderMenuItem"
                     Header="Открыть папку" />
             </MenuItem>
+            
             <MenuItem
                 x:Name="ClearPlotMenuItem"
                 Header="Очистить экран" />
-            
-            
             
             <MenuItem
                 x:Name="ShowObjectsInfoMenuItem"
@@ -77,35 +152,33 @@
             <ScottPlot:WpfPlot
                 x:Name="Plot"
                 Panel.ZIndex="0"
-                FontFamily="{StaticResource Font}" />
+                FontFamily="{StaticResource Font}"
+                Background="Aqua"/>
 
             <GridSplitter
-                Grid.Column="1"
-                Width="5"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                ResizeBehavior="PreviousAndNext" />
+                Grid.Column="1" />
 
             <DockPanel
                 Grid.Column="2">
                 <Border
-                    BorderBrush="Black"
+                    Style="{StaticResource BorderColor}"
                     BorderThickness="1 1 0 1"
                     Padding="4"
                     Margin="4 4 0 4">
                     <ScrollViewer>
                         <StackPanel>
                             <Border
-                            BorderThickness="0.5"
-                            BorderBrush="Black" />
+                                Style="{StaticResource BorderColor}"
+                                BorderThickness="0.5" />
 
-                            <TabControl>
-                                <TabItem>
+                            <TabControl
+                                Background="{StaticResource MenuColor}">
+                                <TabItem
+                                    Style="{StaticResource ColoredTabItemStyle}">
                                     <!-- PolygonsPlate -->
                                     <TabItem.Header>
                                         <TextBlock
-                                            Margin="3"
-                                            Style="{StaticResource TabItemTextBlock}">
+                                            Margin="3">
                                                 Полигоны
                                         </TextBlock>
                                     </TabItem.Header>
@@ -114,12 +187,12 @@
                                             x:Name="PolygonsPlate" />
                                     </TabItem.Content>
                                 </TabItem>
-                                <TabItem>
+                                <TabItem
+                                    Style="{StaticResource ColoredTabItemStyle}">
                                     <!-- HullsPlate -->
                                     <TabItem.Header>
                                         <TextBlock
-                                            Margin="3"
-                                            Style="{StaticResource TabItemTextBlock}">
+                                            Margin="3">
                                             Оболочки
                                         </TextBlock>
                                     </TabItem.Header>
@@ -128,12 +201,12 @@
                                             x:Name="HullsPlate" />
                                     </TabItem.Content>
                                 </TabItem>
-                                <TabItem>
+                                <TabItem
+                                    Style="{StaticResource ColoredTabItemStyle}">
                                     <!-- ClusteringPlate -->
                                     <TabItem.Header>
                                         <TextBlock
-                                            Margin="3"
-                                            Style="{StaticResource TabItemTextBlock}">
+                                            Margin="3">
                                             Кластеризация
                                         </TextBlock>
                                     </TabItem.Header>

@@ -9,7 +9,18 @@
         FontSize="14"
         Closing="Window_Closing"
         Title="Координаты">
-    <Grid>
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="../../SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid
+        Background="{StaticResource BackgroundColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="Auto"/>
@@ -18,7 +29,11 @@
 
         <Grid Grid.Column="0"
               Margin="10">
-            <ListBox x:Name="PolygonListBox" Grid.Row="2">
+            <ListBox 
+                x:Name="PolygonListBox" 
+                Grid.Row="2"
+                FontFamily="{StaticResource Font}"
+                Background="{StaticResource sEC}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5" Orientation="Horizontal">
@@ -30,7 +45,7 @@
             </ListBox>
         </Grid>
 
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+        <GridSplitter Grid.Column="1" />
 
         <Grid Grid.Column="2"
               Margin="10">
@@ -41,15 +56,25 @@
             <TextBlock 
                 x:Name="CurrentPolygonName"
                 Grid.Row="0" 
+                FontFamily="{StaticResource Font}"
                 Margin="5">Полигон</TextBlock>
             <DataGrid Grid.Row="1"
                       x:Name="CurrentPolygonDataGrid"  
                       ItemsSource="{Binding}" 
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Номер" Binding="{Binding Number}" />
-                    <DataGridTextColumn Header="X" Binding="{Binding X}"/>
-                    <DataGridTextColumn Header="Y" Binding="{Binding Y}"/>
+                    <DataGridTextColumn 
+                        FontFamily="{StaticResource Font}" 
+                        Header="Номер"
+                        Binding="{Binding Number}" />
+                    <DataGridTextColumn
+                        FontFamily="{StaticResource Font}"
+                        Header="X" 
+                        Binding="{Binding X}"/>
+                    <DataGridTextColumn
+                        FontFamily="{StaticResource Font}"
+                        Header="Y" 
+                        Binding="{Binding Y}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
