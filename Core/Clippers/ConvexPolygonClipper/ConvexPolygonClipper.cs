@@ -14,18 +14,15 @@ public class ConvexPolygonClipper : IClipper
     private readonly PointDEqualizer _pointEqualizer;
     private readonly PointPolygonInclusionFinder _pointInclusion;
     private readonly SegmentAndPolygonIntersector _lineAndPolygonIntersector;
-    private readonly PointsOrdererByAngle _pointsOrdererByAngle;
 
     public ConvexPolygonClipper(
         PointDEqualizer? pointEqualizer = null, 
         PointPolygonInclusionFinder? pointInclusion = null, 
-        SegmentAndPolygonIntersector? lineAndPolygonIntersector = null, 
-        PointsOrdererByAngle? pointsOrdererByAngle = null)
+        SegmentAndPolygonIntersector? lineAndPolygonIntersector = null)
     {
         _pointEqualizer = pointEqualizer ?? new();
         _pointInclusion = pointInclusion ?? new();
         _lineAndPolygonIntersector = lineAndPolygonIntersector ?? new();
-        _pointsOrdererByAngle = pointsOrdererByAngle ?? new();
     }
 
     public List<Polygon> Clip(List<Polygon> polygons)
@@ -47,49 +44,49 @@ public class ConvexPolygonClipper : IClipper
 
     public List<Polygon> Clip(Polygon polygon1, Polygon polygon2)
     {
-        List<PointD> clippedCorners = new List<PointD>();
+        List<PointD> clippedPoints = [];
 
         for (int i = 0; i < polygon1.Points.Count; i++)
         {
             if (_pointInclusion.CheckPointInsidePolygon(polygon1.Points[i], polygon2))
-                AddPoints(clippedCorners, new List<PointD> { polygon1.Points[i] });
+                AddPointsWithoutDuplicate(clippedPoints, [polygon1.Points[i]]);
         }
 
         for (int i = 0; i < polygon2.Points.Count; i++)
         {
             if (_pointInclusion.CheckPointInsidePolygon(polygon2.Points[i], polygon1))
-                AddPoints(clippedCorners, new List<PointD> { polygon2.Points[i] });
+                AddPointsWithoutDuplicate(clippedPoints, [polygon2.Points[i]]);
         }
 
         for (int i = 0, next = 1; i < polygon1.Points.Count; i++, next = i + 1 == polygon1.Points.Count ? 0 : i + 1)
         {
-            AddPoints(clippedCorners,
+            AddPointsWithoutDuplicate(clippedPoints,
                 _lineAndPolygonIntersector.GetIntersectionPoint(
                     new Line(polygon1.Points[i], polygon1.Points[next]), 
                     polygon2));
         }
 
-        return new List<Polygon>() { 
-            new Polygon(_pointsOrdererByAngle.OrderClockwise(clippedCorners).ToList(), 
-                CoreColor.IntersectColors(polygon1.Color, polygon2.Color)) };
+        return [
+            new Polygon(clippedPoints.OrderClockwise().ToList(), 
+                CoreColor.IntersectColors(polygon1.Color, polygon2.Color)) ];
     }
 
-    private void AddPoints(List<PointD> pool, List<PointD> newpoints)
+    private void AddPointsWithoutDuplicate(List<PointD> clippedPoints, List<PointD> newPoints)
     {
-        foreach (PointD newpoint in newpoints)
+        foreach (PointD newPoint in newPoints)
         {
             bool oldPointFlag = false;
 
-            foreach (PointD point in pool)
+            foreach (PointD point in clippedPoints)
             {
-                if (_pointEqualizer.IsEquals(newpoint, point))
+                if (_pointEqualizer.IsEquals(newPoint, point))
                 {
                     oldPointFlag = true;
                     break;
                 }
             }
 
-            if (!oldPointFlag) pool.Add(newpoint);
+            if (!oldPointFlag) clippedPoints.Add(newPoint);
         }
     }
 }

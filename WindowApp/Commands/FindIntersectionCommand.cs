@@ -24,6 +24,7 @@ public class FindIntersectionCommand : IMainWindowCommand
             return Task.CompletedTask;
 
         List<Polygon> polygons = new();
+        List<bool>? isNeedToDrawNumbers = null;
 
         if(_plotManager.Polygons.Count == 2)
         {
@@ -33,6 +34,8 @@ public class FindIntersectionCommand : IMainWindowCommand
                         _plotManager.Polygons[1])
                 .Where(p => p.Points.Count > 0)
                 .ToList();
+
+            isNeedToDrawNumbers = [false, false, true];
         }
         else
         {
@@ -42,7 +45,9 @@ public class FindIntersectionCommand : IMainWindowCommand
                 .ToList();
         }
 
-        _plotManager.DrawCurrentPolygons(polygons, ClearLastPolygons: false);
+        _plotManager.DrawCurrentPolygons(polygons, 
+            clearLastPolygons: false, 
+            isNeedToDrawNumbers: isNeedToDrawNumbers);
 
         return Task.CompletedTask;
     }

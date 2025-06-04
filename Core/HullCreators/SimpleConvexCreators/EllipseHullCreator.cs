@@ -7,7 +7,7 @@ public class EllipseHullCreator : IConvexHullCreator
 {
     private readonly PointD _centroid;
 
-    public const int Delta = 12;
+    public const int Delta = 48;
 
     public EllipseHullCreator(PointD centroid)
     {

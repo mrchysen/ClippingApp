@@ -43,14 +43,16 @@ public class PlotManager
     public void DrawCurrentPolygons(
         List<Polygon> polygons, 
         bool drawClustersPoints = false,
-        bool ClearLastPolygons = true)
+        bool clearLastPolygons = true,
+        List<bool>? isNeedToDrawNumbers = null,
+        bool makeTransparent = false)
     {
-        _polygons = ClearLastPolygons ? [..polygons] : [.._polygons, ..polygons];
+        _polygons = clearLastPolygons ? [..polygons] : [.._polygons, ..polygons];
 
-        IPolygonArtist artist = new PolygonArtist(_polygons);
+        IPolygonArtist artist = new PolygonArtist(_polygons, isNeedToDrawNumbers);
 
         Plot.Clear();
-        artist.Draw(Plot, true);
+        artist.Draw(Plot, true, makeTransparent);
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();

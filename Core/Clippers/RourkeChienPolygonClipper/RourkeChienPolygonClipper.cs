@@ -1,24 +1,31 @@
 ﻿using Core.Intersection;
-using Core.Models;
 using Core.Models.Colors;
 using Core.Models.Lines;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using Core.PointInclusionAlgorithms;
+using Core.PointsOrderers;
+using Core.PolygonServices;
 
 namespace Core.Clippers.RourkeChienPolygonClipper;
 
+/// <summary>
+/// https://www.cs.jhu.edu/~misha/Spring16/ORourke82.pdf
+/// </summary>
 public class RourkeChienPolygonClipper : IClipper
 {
     private readonly SegmentIntersector _segmentIntersector;
     private readonly PointPolygonInclusionFinder _pointPolygonInclusionFinder;
+    private readonly ConvexPolygonChecker _convexPolygonChecker;
 
     public RourkeChienPolygonClipper(
-        SegmentIntersector? segmentIntersector = null, 
-        PointPolygonInclusionFinder? pointPolygonInclusionFinder = null)
+        SegmentIntersector? segmentIntersector = null,
+        PointPolygonInclusionFinder? pointPolygonInclusionFinder = null,
+        ConvexPolygonChecker? convexPolygonChecker = null)
     {
         _segmentIntersector = segmentIntersector ?? new();
         _pointPolygonInclusionFinder = pointPolygonInclusionFinder ?? new();
+        _convexPolygonChecker = convexPolygonChecker ?? new();
     }
 
     public List<Polygon> Clip(List<Polygon> polygons)
@@ -28,7 +35,10 @@ public class RourkeChienPolygonClipper : IClipper
 
     public List<Polygon> Clip(Polygon polygon1, Polygon polygon2)
     {
-        if(polygon1.Points.Count == 0 || polygon2.Points.Count == 0)
+        (polygon1, polygon2, bool convexState) =
+            EnsureConvexAndUnderClockwise(polygon1, polygon2);
+
+        if (!convexState || polygon1.Points.Count == 0 || polygon2.Points.Count == 0)
             return [polygon1, polygon2];
 
         List<PointD> newPolygon = new();
@@ -42,8 +52,8 @@ public class RourkeChienPolygonClipper : IClipper
         var p = polygon1.Points[pi];
         var q = polygon2.Points[qi];
 
-        var p_ = polygon1.Points[PrevIndex(pi, pN)];
-        var q_ = polygon2.Points[PrevIndex(qi, qN)];
+        var p_ = polygon1.Points[^1];
+        var q_ = polygon2.Points[^1];
 
         var step = 0;
 
@@ -58,80 +68,69 @@ public class RourkeChienPolygonClipper : IClipper
 
             if (pIn is not null)
             {
-                if(firstIntersectionPoint is null)
-                {
+                if (firstIntersectionPoint is null)
+                {   // remember first intersection
                     firstIntersectionPoint = pIn;
-                    newPolygon.Add(pIn.Value);
                 }
                 else
                 {
-                    if(firstIntersectionPoint == pIn)
+                    if (firstIntersectionPoint == pIn)
                     {
                         break;
                     }
                     else
                     {
-                        newPolygon.Add(pIn.Value);
-                        if (((q - q_) * (p - q_)) >= 0)
-                        {
-                            inside = "P";
-                        }
-                        else
-                        {
-                            inside = "Q";
-                        }
+                        inside = p.IsIn(new HalfPlane(q_, q)) ? "P" : "Q";
                     }
                 }
+
+                newPolygon.Add(pIn.Value);
             }
 
-            if (((q - q_)*(p - p_)) >= 0)
+            if (((q - q_) * (p - p_)) >= 0)
             {
-                if (((q - q_)*(p - q_)) >= 0)
+                if (p.IsIn(new HalfPlane(q_, q)))
                 {
-                    // q
-                    if (inside == "Q")
+                   if (inside == "Q")
                         newPolygon.Add(q);
                     q_ = q;
-                    qi = NextIndex(qi, qN);
+                    qi = (qi + 1) % qN;
                     q = polygon2.Points[qi];
                 }
                 else
                 {
-                    // p
                     if (inside == "P")
                         newPolygon.Add(p);
                     p_ = p;
-                    pi = NextIndex(pi, pN);
+                    pi = (pi + 1) % pN;
                     p = polygon1.Points[pi];
                 }
             }
             else
             {
-                if (((p - p_)*(q - p_)) >= 0)
+                if (q.IsIn(new HalfPlane(p_, p))) 
                 {
-                    // p
                     if (inside == "P")
                         newPolygon.Add(p);
                     p_ = p;
-                    pi = NextIndex(pi, pN);
+                    pi = (pi + 1) % pN;
                     p = polygon1.Points[pi];
                 }
                 else
                 {
-                    // q
                     if (inside == "Q")
                         newPolygon.Add(q);
                     q_ = q;
-                    qi = NextIndex(qi, qN);
+                    qi = (qi + 1) % qN;
                     q = polygon2.Points[qi];
                 }
             }
 
             step++;
         }
-        while (3 * (pN + qN) > step);
+        while (2 * (pN + qN) > step);
 
-        if(newPolygon.Count == 0)
+        if (newPolygon.Count == 0)
         {
             if (_pointPolygonInclusionFinder.CheckPointInsidePolygon(p, polygon2))
                 return [polygon1];
@@ -144,9 +143,30 @@ public class RourkeChienPolygonClipper : IClipper
         return [new Polygon(newPolygon, CoreColor.IntersectColors(polygon1.Color, polygon2.Color))];
     }
 
-    private int PrevIndex(int i, int N)
-        => i == 0  ? N - 1 : i - 1;
+    private (Polygon polygon1, Polygon polygon2, bool convexState)
+        EnsureConvexAndUnderClockwise(
+        Polygon polygon1,
+        Polygon polygon2)
+    {
+        var convexState = _convexPolygonChecker.IsConvex(polygon1) &&
+                          _convexPolygonChecker.IsConvex(polygon2);
 
-    private int NextIndex(int i, int N)
-        => i == N - 1 ? 0 : i + 1;
+        if (!convexState)
+            return (polygon1, polygon2, false);
+
+        polygon1.Points = polygon1.Points.OrderClockwise().Reverse().ToList(); 
+        polygon2.Points = polygon2.Points.OrderClockwise().Reverse().ToList();
+
+        return (polygon1, polygon2, true);
+    }
+}
+
+file record HalfPlane(PointD p_, PointD p);
+
+file static class PointDExtension
+{
+    public static bool IsIn(this PointD point, HalfPlane hp)
+    {
+        return ((hp.p - hp.p_) * (point - hp.p_)) >= 0;
+    }
 }

@@ -1,8 +1,7 @@
 ﻿using Core.Models.Lines;
 using Core.Models.Points;
 using Core.Models.Polygons;
-using Core.Utils.Extensions;
-using System.ComponentModel;
+using Core.PointsOrderers;
 
 namespace Core.HullCreators.QuickHull;
 

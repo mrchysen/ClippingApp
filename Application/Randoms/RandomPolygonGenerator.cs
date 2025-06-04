@@ -2,7 +2,7 @@
 using Core.Models.Points;
 using Core.Models.Points.Generator;
 using Core.Models.Polygons;
-using Core.Utils.Extensions;
+using Core.PointsOrderers;
 using System.Drawing;
 
 namespace Application.Randoms;
