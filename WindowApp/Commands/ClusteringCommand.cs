@@ -1,9 +1,6 @@
 ﻿using Core.Clustering;
 using Core.Clustering.Metrics;
-using Core.Colors;
-using ScottPlot;
 using WindowApp.Infrastructure;
-using Application.PlotExtensions;
 using WindowApp.Components.Plates.Clustering;
 using Core.Models.Points;
 

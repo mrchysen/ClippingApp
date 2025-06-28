@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;

@@ -31,6 +31,11 @@ public class CreateRectangularsOnClustersCommand : IMainWindowCommand
         //<3
         var polygons = await task;
 
-        _plotManager.DrawCurrentPolygons(polygons, true);
+        _plotManager.DrawCurrentPolygons(polygons,
+            true,
+            isNeedToDrawNumbers: Enumerable.Range(0, polygons.Count)
+            .Select(x => false)
+            .ToList(),
+            makeTransparent: true);
     }
 }

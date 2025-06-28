@@ -1,6 +1,4 @@
-﻿
-using Application.PolygonPlotting;
-using Core.Clippers.WeilerAthertonPolygonClipper;
+﻿using Core.Clippers.WeilerAthertonPolygonClipper;
 using Core.Clippers;
 using WindowApp.Infrastructure;
 using Core.Models.Polygons;
@@ -32,13 +30,11 @@ public class PolygonExampleCommand : IMainWindowCommand
 
         var polygons = _clipper.Clip(_plotManager.Polygons[0], _plotManager.Polygons[1]);
 
-        _plotManager.Polygons.AddRange(polygons);
-        IPolygonArtist artist = new PolygonArtist(_plotManager.Polygons);
-        _plotManager.Plot.Clear();
-        artist.Draw(_plotManager.Plot, true);
-        _plotManager.Plot.Axes.AutoScale();
-
-        _plotManager.WpfPlot.Refresh();
+        _plotManager.DrawCurrentPolygons(
+            polygons, 
+            clearLastPolygons: false, 
+            makeTransparent: true,
+            isNeedToDrawNumbers: [false, false, true]);
 
         return Task.CompletedTask;
     }

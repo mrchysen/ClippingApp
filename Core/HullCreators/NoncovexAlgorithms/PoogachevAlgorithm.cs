@@ -29,10 +29,11 @@ public class PoogachevAlgorithm : INonconvexCreator
 
     public Polygon CreateHull(List<PointD> points, IConvexHullCreator? convexHullCreator = null)
     {
+        _visited = new();
         convexHullCreator = convexHullCreator ?? new QuickHullAlgorithm();
 
         var polygon = convexHullCreator.CreateHull(points).ToDoubleLinkedList();
-        var insidePoints = points.Where(p => !polygon.Contains(p)).ToList();
+        var insidePoints = points.NotOnEdge(polygon);
 
         var pointCount = polygon.Count;
         var step = 0;
@@ -156,4 +157,10 @@ public class PoogachevAlgorithm : INonconvexCreator
 
     private double GetArea(PointD p1, PointD p2, PointD p3) 
         => Math.Abs((p1 - p2) * (p2 - p3)) / 2;
+}
+
+file static class PointsListExtension
+{
+    public static List<PointD> NotOnEdge(this List<PointD> points, DoubleLinkedList<PointD> polygon)
+        => points.Where(p => !polygon.Contains(p)).ToList();
 }

@@ -3,7 +3,7 @@
 public static class PointDHelper
 {
     /// <summary>
-    /// Returns the highest point on the right"
+    /// Returns the highest point on the right
     /// </summary>
     /// <param name="p1"></param>
     /// <param name="p2"></param>
@@ -32,7 +32,7 @@ public static class PointDHelper
     }
 
     /// <summary>
-    /// Returns the lowest point on the left.
+    /// Returns the lowest point on the left
     /// </summary>
     /// <param name="p1"></param>
     /// <param name="p2"></param>

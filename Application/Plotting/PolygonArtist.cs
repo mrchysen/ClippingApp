@@ -1,6 +1,5 @@
 ﻿using Application.Converters.Polygons;
 using Application.PlotExtensions;
-using Application.PolygonPlotting.Models;
 using Core.Models.Colors;
 using ScottPlot;
 using System.Data;
@@ -8,55 +7,31 @@ using Polygon = Core.Models.Polygons.Polygon;
 
 namespace Application.PolygonPlotting;
 
-public interface IPolygonArtist
-{
-    FilePlotInfo Plot(FilePlotInfo info);
-
-    Plot Draw(Plot? plotInput, bool addMarkers = false, bool makeTransparent = true);
-}
-
-public class PolygonArtist : IPolygonArtist
+public class PolygonArtist : IPlotArtist
 {
 	protected List<Polygon> Polygons { get; set; } = new();
 	private List<bool>? _isNeedToDrawPolygonsNumber;
+	private bool _addMarkers = false;
+	private bool _makeTransparent = true;
 
-	public PolygonArtist(
+    public PolygonArtist(
 		List<Polygon> polygons,
+		bool addMarkers,
+		bool makeTransparent,
         List<bool>? isNeedToDrawPolygonsNumber = null)
 	{
 		Polygons = polygons;
 		_isNeedToDrawPolygonsNumber = isNeedToDrawPolygonsNumber;
 
-		if (_isNeedToDrawPolygonsNumber is not null 
-			&& _isNeedToDrawPolygonsNumber.Count != Polygons.Count)
-		{
-			throw new InvalidOperationException("_isNeedToDrawPolygonsNumber.Count should be equal Polygons.Count");
-		}
+		_addMarkers = addMarkers;
+		_makeTransparent = makeTransparent;
     }
 
-    public FilePlotInfo Plot(FilePlotInfo info)
-	{
-		Plot plot = new();
-
-		var polygons = new PolygonConverter().ConvertListToScottPlot(Polygons);
-
-		polygons.ForEach(el => plot.PlottableList.Add(el));
-
-		var plotInfo = plot.SavePng(
-			info.Path, 
-			info.PictureSize.Width, 
-			info.PictureSize.Width);
-
-		info.FileSize = plotInfo.FileSize;
-
-		return info;
-	}
-
-	public Plot Draw(Plot? plotInput = null, bool addMarkers = true, bool makeTransparent = true)
+	public Plot Draw(Plot? plotInput = null)
 	{
 		var plot = plotInput ?? new();
 
-		if (makeTransparent)
+		if (_makeTransparent)
 		{
             Polygons = Polygons.Select(p =>
 			{
@@ -76,7 +51,8 @@ public class PolygonArtist : IPolygonArtist
 
         polygons.ForEach(plot.PlottableList.Add);
 
-		if (addMarkers)
+		// выглядит ужасно
+		if (_addMarkers)
 		{
 			if(_isNeedToDrawPolygonsNumber is not null)
 			{
@@ -86,7 +62,7 @@ public class PolygonArtist : IPolygonArtist
 
 					if (flag)
 					{
-						plot.AddMarkersWithNumbers(Polygons[i]);
+						plot.AddPolygonMarkersWithNumbers(Polygons[i]);
                     }
                 }
 			}

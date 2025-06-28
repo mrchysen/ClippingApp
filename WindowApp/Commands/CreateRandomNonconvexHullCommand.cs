@@ -2,7 +2,6 @@
 using Core.Models.Points;
 using Core.Models.Polygons;
 using WindowApp.Infrastructure;
-using Application.PlotExtensions;
 using Application.Randoms;
 using WindowApp.Components.Plates.Hulls;
 
@@ -47,7 +46,6 @@ public class CreateRandomNonconvexHullCommand : IMainWindowCommand
 
         var (polygon, insidePoints) = await task;
 
-        _plotManager.DrawCurrentPolygon(polygon);
-        _plotManager.Plot.AddMarkers(insidePoints.ToList());
+        _plotManager.DrawHull(polygon, insidePoints.ToList());
     }
 }
