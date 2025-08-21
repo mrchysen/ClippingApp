@@ -1,7 +1,4 @@
-﻿using Application.PlotExtensions;
-using Application.Randoms;
-using Core.HullCreators.NoncovexAlgorithms;
-using Core.HullCreators.QuickHull;
+﻿using Core.HullCreators.NoncovexAlgorithms;
 using Core.Models.Points;
 using Core.Models.Polygons;
 using WindowApp.Components.Plates.Hulls;
@@ -43,7 +40,6 @@ public class ApplyNonconvexHull : IMainWindowCommand
 
         var (polygon, insidePoints) = await task;
 
-        _plotManager.DrawCurrentPolygon(polygon);
-        _plotManager.Plot.AddMarkers(insidePoints.ToList());
+        _plotManager.DrawHull(polygon, insidePoints.ToList());
     }
 }

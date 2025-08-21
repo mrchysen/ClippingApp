@@ -1,6 +1,5 @@
 ﻿using Application.PlotExtensions;
 using Application.PolygonPlotting;
-using Core.Clippers;
 using Core.Clustering;
 using Core.Colors;
 using Core.Models.Points;
@@ -43,14 +42,16 @@ public class PlotManager
     public void DrawCurrentPolygons(
         List<Polygon> polygons, 
         bool drawClustersPoints = false,
-        bool ClearLastPolygons = true)
+        bool clearLastPolygons = true,
+        List<bool>? isNeedToDrawNumbers = null,
+        bool makeTransparent = false)
     {
-        _polygons = ClearLastPolygons ? [..polygons] : [.._polygons, ..polygons];
+        _polygons = clearLastPolygons ? [..polygons] : [.._polygons, ..polygons];
 
-        IPolygonArtist artist = new PolygonArtist(_polygons);
+        IPlotArtist artist = new PolygonArtist(_polygons, true, makeTransparent, isNeedToDrawNumbers);
 
         Plot.Clear();
-        artist.Draw(Plot, true);
+        artist.Draw(Plot);
         Plot.Axes.AutoScale();
 
         WpfPlot.Refresh();
@@ -62,15 +63,26 @@ public class PlotManager
     public void DrawCurrentPolygon(Polygon polygon, bool ClearLastPolygons = true)
     {
         _polygons = ClearLastPolygons ? [polygon] : [polygon, .. _polygons];
-        IPolygonArtist artist = new PolygonArtist(_polygons);
+        IPlotArtist artist = new PolygonArtist(_polygons, true, true);
 
         if (ClearLastPolygons)
         {
             Plot.Clear();
         }
-        artist.Draw(Plot, true);
+        artist.Draw(Plot);
         Plot.Axes.AutoScale();
 
+        WpfPlot.Refresh();
+    }
+
+    public void DrawHull(Polygon polygon, List<PointD> points)
+    {
+        _polygons = [polygon];
+        IPlotArtist artist = new HullArtist(polygon, points);
+
+        Plot.Clear();
+        artist.Draw(Plot);
+        Plot.Axes.AutoScale();
         WpfPlot.Refresh();
     }
 
@@ -108,7 +120,7 @@ public class PlotManager
                 colors[i],
                 14);
 
-            Plot.AddOneMarker(_clusters[i].Centroid,
+            Plot.AddMarker(_clusters[i].Centroid,
                 colors[i],
                 MarkerShape.Eks,
                 16);

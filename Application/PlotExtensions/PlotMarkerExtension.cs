@@ -1,15 +1,14 @@
 ﻿using Core.Colors;
 using Core.Models.Colors;
 using Core.Models.Points;
-using Core.Models.Polygons;
 using ScottPlot;
-using System.Diagnostics;
+using ScottPlot.Plottables;
 
 namespace Application.PlotExtensions;
 
 public static class PlotMarkerExtension
 {
-    public static void AddOneMarker(this Plot plot, 
+    public static void AddMarker(this Plot plot, 
         PointD point, 
         CoreColor? color = null, 
         MarkerShape shape = MarkerShape.FilledCircle,
@@ -36,7 +35,7 @@ public static class PlotMarkerExtension
         {
             var p = points[i];
 
-            plot.AddOneMarker(p, pointColor, size: size);
+            plot.AddMarker(p, pointColor, size: size);
         }
     }
 
@@ -53,24 +52,43 @@ public static class PlotMarkerExtension
         }
     }
 
-    public static void AddMarkersWithNumbers(this Plot plot, Polygon polygon)
+    public static void AddPolygonMarkersWithNumbers(
+        this Plot plot,
+        Core.Models.Polygons.Polygon polygon,
+        CoreColor? coreColor = null,
+        int size = 8,
+        double delta = 0.125d,
+        Action<Marker>? configureMarker = null)
     {
-        var color = RandomColor.Get();
+        var color = coreColor ?? RandomColor.Get();
 
         for (int i = 0; i < polygon.Count; i++)
         {
             var p = polygon.Points[i];
 
-            plot.Add.Marker(p.X, p.Y, color: new Color(0, 0, 0), size: 6);
-            plot.Add.Text((i + 1).ToString(), new Coordinates(p.X, p.Y));
+            var marker = plot.Add.Marker(
+                p.X, 
+                p.Y, 
+                color: new Color(color.R, color.G, color.B), 
+                size: size);
+
+            configureMarker?.Invoke(marker);
+
+            var text = plot.Add.Text((i + 1).ToString(), new Coordinates(p.X, p.Y));
+
+            text.LabelFontSize = 18;
+            text.LabelOffsetX = (float)delta;
+            text.LabelOffsetY = (float)delta;
         }
     }
 
-    public static void AddMarkersWithNumbers(this Plot plot, List<Polygon> polygons)
+    public static void AddMarkersWithNumbers(
+        this Plot plot, 
+        List<Core.Models.Polygons.Polygon> polygons)
     {
         foreach (var polygon in polygons) 
         { 
-            plot.AddMarkersWithNumbers(polygon); 
+            plot.AddPolygonMarkersWithNumbers(polygon); 
         }
     }
 }

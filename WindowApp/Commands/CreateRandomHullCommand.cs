@@ -1,5 +1,4 @@
-﻿using Application.PlotExtensions;
-using Application.Randoms;
+﻿using Application.Randoms;
 using Core.HullCreators.QuickHull;
 using Core.Models.Points;
 using Core.Models.Polygons;
@@ -53,7 +52,6 @@ public class CreateRandomHullCommand : IMainWindowCommand
 
         var (polygon, insidePoints) = await task;
 
-        _plotManager.DrawCurrentPolygon(polygon, true);
-        _plotManager.Plot.AddMarkers(insidePoints.ToList());
+        _plotManager.DrawHull(polygon, insidePoints.ToList());
     }
 }

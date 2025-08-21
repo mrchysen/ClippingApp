@@ -24,26 +24,28 @@ public class FindIntersectionCommand : IMainWindowCommand
             return Task.CompletedTask;
 
         List<Polygon> polygons = new();
+        List<bool> isNeedToDrawNumbers;
 
-        if(_plotManager.Polygons.Count == 2)
-        {
-            polygons =
-                _clipper.Clip(
-                        _plotManager.Polygons[0],
-                        _plotManager.Polygons[1])
-                .Where(p => p.Points.Count > 0)
-                .ToList();
-        }
-        else
-        {
-            polygons = new BulkIntersection(_clipper)
+        polygons = new BulkIntersection(_clipper)
                 .FindAllClips(_plotManager.Polygons)
                 .Where(p => p.Count > 0)
                 .ToList();
-        }
 
-        _plotManager.DrawCurrentPolygons(polygons, ClearLastPolygons: false);
+        isNeedToDrawNumbers = CreateIndicatorsArray(polygons.Count + _plotManager.Polygons.Count);
+
+        _plotManager.DrawCurrentPolygons(polygons, 
+            clearLastPolygons: false, 
+            isNeedToDrawNumbers: isNeedToDrawNumbers);
 
         return Task.CompletedTask;
+    }
+
+    private List<bool> CreateIndicatorsArray(int count)
+    {
+        var indicators = new List<bool>() { false, false };
+
+        indicators.AddRange(Enumerable.Range(0, count - 2).Select(p => true).ToList());
+
+        return indicators;
     }
 }

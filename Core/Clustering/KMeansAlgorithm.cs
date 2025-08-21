@@ -1,7 +1,6 @@
 ﻿using Core.Clustering.Metrics;
 using Core.Models.Points;
 using Core.Models.Points.Generator;
-using System.Diagnostics.Metrics;
 using System.Drawing;
 
 namespace Core.Clustering;

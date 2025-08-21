@@ -31,6 +31,12 @@ public class CreateEllipsesOnClustersCommand : IMainWindowCommand
 
         var polygons = await task;
 
-        _plotManager.DrawCurrentPolygons(polygons, true);
+        _plotManager.DrawCurrentPolygons(
+            polygons, 
+            true, 
+            isNeedToDrawNumbers:Enumerable.Range(0,polygons.Count)
+            .Select(x => false)
+            .ToList(),
+            makeTransparent:true);
     }
 }

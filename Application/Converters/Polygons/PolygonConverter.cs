@@ -16,7 +16,8 @@ public class PolygonConverter
         destinationPolygon.FillColor = new Color(
 			sourcePolygon.Color.R, 
 			sourcePolygon.Color.G, 
-			sourcePolygon.Color.B);
+			sourcePolygon.Color.B,
+            sourcePolygon.Color.A);
 
 		return destinationPolygon;
 	}

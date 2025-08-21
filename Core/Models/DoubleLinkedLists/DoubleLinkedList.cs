@@ -1,6 +1,4 @@
-﻿using Core.Models.Points;
-using Core.Models.Polygons;
-using System.Collections;
+﻿using System.Collections;
 
 namespace Core.Models.DoubleLinkedLists;
 

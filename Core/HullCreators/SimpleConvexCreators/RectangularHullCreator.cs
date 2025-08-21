@@ -1,6 +1,5 @@
 ﻿using Core.Models.Points;
 using Core.Models.Polygons;
-using System.Data;
 using System.Diagnostics;
 
 namespace Core.HullCreators.SimpleConvexCreators;

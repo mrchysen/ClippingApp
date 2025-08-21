@@ -10,7 +10,7 @@ public static class RandomColor
 
         Random random = Random.Shared;
 
-		if(ChangeAlpha) color.A = (byte)random.Next(0,256);
+		color.A = (ChangeAlpha) ? (byte)random.Next(0,256) : (byte)255;
 		color.R = (byte)random.Next(0, 256);
 		color.G = (byte)random.Next(0, 256);
 		color.B = (byte)random.Next(0, 256);

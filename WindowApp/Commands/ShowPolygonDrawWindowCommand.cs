@@ -22,7 +22,8 @@ public class ShowPolygonDrawWindowCommand : IMainWindowCommand
 
         if(context.Polygons.Count > 0)
         {
-            _plotManager.DrawCurrentPolygons(context.Polygons);
+            _plotManager.DrawCurrentPolygons(context.Polygons,
+                makeTransparent: true);
         }
 
         return Task.CompletedTask;
